@@ -17,7 +17,8 @@ export default class AwesomeProject extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
-                    Welcome to React Native! Hi mr x hi vicente!!!
+                    Welcome to React Native! Hi mr x hi vicente!!
+                    wow this is working!!!!
 
                 </Text>
                 <Text style={styles.instructions}>
