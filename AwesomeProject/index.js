@@ -1,11 +1,11 @@
 import { AppRegistry } from 'react-native';
-import App from './index.android'; //changed this from ./App
+import App from './App';
 
 AppRegistry.registerComponent('AwesomeProject', () => App);
 
 if (window.document) {
-    AppRegistry.runApplication('AwesomeProject', {
+    AppRegistry.runApplication("AwesomeProject", {
         initialProps: {},
-        rootTag: document.getElementById('react-root')
+        rootTag: document.getElementById("react-root")
     });
 }
