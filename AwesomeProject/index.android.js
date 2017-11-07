@@ -1,9 +1,8 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+ fourpaws
  */
 
+import * as firebase from 'firebase';
 import React, { Component } from 'react';
 import {
     Platform,
@@ -19,6 +18,15 @@ import {
 
 } from 'react-native';
 
+const firebaseConfig = {
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    storageBucket: "",
+
+};
+
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' +
@@ -41,7 +49,7 @@ export default class AwesomeProject extends Component {
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
 
                 <StatusBar
-                    backgroundColor="blue"
+                    backgroundColor="red"
                     barStyle="light-content"
                 />
 
