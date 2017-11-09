@@ -2,7 +2,7 @@
  fourpaws
  */
 
-import * as firebase from 'firebase';
+
 import React, { Component } from 'react';
 import {
     Platform,
@@ -18,26 +18,34 @@ import {
 
 } from 'react-native';
 
-const firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    databaseURL: "",
-    storageBucket: "",
+import * as firebase from 'firebase';
+import Firebase from "./components/firebase/firebase";
 
-};
+if (!firebase.apps.length) {
+    Firebase.initialise();
+}
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+async function signup(email, pass){
+    try{
+        await firebase.auth().createUserWithEmailAndPassword(email,pass);
+        console.log("Account created");
+    } catch (error){
+        console.log(error.toString())
+    }
+}
 
-const instructions = Platform.select({
-    ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-    android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-
+async function logout(){
+    try{
+        await
+            firebase.auth().signOut();
+    } catch (error){
+        console.log(error);
+    }
+}
 
 export default class AwesomeProject extends Component {
+
+
     render() {
         const resizeMode = 'cover';
         return (
@@ -133,8 +141,6 @@ export default class AwesomeProject extends Component {
         );
     }
 }
-
-
 
 
 
