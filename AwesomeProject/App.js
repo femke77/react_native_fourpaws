@@ -20,7 +20,7 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 //testing 101
-export default class App extends Component<{}> {
+export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
