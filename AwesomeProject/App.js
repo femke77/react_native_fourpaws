@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+//Testing 1
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -18,7 +19,7 @@ const instructions = Platform.select({
   android: 'Double tap R on your keyboard to reload,\n' +
     'Shake or press menu button for dev menu',
 });
-
+//testing 101
 export default class App extends Component<{}> {
   render() {
     return (
