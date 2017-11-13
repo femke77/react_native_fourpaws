@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     StatusBar,
     TextInput,
+    Keyboard
 
 
 } from 'react-native';
@@ -22,10 +23,6 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
 
-//for hot reloading: check if firebase is already initialized
-        if (!firebase.apps.length) {
-            Firebase.initialise();
-        }
 
         this.state = {
             email: "",
@@ -35,42 +32,43 @@ export default class Login extends Component {
         this.login = this.login.bind(this);
     }
 
-    async signup(email, pass){
+    async signup(email, password){
         DismissKeyboard();
+
         try{
-            await firebase.auth().createUserWithEmailAndPassword(email,pass);
+            await firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password);
             console.log("Account created");
+
+            setTimeout(() => {
+                this.props.navigator.push({
+                    id: "Home"
+                })
+            }, 1500);
+
         } catch (error){
             console.log(error.toString())
         }
     }
 
     async login() {
+
         DismissKeyboard();
+
         try {
             await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
-            this.setState({
-            });
+
             setTimeout(() => {
                 this.props.navigator.push({
-                    name: "Home"
+                    id: "Home"
                 })
             }, 1500);
+
         } catch (error) {
-            this.setState({
-                response: error.toString()
-            })
+           console.log(error.toString())
         }
     }
 
-    async logout(){
-        try{
-            await
-                firebase.auth().signOut();
-        } catch (error){
-            console.log(error);
-        }
-    }
+
 
     render(){
         const resizeMode = 'cover';
@@ -135,6 +133,7 @@ export default class Login extends Component {
                     autoCorrect={false}
                     style= { styles.inputBox}
                     onChangeText={(password) => this.setState({password})}
+
                 />
                 <TouchableOpacity>
                     <Text style= {styles.Usernametext}> Forgot Password?
@@ -163,6 +162,7 @@ export default class Login extends Component {
     }
 }
 
+//if any of this is going to be common to many pages, please move that part to /components/styles and import
 const styles = StyleSheet.create({
     containerKeyB:{
         padding:20
