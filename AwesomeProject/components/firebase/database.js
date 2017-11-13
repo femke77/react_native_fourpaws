@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 
-class Database {
+export default class Database {
 
 
     static setUserMobile(userId, mobile) {
@@ -24,4 +24,3 @@ class Database {
     }
 }
 
-module.exports = Database;

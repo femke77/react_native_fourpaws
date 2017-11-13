@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 
-class Firebase {
+export default class Firebase {
 
     /**
      * Initialises Firebase
@@ -18,4 +18,3 @@ class Firebase {
 
 }
 
-module.exports = Firebase;
