@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 import * as firebase from "firebase";
-import Firebase from '../firebase/firebase';
+
 
 export default class Login extends Component {
 

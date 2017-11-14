@@ -16,19 +16,32 @@ import {
 
 export default class Home extends Component {
 
-    async logout(){
-        try{
-            await
-                firebase.auth().signOut();
-        } catch (error){
+    constructor(props){
+        super(props);
+
+        this.state = {
+
+
+        }
+        this.logout = this.logout.bind(this)
+    }
+
+    async logout() {
+        try {
+            await firebase.auth().signOut();
+            this.props.navigator.push({
+                name: "Login"
+            })
+        } catch (error) {
             console.log(error);
         }
+
     }
 
 
     render() {
         return (
-            <Text>Home Page</Text>
+            <Text>Home page - nothing here yet!!</Text>
         )
     }
 }
