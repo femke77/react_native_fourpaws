@@ -13,6 +13,8 @@ import {
 
 
 } from 'react-native';
+import PropTypes from 'prop-types';
+import Universaltabs from '/Users/Mac/IdeaProjects/react_native_fourpaws/AwesomeProject/TestingComponents/universaltabs.js';
 
 export default class Home extends Component {
 
@@ -41,7 +43,9 @@ export default class Home extends Component {
 
     render() {
         return (
-            <Text>Home page - nothing here yet!!</Text>
+    <Universaltabs/>
+
+
         )
     }
 }

@@ -24,6 +24,7 @@ import * as firebase from "firebase";
 import Login from './components/views/login';
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
+import PropTypes from 'prop-types';
 
 export default class AwesomeProject extends Component {
 

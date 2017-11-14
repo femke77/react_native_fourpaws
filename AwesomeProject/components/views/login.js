@@ -10,10 +10,12 @@ import {
     TouchableOpacity,
     StatusBar,
     TextInput,
-    Keyboard
+    Keyboard,
+    AsyncStorage
 
 
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 import * as firebase from "firebase";
 
