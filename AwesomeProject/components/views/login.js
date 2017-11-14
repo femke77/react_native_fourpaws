@@ -141,6 +141,8 @@ export default class Login extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity style= {styles.button}>
                     <Text style= {styles.buttonText}> LOGIN</Text>
+
+
                 </TouchableOpacity>
 
                 <TouchableOpacity>
