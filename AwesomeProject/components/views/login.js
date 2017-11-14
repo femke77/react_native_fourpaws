@@ -17,7 +17,7 @@ import {
 
 import * as firebase from "firebase";
 
-
+//there is no code for length or type of password yet - TBD
 export default class Login extends Component {
 
     constructor(props) {

@@ -23,6 +23,7 @@ export default class Home extends Component {
 
 
         }
+
         this.logout = this.logout.bind(this)
     }
 
