@@ -83,7 +83,16 @@ export default class Signup extends Component {
                     style= { styles.inputBox}
                     onChangeText={(password) => this.setState({password})}
                 />
+                <TextInput
+                    placeholder="Name"
+                    placeholderTextColor= "#ffffff"
+                    returnKeyType="go"
 
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style= { styles.inputBox}
+                    onChangeText={(Name) => this.setState({Name})}
+                />
 
                 <TextInput
                     placeholder="address"
@@ -95,16 +104,7 @@ export default class Signup extends Component {
                     style= { styles.inputBox}
                     onChangeText={(address) => this.setState({address})}
                 />
-                <TextInput
-                    placeholder="Security question"
-                    placeholderTextColor= "#ffffff"
-                    returnKeyType="go"
 
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    style= { styles.inputBox}
-                    onChangeText={(Securityquestion) => this.setState({Securityquestion})}
-                />
                 <TextInput
                     placeholder=" Contact number"
                     placeholderTextColor= "#ffffff"
