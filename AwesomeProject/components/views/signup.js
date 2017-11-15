@@ -13,13 +13,27 @@ import {
 
 
 } from 'react-native';
-
+import {Navigator} from 'react-native-deprecated-custom-components';
 import * as firebase from "firebase";
 import Firebase from '../firebase/firebase';
-
+import Login from './login';
 export default class Signup extends Component {
+    goLogin(){
+        return (
+
+            <Navigator initialRoute={{id: 'Login'}}
+                       renderScene={this.navigatorRenderScene}/>
+        );
+    }
+    navigatorRenderScene(route, navigator){
+        _navigator = navigator;
+        switch (route.id) {
+            case 'Login':
+                return (<Login navigator={navigator}/>);
 
 
+        }
+    }
 
     render(){
         const resizeMode = 'cover';
@@ -124,7 +138,7 @@ export default class Signup extends Component {
 
                 <View>
                     <Text style= {styles.SignIntext}> Have account?</Text>
-                    <TouchableOpacity style= {styles.SignIntextbox} >
+                    <TouchableOpacity style= {styles.SignIntextbox} onPress={this.goLogin}>
                         <Text style= {styles.SignIntextboxtext}>Login Here</Text>
                     </TouchableOpacity>
                     <Text style={styles.bottomtext}>
