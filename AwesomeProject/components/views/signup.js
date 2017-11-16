@@ -10,78 +10,24 @@ import {
     TouchableOpacity,
     StatusBar,
     TextInput,
-    Keyboard,
-
-    Button
 
 
 } from 'react-native';
-import dismissKeyboard from 'react-native-dismiss-keyboard';
-
-    AsyncStorage
-
-
-} from 'react-native';
-import PropTypes from 'prop-types';
-
-
+import {Navigator} from 'react-native-deprecated-custom-components';
 import * as firebase from "firebase";
-
-//there is no code for length or type of password yet - per firebase min length is 6 for pw
-export default class Login extends Component {
-
-    constructor(props) {
-        super(props);
+import Firebase from '../firebase/firebase';
+import Login from './login';
 
 
-        this.state = {
-            email: "",
-            password: "",
-            buttonColor: 'red'
-        };
-        this.signup = this.signup.bind(this);
-        this.login = this.login.bind(this);
-    }
 
-    async signup(email, password){
-        dismissKeyboard();
-
-        try{
-            await firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password);
+export default class Signup extends Component {
 
 
-            setTimeout(() => {
-                this.props.navigator.push({
-                    id: "Home"
-                })
-            }, 1500);
-
-        } catch (error){
-            console.log(error.toString())
-        }
-    }
-
-    async login() {
-        dismissKeyboard();
-        try {
-            await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
-
-            setTimeout(() => {
-                this.props.navigator.push({
-                    id: "Home"
-                })
-            }, 1500);
-
-        } catch (error) {
-           console.error();
-        }
-    }
 
 
 
     render(){
         const resizeMode = 'cover';
-
         return (
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
 
@@ -109,17 +55,15 @@ export default class Login extends Component {
                         width: 170,
                         height: 100,
                         justifyContent: 'flex-end',
-                        top: 100,
+                        top: 30,
+                        right: 100,
                         paddingVertical:50
 
                     }}
                     source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
                 />
 
-                <Text style={styles.welcome}>
 
-                    Welcome
-                </Text>
                 <TextInput
                     placeholder=" Username or Email"
                     placeholderTextColor= "#ffffff"
@@ -143,34 +87,64 @@ export default class Login extends Component {
                     autoCorrect={false}
                     style= { styles.inputBox}
                     onChangeText={(password) => this.setState({password})}
-
                 />
-                <TouchableOpacity>
-                    <Text style= {styles.Usernametext}> Forgot Password?
+                <TextInput
+                    placeholder="Name"
+                    placeholderTextColor= "#ffffff"
+                    returnKeyType="go"
+
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style= { styles.inputBox}
+                    onChangeText={(Name) => this.setState({Name})}
+                />
+
+                <TextInput
+
+                    placeholder="Address"
+
+
+                    placeholderTextColor= "#ffffff"
+                    returnKeyType="go"
+
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style= { styles.inputBox}
+                    onChangeText={(address) => this.setState({address})}
+                />
+
+                <TextInput
+                    placeholder=" Contact number"
+                    placeholderTextColor= "#ffffff"
+                    returnKeyType="go"
+
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    style= { styles.inputBox}
+                    onChangeText={( Contactnumber) => this.setState({ Contactnumber})}
+                />
+
+
+
+                <TouchableOpacity style= {styles.button}>
+
+                    <Text style= {styles.buttonText}> Sign Up</Text>
+
+
+                </TouchableOpacity>
+
+                <View>
+                    <Text style= {styles.SignIntext}> Have account?</Text>
+                    <TouchableOpacity style= {styles.SignIntextbox} onPress={this.goLogin}>
+                        <Text style= {styles.SignIntextboxtext}>Login Here</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.bottomtext}>
+
+                        Copyright © 2017 Four Paws
                     </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-
-                    <Button
-                        color={this.state.buttonColor}
-                        onPress={()=>{this.login()}}
-                            title={"login"}/>
+                </View>
 
 
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                    <Text style= {styles.SignUptext}> Not Registered Yet?</Text>
-                    <Text style= {styles.SignUptextUnderline}>
-                        Sign Up Here
-                    </Text>
-                </TouchableOpacity>
-
-                <Text style={styles.bottomtext}>
-
-                    Copyright © 2017 Four Paws
-                </Text>
 
 
 
@@ -179,7 +153,6 @@ export default class Login extends Component {
     }
 }
 
-//if any of this is going to be common to many pages, please move that part to /components/styles and import
 const styles = StyleSheet.create({
     containerKeyB:{
         padding:20
@@ -197,11 +170,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
 
-    welcome: {
-        fontSize: 50,
+    SINGUP: {
+        fontSize: 45,
         textAlign: 'center',
         margin: 10,
-        color: "#000000",
+        color: "red",
         textDecorationLine: 'underline'
     },
     //Copyright
@@ -212,8 +185,10 @@ const styles = StyleSheet.create({
         color: "#ffffff",
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: 20,
+        bottom: -100,
+        right: -110,
         paddingVertical:0
+
     },
     //Forgot username
     Usernametext: {
@@ -238,28 +213,28 @@ const styles = StyleSheet.create({
         paddingVertical:0
     },
     //Forgot password
-    SignUptext: {
+    SignIntext: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
         color: "#ffffff",
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: -120,
-        right: -30,
+        bottom: -50,
+        right: -20,
         paddingVertical:0
     },
-    SignUptextUnderline: {
-        fontSize: 20,
-        textAlign: 'center',
+    SignIntextbox: {
         margin: 10,
-        color: "blue",
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: -120,
-        right: -150,
+        bottom: -50,
+        right: -140,
         paddingVertical:0,
-        textDecorationLine: 'underline'
+    },
+    SignIntextboxtext:{
+        fontSize: 20,
+        color: "blue",
     },
 
     instructions: {
@@ -317,7 +292,7 @@ const styles = StyleSheet.create({
 
     inputBox: {
         width:300,
-        height: 50,
+        height: 40,
         backgroundColor:'black',
         borderRadius: 25,
         paddingHorizontal:16,
@@ -337,10 +312,11 @@ const styles = StyleSheet.create({
         fontWeight:'500',
         color:'#ffffff',
         textAlign:'center',
-        flex: -1,
+        flex: -100,
 
     }
 
 
 });
+
 
