@@ -18,15 +18,17 @@ import {
 
 } from 'react-native';
 
-
 import {Navigator} from 'react-native-deprecated-custom-components';
-import * as firebase from "firebase";
 import Login from './components/views/login';
+
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
+
+
 import Signup from './components/views/signup';
 
 export default class AwesomeProject extends Component {
+
 
     constructor(props){
         super(props);
@@ -37,12 +39,8 @@ export default class AwesomeProject extends Component {
         }
         this.getInitialView();
 
-        this.state = {
-            userLoaded: false,
-            initialView: null
-        };
-        this.getInitialView = this.getInitialView.bind(this);
-    }
+
+
 
     getInitialView() {
         firebase.auth().onAuthStateChanged((user) => {
@@ -69,9 +67,13 @@ export default class AwesomeProject extends Component {
         }
     }
 
-        render() {
-            if (this.state.userLoaded) {
-                return (
+    render() {
+
+
+        return (
+
+
+
 
                     <Navigator initialRoute={{id: this.state.initialView}}
                                renderScene={this.renderScene}/>
@@ -79,9 +81,8 @@ export default class AwesomeProject extends Component {
             } else {
                 return null;
             }
+
     }
-
-
 }
 
 

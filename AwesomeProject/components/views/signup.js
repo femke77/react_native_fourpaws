@@ -19,7 +19,9 @@ import Firebase from '../firebase/firebase';
 import Login from './login';
 
 
+
 export default class Signup extends Component {
+
 
 
 
@@ -98,7 +100,10 @@ export default class Signup extends Component {
                 />
 
                 <TextInput
+
                     placeholder="Address"
+
+
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
 
@@ -122,7 +127,10 @@ export default class Signup extends Component {
 
 
                 <TouchableOpacity style= {styles.button}>
+
                     <Text style= {styles.buttonText}> Sign Up</Text>
+
+
                 </TouchableOpacity>
 
                 <View>
@@ -310,4 +318,5 @@ const styles = StyleSheet.create({
 
 
 });
+
 
