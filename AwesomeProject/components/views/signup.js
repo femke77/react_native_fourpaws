@@ -17,23 +17,14 @@ import {Navigator} from 'react-native-deprecated-custom-components';
 import * as firebase from "firebase";
 import Firebase from '../firebase/firebase';
 import Login from './login';
+
+
+
 export default class Signup extends Component {
-    goLogin(){
-        return (
-
-            <Navigator initialRoute={{id: 'Login'}}
-                       renderScene={this.navigatorRenderScene}/>
-        );
-    }
-    navigatorRenderScene(route, navigator){
-        _navigator = navigator;
-        switch (route.id) {
-            case 'Login':
-                return (<Login navigator={navigator}/>);
 
 
-        }
-    }
+
+
 
     render(){
         const resizeMode = 'cover';
@@ -109,7 +100,10 @@ export default class Signup extends Component {
                 />
 
                 <TextInput
-                    placeholder="address"
+
+                    placeholder="Address"
+
+
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
 
@@ -133,7 +127,10 @@ export default class Signup extends Component {
 
 
                 <TouchableOpacity style= {styles.button}>
-                    <Text style= {styles.buttonText}> SinUp</Text>
+
+                    <Text style= {styles.buttonText}> Sign Up</Text>
+
+
                 </TouchableOpacity>
 
                 <View>
@@ -321,6 +318,5 @@ const styles = StyleSheet.create({
 
 
 });
-
 
 
