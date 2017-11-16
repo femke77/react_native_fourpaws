@@ -20,17 +20,11 @@ import {
 
 import {Navigator} from 'react-native-deprecated-custom-components';
 import Login from './components/views/login';
-
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
-
-import PropTypes from 'prop-types';
-
-
 import Signup from './components/views/signup';
-
 import Upload from './components/tools/upload';
-
+import * as firebase from 'firebase';
 
 
 export default class AwesomeProject extends Component {
@@ -45,11 +39,17 @@ export default class AwesomeProject extends Component {
         }
         this.getInitialView();
 
+        this.state = {
+            userLoaded: false,
+            initialView: null
+    };
 
-        getInitialView()
-        {
+        this.getInitialView = this.getInitialView.bind(this);
+    }
+
+        getInitialView() {
             firebase.auth().onAuthStateChanged((user) => {
-                let initialView = user ? "Home" : "Upload";
+                let initialView = user ? "Home" : "Login";
                 this.setState({
                     userLoaded: true,
                     initialView: initialView
@@ -70,8 +70,8 @@ export default class AwesomeProject extends Component {
                     return (<Signup navigator={navigator}{...route.passProps}/>);
                     break;
                 case 'Upload':
-                    return (<Upload navigator={{navigator}}/>);
-                    break;
+                   return (<Upload navigator={navigator}{...route.passProps}/>);
+                   break;
             }
         }
 
@@ -89,7 +89,7 @@ export default class AwesomeProject extends Component {
                 return null;
             }
         }
-    }
+
 
 }
 
