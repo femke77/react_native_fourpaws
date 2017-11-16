@@ -11,20 +11,12 @@ import {
     StatusBar,
     TextInput,
     Keyboard,
-
+    AsyncStorage,
     Button
 
 
 } from 'react-native';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
-
-    AsyncStorage
-
-
-} from 'react-native';
-import PropTypes from 'prop-types';
-
-
 import * as firebase from "firebase";
 
 //there is no code for length or type of password yet - per firebase min length is 6 for pw
@@ -155,7 +147,7 @@ export default class Login extends Component {
                     <Button
                         color={this.state.buttonColor}
                         onPress={()=>{this.login()}}
-                            title={"login"}/>
+                            title={"login or signup"}/>
 
 
                 </TouchableOpacity>

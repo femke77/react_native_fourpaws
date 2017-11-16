@@ -36,7 +36,7 @@ import Upload from './components/tools/upload';
 export default class AwesomeProject extends Component {
 
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         //for hot reloading: check if firebase is already initialized
@@ -46,42 +46,40 @@ export default class AwesomeProject extends Component {
         this.getInitialView();
 
 
-
-
-    getInitialView() {
-        firebase.auth().onAuthStateChanged((user) => {
-            let initialView = user ? "Home" : "Upload";
-            this.setState({
-                userLoaded: true,
-                initialView: initialView
-            })
-        });
-    }
-
-    renderScene= (route, navigator) =>{
-       _navigator = navigator;
-        switch (route.id) {
-            case 'Login':
-                return (<Login navigator={navigator}{...route.passProps}/>);
-                break;
-            case 'Home':
-                return (<Home navigator={navigator}{...route.passProps}/>);
-                break;
-            case 'Signup':
-                return (<Signup navigator={navigator}{...route.passProps}/>);
-                break;
-            case 'Upload':
-                return (<Upload navigator={{navigator}}/>);
-                break;
+        getInitialView()
+        {
+            firebase.auth().onAuthStateChanged((user) => {
+                let initialView = user ? "Home" : "Upload";
+                this.setState({
+                    userLoaded: true,
+                    initialView: initialView
+                })
+            });
         }
-    }
 
-    render() {
+        renderScene = (route, navigator) => {
+            _navigator = navigator;
+            switch (route.id) {
+                case 'Login':
+                    return (<Login navigator={navigator}{...route.passProps}/>);
+                    break;
+                case 'Home':
+                    return (<Home navigator={navigator}{...route.passProps}/>);
+                    break;
+                case 'Signup':
+                    return (<Signup navigator={navigator}{...route.passProps}/>);
+                    break;
+                case 'Upload':
+                    return (<Upload navigator={{navigator}}/>);
+                    break;
+            }
+        }
 
+        render()
+        {
 
-        return (
-
-
+            if (this.state.userLoaded) {
+                return (
 
 
                     <Navigator initialRoute={{id: this.state.initialView}}
@@ -90,9 +88,11 @@ export default class AwesomeProject extends Component {
             } else {
                 return null;
             }
-
+        }
     }
+
 }
+
 
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
