@@ -23,6 +23,7 @@ import Login from './components/views/login';
 
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
+import PropTypes from 'prop-types';
 
 
 import Signup from './components/views/signup';
