@@ -23,10 +23,15 @@ import Login from './components/views/login';
 
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
+
 import PropTypes from 'prop-types';
 
 
 import Signup from './components/views/signup';
+
+import Upload from './components/tools/upload';
+
+
 
 export default class AwesomeProject extends Component {
 
@@ -45,7 +50,7 @@ export default class AwesomeProject extends Component {
 
     getInitialView() {
         firebase.auth().onAuthStateChanged((user) => {
-            let initialView = user ? "Home" : "Login";
+            let initialView = user ? "Home" : "Upload";
             this.setState({
                 userLoaded: true,
                 initialView: initialView
@@ -64,6 +69,9 @@ export default class AwesomeProject extends Component {
                 break;
             case 'Signup':
                 return (<Signup navigator={navigator}{...route.passProps}/>);
+                break;
+            case 'Upload':
+                return (<Upload navigator={{navigator}}/>);
                 break;
         }
     }
@@ -85,8 +93,6 @@ export default class AwesomeProject extends Component {
 
     }
 }
-
-
 
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
