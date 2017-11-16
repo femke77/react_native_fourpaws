@@ -24,6 +24,8 @@ import * as firebase from "firebase";
 import Login from './components/views/login';
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
+import Upload from './components/tools/upload';
+
 
 export default class AwesomeProject extends Component {
 
@@ -45,7 +47,7 @@ export default class AwesomeProject extends Component {
     getInitialView() {
 
         firebase.auth().onAuthStateChanged((user) => {
-            let initialView = user ? "Home" : "Login";
+            let initialView = user ? "Home" : "Upload";
             this.setState({
                 userLoaded: true,
                 initialView: initialView
@@ -61,6 +63,9 @@ export default class AwesomeProject extends Component {
                 break;
             case 'Home':
                 return (<Home navigator={{navigator}}/>);
+                break;
+            case 'Upload':
+                return (<Upload navigator={{navigator}}/>);
                 break;
         }
     }
@@ -79,8 +84,6 @@ export default class AwesomeProject extends Component {
 
 
 }
-
-
 
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
