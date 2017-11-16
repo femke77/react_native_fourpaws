@@ -24,11 +24,13 @@ import * as firebase from "firebase";
 import Login from './components/views/login';
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
+import Signup from './components/views/signup';
 
 export default class AwesomeProject extends Component {
 
     constructor(props){
         super(props);
+
         //for hot reloading: check if firebase is already initialized
         if (!firebase.apps.length) {
             Firebase.initialise();
@@ -43,7 +45,6 @@ export default class AwesomeProject extends Component {
     }
 
     getInitialView() {
-
         firebase.auth().onAuthStateChanged((user) => {
             let initialView = user ? "Home" : "Login";
             this.setState({
@@ -61,6 +62,9 @@ export default class AwesomeProject extends Component {
                 break;
             case 'Home':
                 return (<Home navigator={navigator}{...route.passProps}/>);
+                break;
+            case 'Signup':
+                return (<Signup navigator={navigator}{...route.passProps}/>);
                 break;
         }
     }
