@@ -6,7 +6,6 @@ import {
     View                // Container component
 } from 'react-native';
 
-
 export default class Tabs extends Component {
 
     // Initialize State

@@ -18,34 +18,37 @@ import {
 
 } from 'react-native';
 
-
 import {Navigator} from 'react-native-deprecated-custom-components';
-import * as firebase from "firebase";
 import Login from './components/views/login';
+
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
+
+import PropTypes from 'prop-types';
+
+
+import Signup from './components/views/signup';
+
 import Upload from './components/tools/upload';
+
 
 
 export default class AwesomeProject extends Component {
 
+
     constructor(props){
         super(props);
+
         //for hot reloading: check if firebase is already initialized
         if (!firebase.apps.length) {
             Firebase.initialise();
         }
         this.getInitialView();
 
-        this.state = {
-            userLoaded: false,
-            initialView: null
-        };
-        this.getInitialView = this.getInitialView.bind(this);
-    }
+
+
 
     getInitialView() {
-
         firebase.auth().onAuthStateChanged((user) => {
             let initialView = user ? "Home" : "Upload";
             this.setState({
@@ -55,14 +58,17 @@ export default class AwesomeProject extends Component {
         });
     }
 
-    static renderScene(route, navigator){
+    renderScene= (route, navigator) =>{
        _navigator = navigator;
         switch (route.id) {
             case 'Login':
-                return (<Login navigator={navigator}/>);
+                return (<Login navigator={navigator}{...route.passProps}/>);
                 break;
             case 'Home':
-                return (<Home navigator={{navigator}}/>);
+                return (<Home navigator={navigator}{...route.passProps}/>);
+                break;
+            case 'Signup':
+                return (<Signup navigator={navigator}{...route.passProps}/>);
                 break;
             case 'Upload':
                 return (<Upload navigator={{navigator}}/>);
@@ -70,19 +76,22 @@ export default class AwesomeProject extends Component {
         }
     }
 
-        render() {
-            if (this.state.userLoaded) {
-                return (
+    render() {
+
+
+        return (
+
+
+
 
                     <Navigator initialRoute={{id: this.state.initialView}}
-                               renderScene={AwesomeProject.renderScene}/>
+                               renderScene={this.renderScene}/>
                 );
             } else {
                 return null;
             }
+
     }
-
-
 }
 
 
