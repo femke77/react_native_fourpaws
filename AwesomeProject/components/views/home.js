@@ -10,51 +10,56 @@ import {
     TouchableOpacity,
     StatusBar,
     TextInput,
-
+    Button
 
 } from 'react-native';
 
-import Tabs from '../styles/tabs'
+import Tabs from '../styles/tabs';
+import * as firebase from "firebase";
+import Login from './login.js';
 
 export default class Home extends Component {
 
     constructor(props){
         super(props);
 
-        this.state = {
+        this.logout = this.logout.bind(this);
+
+        this.state = {}
 
 
-        }
-
-        this.logout = this.logout.bind(this)
     }
 
-    async logout() {
-        try {
-            await firebase.auth().signOut();
-            this.props.navigator.push({
-                name: "Login"
-            })
-        } catch (error) {
-            console.log(error);
-        }
+    logout() {
+
+        this.props.navigator.push({ id: 'Login'});
+        firebase.auth().signOut().then(function() {
+
+        }).catch(function(error) {
+
+        });
 
     }
 
 
 
     render() {
+
         return (
+
             <View style={styles.container13}>
-                <Tabs>
+                <Tabs >
                     {/* First tab */}
                     <View title="User Profile" style={styles.content13}>
                         <Text style={styles.header13}>
                             Welcome User
                         </Text>
                         <Text style={styles.text13}>
-                            Need to add picture and user information
+
                         </Text>
+
+                        <Button onPress={()=>{this.logout()}}
+                                title={"Log Out  "}/>
                     </View>
                     {/* Second tab */}
                     <View title="Upcoming appointments" style={styles.content13}>

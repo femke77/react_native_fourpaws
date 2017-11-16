@@ -53,14 +53,14 @@ export default class AwesomeProject extends Component {
         });
     }
 
-    static renderScene(route, navigator){
+    renderScene= (route, navigator) =>{
        _navigator = navigator;
         switch (route.id) {
             case 'Login':
-                return (<Login navigator={navigator}/>);
+                return (<Login navigator={navigator}{...route.passProps}/>);
                 break;
             case 'Home':
-                return (<Home navigator={{navigator}}/>);
+                return (<Home navigator={navigator}{...route.passProps}/>);
                 break;
         }
     }
@@ -70,7 +70,7 @@ export default class AwesomeProject extends Component {
                 return (
 
                     <Navigator initialRoute={{id: this.state.initialView}}
-                               renderScene={AwesomeProject.renderScene}/>
+                               renderScene={this.renderScene}/>
                 );
             } else {
                 return null;

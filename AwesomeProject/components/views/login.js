@@ -10,14 +10,15 @@ import {
     TouchableOpacity,
     StatusBar,
     TextInput,
-    Keyboard
+    Keyboard,
+    Button
 
 
 } from 'react-native';
-
+import dismissKeyboard from 'react-native-dismiss-keyboard';
 import * as firebase from "firebase";
 
-//there is no code for length or type of password yet - TBD
+//there is no code for length or type of password yet - per firebase min length is 6 for pw
 export default class Login extends Component {
 
     constructor(props) {
@@ -33,11 +34,11 @@ export default class Login extends Component {
     }
 
     async signup(email, password){
-        DismissKeyboard();
+        dismissKeyboard();
 
         try{
             await firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password);
-            console.log("Account created");
+
 
             setTimeout(() => {
                 this.props.navigator.push({
@@ -51,9 +52,7 @@ export default class Login extends Component {
     }
 
     async login() {
-
-        DismissKeyboard();
-
+        dismissKeyboard();
         try {
             await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
 
@@ -64,7 +63,7 @@ export default class Login extends Component {
             }, 1500);
 
         } catch (error) {
-           console.log(error.toString())
+           console.error();
         }
     }
 
@@ -72,6 +71,7 @@ export default class Login extends Component {
 
     render(){
         const resizeMode = 'cover';
+
         return (
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
 
@@ -139,9 +139,10 @@ export default class Login extends Component {
                     <Text style= {styles.Usernametext}> Forgot Password?
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style= {styles.button}>
-                    <Text style= {styles.buttonText}> LOGIN</Text>
+                <TouchableOpacity>
 
+                    <Button onPress={()=>{this.login()}}
+                            title={"login"}/>
 
                 </TouchableOpacity>
 
