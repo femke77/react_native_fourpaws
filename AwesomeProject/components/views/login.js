@@ -28,6 +28,7 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
+            buttonColor: 'red'
         };
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
@@ -141,7 +142,9 @@ export default class Login extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity>
 
-                    <Button onPress={()=>{this.login()}}
+                    <Button
+                        color={this.state.buttonColor}
+                        onPress={()=>{this.login()}}
                             title={"login"}/>
 
                 </TouchableOpacity>

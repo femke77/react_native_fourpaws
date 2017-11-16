@@ -34,9 +34,7 @@ export default class Home extends Component {
 
         this.props.navigator.push({ id: 'Login'});
         firebase.auth().signOut().then(function() {
-
         }).catch(function(error) {
-
         });
 
     }
