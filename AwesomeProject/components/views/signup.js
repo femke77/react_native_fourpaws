@@ -115,7 +115,7 @@ export default class Signup extends Component {
 
                 <TouchableOpacity style= {styles.button}>
 
-                    <Text style= {styles.buttonText}> Next</Text>
+                    <Text style= {styles.buttonText}> Next </Text>
 
 
                 </TouchableOpacity>
