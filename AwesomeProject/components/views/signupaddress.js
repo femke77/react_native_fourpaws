@@ -65,57 +65,56 @@ export default class Signup extends Component {
 
 
                 <TextInput
-                    placeholder="Email"
+                    placeholder="address"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="next"
-                    keyboardType= "email-address"
+                    keyboardType= "address"
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
-                    onChangeText={(email) => this.setState({email})}
+                    onChangeText={(address) => this.setState({address})}
 
                 />
 
                 <TextInput
-                    placeholder="Password"
+                    placeholder="city"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
-                    secureTextEntry={true}
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
-                    onChangeText={(password) => this.setState({password})}
+                    onChangeText={(city) => this.setState({city})}
                 />
                 <TextInput
-                    placeholder="Name"
+                    placeholder="state"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
 
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
-                    onChangeText={(Name) => this.setState({Name})}
+                    onChangeText={(state) => this.setState({state})}
                 />
 
 
 
                 <TextInput
-                    placeholder=" Contact number"
+                    placeholder=" zipcode"
                     keyboardType="numeric"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
-                    maxLength={10}
+                    maxLength={5}
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
-                    onChangeText={( Contactnumber) => this.setState({ Contactnumber})}
+                    onChangeText={( zipcode) => this.setState({ zipcode})}
                 />
 
 
 
                 <TouchableOpacity style= {styles.button}>
 
-                    <Text style= {styles.buttonText}> Next</Text>
+                    <Text style= {styles.buttonText}> Sign Up</Text>
 
 
                 </TouchableOpacity>
