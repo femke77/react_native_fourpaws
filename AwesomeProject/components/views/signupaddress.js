@@ -23,6 +23,9 @@ import Login from './login';
 export default class Signup extends Component {
 
 
+    navHome(){
+        this.props.navigator.push({id:'Home'})
+    }
 
 
 
@@ -114,7 +117,7 @@ export default class Signup extends Component {
 
                 <TouchableOpacity style= {styles.button}>
 
-                    <Text style= {styles.buttonText}> Create Account </Text>
+                    <Text style= {styles.buttonText} onPress={()=> this.navHome()}> Create Account </Text>
 
 
                 </TouchableOpacity>

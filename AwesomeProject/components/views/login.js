@@ -37,6 +37,7 @@ export default class Login extends Component {
         this.login = this.login.bind(this);
         this.resetPassword = this.resetPassword.bind(this);
         this.passwordLength = this.passwordLength.bind(this);
+        this.validateEmail = this.validateEmail.bind(this);
     }
 
     passwordLength(password) {
@@ -54,23 +55,32 @@ export default class Login extends Component {
         }
     }
 
+    validateEmail(email){
+            let re = /\S+@\S+\.\S+/;
+            return re.test(email);
+    }
 
-    async signup(email, password){
+    async signup(email, password) {
         dismissKeyboard();
-        this.passwordLength(password);
-        try{
-            await firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password);
+        if (this.validateEmail(email)) {
+            this.passwordLength(password);
+            try {
+                await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
 
-            setTimeout(() => {
-                this.props.navigator.push({
-                    id: "Signup"
-                })
-            }, 1500);
+                setTimeout(() => {
+                    this.props.navigator.push({
+                        id: "Signup"
+                    })
+                }, 1500);
 
-        } catch (error){
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            alert(errorMessage);
+            } catch (error) {
+                let errorCode = error.code;
+                let errorMessage = error.message;
+                alert(errorMessage);
+            }
+        }
+        else{
+            alert("Invalid email")
         }
     }
 
@@ -92,12 +102,14 @@ export default class Login extends Component {
         }
     }
 
-    resetPassword (){
-
-            firebase.auth().sendPasswordResetEmail(this.state.email).then(function() {
+    resetPassword (email){
+        if (this.validateEmail(email)){
+            firebase.auth().sendPasswordResetEmail(email).then(function() {
                 alert("Password reset link has been sent to email")
-            }
-       )
+            });
+        } else {
+        alert("Invalid email")
+        }
     }
 
     render(){
@@ -158,7 +170,7 @@ export default class Login extends Component {
                     onChangeText={(password) => this.setState({password})}
 
                 />
-                    <Text style= {styles.passwordFtext} onPress={()=>this.resetPassword()}  >Forgot Password</Text>
+                    <Text style= {styles.passwordFtext} onPress={()=>this.resetPassword(this.state.email)}  >Forgot Password</Text>
                <View style={{justifyContent:'space-around'}}>
                 <Button
                         color={this.state.buttonColor}
