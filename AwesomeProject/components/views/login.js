@@ -13,8 +13,10 @@ import {
     Keyboard,
     AsyncStorage,
     Button,
-    Alert
+    Alert,
+
 } from 'react-native';
+
 import dismissKeyboard from 'react-native-dismiss-keyboard';
 import * as firebase from "firebase";
 
@@ -31,7 +33,8 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            buttonColor: 'red'
+            buttonColor: 'red',
+            button2color: 'blue'
         };
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
@@ -180,11 +183,13 @@ export default class Login extends Component {
                 />
 
                 <Button
-                    color={this.state.buttonColor}
+                    color={this.state.button2color}
                     onPress={()=>{this.signup(this.state.email, this.state.password)}}
                     title={"create account"}
                 />
                 </View>
+
+
                 <Text style={styles.bottomtext}>
 
                     Copyright © 2017 Four Paws

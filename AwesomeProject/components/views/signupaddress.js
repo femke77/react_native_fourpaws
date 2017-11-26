@@ -14,14 +14,23 @@ import {
 
 } from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
-import * as firebase from "firebase";
-import Firebase from '../firebase/firebase';
-import Login from './login';
 
 
 
 export default class Signup extends Component {
 
+    constructor(props){
+        super(props);
+
+        this.state ={
+            address: '',
+            city: '',
+            state: '',
+            zipcode: ''
+        }
+
+
+    }
 
     navHome(){
         this.props.navigator.push({id:'Home'})
