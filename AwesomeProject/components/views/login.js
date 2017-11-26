@@ -12,19 +12,21 @@ import {
     TextInput,
     Keyboard,
     AsyncStorage,
-    Button
-
-
+    Button,
+    Alert
 } from 'react-native';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
 import * as firebase from "firebase";
 
-//there is no code for length or type of password yet - per firebase min length is 6 for pw
+
+//reset password method stub needs coding per firebase auth
+//put a space between the buttons
+//TEST all the firebase oodes and customize them as needed.
+
 export default class Login extends Component {
 
     constructor(props) {
         super(props);
-
 
         this.state = {
             email: "",
@@ -33,23 +35,42 @@ export default class Login extends Component {
         };
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
+        this.resetPassword = this.resetPassword.bind(this);
+        this.passwordLength = this.passwordLength.bind(this);
     }
+
+    passwordLength(password) {
+        const minLength = 6;
+        if (password.length < minLength) {
+            Alert.alert(
+                'Password Error',
+                'Password must be at least 6 characters long',
+                [
+                    {text:'OK', onPress: () =>
+                        console.log('ok pressed')},
+                ],
+                {cancelable: true}
+            )
+        }
+    }
+
 
     async signup(email, password){
         dismissKeyboard();
-
+        this.passwordLength(password);
         try{
             await firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password);
 
-
             setTimeout(() => {
                 this.props.navigator.push({
-                    id: "Home"
+                    id: "Signup"
                 })
             }, 1500);
 
         } catch (error){
-            console.log(error.toString())
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            alert(errorMessage);
         }
     }
 
@@ -65,23 +86,29 @@ export default class Login extends Component {
             }, 1500);
 
         } catch (error) {
-           console.error();
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            alert(errorMessage);
         }
     }
 
+    resetPassword (){
 
+            firebase.auth().sendPasswordResetEmail(this.state.email).then(function() {
+                alert("Password reset link has been sent to email")
+            }
+       )
+    }
 
     render(){
         const resizeMode = 'cover';
 
         return (
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
-
                 <StatusBar
                     backgroundColor="red"
                     barStyle="light-content"
                 />
-
                 <Image
                     style={{backgroundColor: '#ccc',
                         flex: 1,
@@ -93,7 +120,6 @@ export default class Login extends Component {
                     }}
                     source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/qtq50-2cmvAT-1024x769.jpeg'}}
                 />
-
                 <Image
                     style={{backgroundColor: 'transparent',
                         flex: -1,
@@ -103,17 +129,15 @@ export default class Login extends Component {
                         justifyContent: 'flex-end',
                         top: 100,
                         paddingVertical:50
-
                     }}
                     source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
                 />
-
                 <Text style={styles.welcome}>
 
                     Welcome
                 </Text>
                 <TextInput
-                    placeholder=" Username or Email"
+                    placeholder="Email Address"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="next"
                     keyboardType= "email-address"
@@ -121,11 +145,8 @@ export default class Login extends Component {
                     autoCorrect={false}
                     style= { styles.inputBox}
                     onChangeText={(email) => this.setState({email})}
-
                 />
-                <TouchableOpacity>
-                    <Text style= {styles.Usernametext}> Forgot Username?</Text>
-                </TouchableOpacity>
+
                 <TextInput
                     placeholder="Password"
                     placeholderTextColor= "#ffffff"
@@ -137,34 +158,25 @@ export default class Login extends Component {
                     onChangeText={(password) => this.setState({password})}
 
                 />
-                <TouchableOpacity>
-                    <Text style= {styles.Usernametext}> Forgot Password?
-                    </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-
-                    <Button
+                    <Text style= {styles.passwordFtext} onPress={()=>this.resetPassword()}  >Forgot Password</Text>
+               <View style={{justifyContent:'space-around'}}>
+                <Button
                         color={this.state.buttonColor}
                         onPress={()=>{this.login()}}
-                            title={"login or signup"}/>
+                        title={"  login  "}
+                    //    icon={{name: 'lock'}}
+                />
 
-
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                    <Text style= {styles.SignUptext}> Not Registered Yet?</Text>
-                    <Text style= {styles.SignUptextUnderline}>
-                        Sign Up Here
-                    </Text>
-                </TouchableOpacity>
-
+                <Button
+                    color={this.state.buttonColor}
+                    onPress={()=>{this.signup(this.state.email, this.state.password)}}
+                    title={"create account"}
+                />
+                </View>
                 <Text style={styles.bottomtext}>
 
                     Copyright © 2017 Four Paws
                 </Text>
-
-
 
             </KeyboardAvoidingView>
         );
@@ -200,11 +212,11 @@ const styles = StyleSheet.create({
     bottomtext: {
         fontSize: 16,
         textAlign: 'center',
-        margin: 10,
+        margin: 0,
         color: "#ffffff",
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: 20,
+        bottom: 5,
         paddingVertical:0
     },
     //Forgot username
@@ -212,10 +224,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
         margin: 10,
-        color: "#ffffff",
+        color: "#0000ff",
+        textDecorationLine: 'underline',
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: -18,
+        bottom: 90,
         paddingVertical:0
     },
     //Forgot password
@@ -223,13 +236,14 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
         margin: 10,
-        color: "#ffffff",
+        color: "#0000ff",
+        textDecorationLine: 'underline',
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: -18,
+        bottom: 30,
         paddingVertical:0
     },
-    //Forgot password
+
     SignUptext: {
         fontSize: 20,
         textAlign: 'center',

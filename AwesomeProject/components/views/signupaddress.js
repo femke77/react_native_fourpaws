@@ -114,16 +114,13 @@ export default class Signup extends Component {
 
                 <TouchableOpacity style= {styles.button}>
 
-                    <Text style= {styles.buttonText}> Sign Up </Text>
+                    <Text style= {styles.buttonText}> Create Account </Text>
 
 
                 </TouchableOpacity>
 
                 <View>
-                    <Text style= {styles.SignIntext}> Have account?</Text>
-                    <TouchableOpacity style= {styles.SignIntextbox} onPress={this.goLogin}>
-                        <Text style= {styles.SignIntextboxtext}>Login Here</Text>
-                    </TouchableOpacity>
+
                     <Text style={styles.bottomtext}>
 
                         Copyright © 2017 Four Paws

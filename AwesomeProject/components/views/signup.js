@@ -14,17 +14,34 @@ import {
 
 } from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
-import * as firebase from "firebase";
-import Firebase from '../firebase/firebase';
-import Login from './login';
 
 
+//do an email verification - send user email
+//do a first name and last name and don't do the email or password
+//do a username
 
 export default class Signup extends Component {
 
 
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            name: "",
+            contactNumber: ''
+        };
 
+        this.goLogin = this.goLogin.bind(this);
+        this.next = this.next.bind(this);
+    }
+
+    goLogin(){
+        this.props.navigator.push({id: 'Login'})
+    }
+
+    next (){
+        this.props.navigator.push({id: 'Signup2'});
+    }
 
     render(){
         const resizeMode = 'cover';
@@ -77,7 +94,7 @@ export default class Signup extends Component {
                 />
 
                 <TextInput
-                    placeholder="Password"
+                    placeholder="Verify Password"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
                     secureTextEntry={true}
@@ -94,7 +111,7 @@ export default class Signup extends Component {
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
-                    onChangeText={(Name) => this.setState({Name})}
+                    onChangeText={(name) => this.setState({name})}
                 />
 
 
@@ -108,16 +125,13 @@ export default class Signup extends Component {
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
-                    onChangeText={( Contactnumber) => this.setState({ Contactnumber})}
+                    onChangeText={( contactnumber) => this.setState({ contactnumber})}
                 />
 
 
 
-                <TouchableOpacity style= {styles.button}>
-
-                    <Text style= {styles.buttonText}> Next </Text>
-
-
+                <TouchableOpacity style= {styles.button} onPress={this.next}>
+                    <Text style= {styles.buttonText} > Next </Text>
                 </TouchableOpacity>
 
                 <View>
@@ -209,7 +223,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         bottom: -50,
         right: -20,
-        paddingVertical:0
+        paddingVertical:0,
+
     },
     SignIntextbox: {
         margin: 10,
@@ -222,6 +237,7 @@ const styles = StyleSheet.create({
     SignIntextboxtext:{
         fontSize: 20,
         color: "blue",
+        textDecorationLine: 'underline'
     },
 
     instructions: {

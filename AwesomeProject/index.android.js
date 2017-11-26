@@ -23,10 +23,10 @@ import Login from './components/views/login';
 import Firebase from './components/firebase/firebase';
 import Home from './components/views/home';
 import Signup from './components/views/signup';
+import Signup2 from './components/views/signupaddress';
 import Upload from './components/tools/upload';
 import * as firebase from 'firebase';
 
-//testing github
 export default class AwesomeProject extends Component {
 
 
@@ -42,7 +42,7 @@ export default class AwesomeProject extends Component {
         this.state = {
             userLoaded: false,
             initialView: null
-    };
+        };
 
         this.getInitialView = this.getInitialView.bind(this);
     }
@@ -69,19 +69,18 @@ export default class AwesomeProject extends Component {
                 case 'Signup':
                     return (<Signup navigator={navigator}{...route.passProps}/>);
                     break;
+                case 'Signup2':
+                    return (<Signup2 navigator={navigator}{...route.passProps}/>);
+                    break;
                 case 'Upload':
                    return (<Upload navigator={navigator}{...route.passProps}/>);
                    break;
             }
         }
 
-        render()
-        {
-
+        render() {
             if (this.state.userLoaded) {
                 return (
-
-
                     <Navigator initialRoute={{id: this.state.initialView}}
                                renderScene={this.renderScene}/>
                 );
