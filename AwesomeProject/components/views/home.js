@@ -13,6 +13,12 @@ import {
     Button
 
 } from 'react-native';
+import PropTypes from 'prop-types';
+import Universaltabs from '/Users/Mac/IdeaProjects/react_native_fourpaws/AwesomeProject/TestingComponents/universaltabs.js';
+
+import Tabs from '../styles/tabs';
+import * as firebase from "firebase";
+import Login from './login.js';
 
 
 import Tabs from '../styles/tabs';
