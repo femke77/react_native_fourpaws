@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     },
 
     container2: {
-
+        marginBottom: -110,
     },
 
     titleStyle: {
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
 
     },
     image:{
-
+        marginTop: 20,
         width: 170,
         height: 90,
         resizeMode: 'contain',
