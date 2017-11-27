@@ -21,8 +21,7 @@ import dismissKeyboard from 'react-native-dismiss-keyboard';
 import * as firebase from "firebase";
 
 
-//reset password method stub needs coding per firebase auth
-//put a space between the buttons
+//put a space between the buttons, or side by side?
 //TEST all the firebase oodes and customize them as needed.
 
 export default class Login extends Component {
@@ -111,7 +110,7 @@ export default class Login extends Component {
                 alert("Password reset link has been sent to email")
             });
         } else {
-        alert("Invalid email")
+        alert("Not a valid email")
         }
     }
 
@@ -188,8 +187,13 @@ export default class Login extends Component {
                     title={"create account"}
                 />
                 </View>
+            <View style={styles.container2}>
+            <TouchableOpacity onPress={()=>{alert("pressed")}}>
+                <Image source = {require('../images/google_signin.png')} style ={styles.image}/>
 
 
+                </TouchableOpacity>
+            </View>
                 <Text style={styles.bottomtext}>
 
                     Copyright © 2017 Four Paws
@@ -207,6 +211,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
@@ -325,7 +330,7 @@ const styles = StyleSheet.create({
     },
 
     container2: {
-        backgroundColor: 'white',
+
     },
 
     titleStyle: {
@@ -362,8 +367,14 @@ const styles = StyleSheet.create({
         textAlign:'center',
         flex: -1,
 
-    }
+    },
+    image:{
 
+        width: 170,
+        height: 90,
+        resizeMode: 'contain',
+
+    }
 
 });
 
