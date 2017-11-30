@@ -13,6 +13,12 @@ import {
 } from 'react-native';
 //Testing 1
 
+import Universaltabs from './TestingComponents/universaltabs';
+import Login from './components/views/login';
+import Mapviews from './TestingComponents/MapComponents/Mapview';
+import Profile_Information from './TestingComponents/Profile_Information';
+
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
     'Cmd+D or shake for dev menu',
@@ -23,17 +29,7 @@ const instructions = Platform.select({
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native! Hi Mr x hi Vicente!!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <Universaltabs/>
     );
   }
 }

@@ -52,19 +52,30 @@ export default class Tabs extends Component {
 const styles = StyleSheet.create({
     // Component container
     container: {
-        flex: 1,
+        flex: 56,
+
+
+
     },
     // Tabs row container
     tabsContainer: {
+        justifyContent: 'center',
+
         flexDirection: 'row',
-        paddingTop: 30,
+        paddingTop: -10,
+        alignContent: 'flex-end',
+
+
     },
     // Individual tab container
     tabContainer: {
         flex: 1,
-        paddingVertical: 15,
+        paddingVertical: 5,
+        borderColor:'#ffffff',
+        borderWidth: 0.2,
         borderBottomWidth: 3,
         borderBottomColor: 'transparent',
+
     },
     // Active tab container
     tabContainerActive: {

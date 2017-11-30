@@ -54,11 +54,13 @@ const styles = StyleSheet.create({
     // Component container
     container: {
         flex: 1,
+        alignContent:'flex-end',
     },
     // Tabs row container
     tabsContainer: {
         flexDirection: 'row',
-        paddingTop: 30,
+        paddingTop: 20,
+        alignContent:'flex-end',
     },
     // Individual tab container
     tabContainer: {

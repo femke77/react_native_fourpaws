@@ -44,13 +44,20 @@ const styles = StyleSheet.create({
     // Component container
     container: {
         flex: 1,
-    },
-    map: {
+        position: 'absolute',
+        top: 0,
         left: 0,
         right: 0,
+        bottom: 0,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    map: {
+        position: 'absolute',
         top: 0,
-        bottom:0,
-        position:'absolute',
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
     // Tabs row container
     tabsContainer: {

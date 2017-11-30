@@ -20,9 +20,11 @@ import {
 
 
 import Tabs from './tabs';
-import Profile_Information from '/Users/Mac/IdeaProjects/react_native_fourpaws/AwesomeProject/TestingComponents/Profile_Information';
+import Profile_Information from './Profile_Information';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import StarRating from 'react-native-star-rating';
+import UserPic from './UserPic';
+
 
 
 import MapView from 'react-native-maps';
@@ -45,39 +47,34 @@ export default class Universaltabs extends Component {
 
         return (
             <View style={styles.container13}>
+
+
                 <Tabs>
                     {/* First tab */}
                     <View title="User Profile" style={styles.content13}>
+                        <Image
+                            style={{backgroundColor: '#ccc',
+                                flex: 1,
+                                resizeMode: 'cover',
+                                position: 'absolute',
+                                width: '100%',
+                                height: '100%',
+                                justifyContent: 'flex-end',
+                            }}
+                            source={{ uri: 'http://www.clker.com/cliparts/0/5/9/1/1430368724442417087yellow%20orange%20peach%20pink%20blur%20wallpaper%20android%20background%20mixed%20combiantion%20plus%20radiant%20gradient.jpg'}}
+                        />
 
-                        <Profile_Information/>
 
-                        <Text style={styles.headerUSername}>
-                            John Doe
-                        </Text>
-                        <TouchableOpacity>
-                            <Text style={styles.TextChangepic}>
-                                Change picture
-                            </Text>
-                        </TouchableOpacity>
-                        <View style={styles.headerstars}>
-                            <StarRating style={styles.headerstars}
-                                        disabled={false}
-                                        emptyStar={'ios-star-outline'}
-                                        fullStar={'ios-star'}
-                                        halfStar={'ios-star-half'}
-                                        iconSet={'Ionicons'}
-                                        maxStars={5}
-                                        rating={this.state.starCount}
-                                        selectedStar={(rating) => this.onStarRatingPress(rating)}
-                                        starColor={'#ffec01'}
-                                        emptyStarColor={'#ffffff'}
-                            />
-                            <Text style={styles.text13}>
-                                {`${this.state.starCount} /5 Rating`}
-                            </Text>
-                        </View>
+
+
+
+
+                            <Profile_Information/>
+
+
 
                     </View>
+
 
                     {/* Second tab */}
                     <View title="Upcoming appointments" style={styles.content13}>
@@ -129,8 +126,9 @@ export default class Universaltabs extends Component {
 }
 const styles = StyleSheet.create({
     container13: {
-        flex: 1,                            // Take up all screen
-        backgroundColor: '#383838',         // Background color
+        flex: 56,                            // Take up all screen
+        backgroundColor: '#383838',
+        // Background color
     },
 // Tab content container
     content13: {
@@ -149,7 +147,15 @@ const styles = StyleSheet.create({
         // Bigger font size
     },
     headerstars: {
-        top: -400,
+        top: -330,
+        margin: 40,
+        right: -25,
+
+        // Bigger font size
+    },
+
+    headerstarsIOS: {
+        top: -300,
         margin: 30,
         right: -25,
 
@@ -159,9 +165,21 @@ const styles = StyleSheet.create({
         margin: 30,                         // Add margin
         color: '#ffec01',                   // White color
         fontFamily: 'Avenir',               // Change font family
-        fontSize: 40,
+        fontSize: 25,
         right: -25,
-        top: -340,
+        top: -260,
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
+
+        // Bigger font size
+    },
+    headerUSernameIOS: {
+        margin: 30,                         // Add margin
+        color: '#ffec01',                   // White color
+        fontFamily: 'Avenir',               // Change font family
+        fontSize: 45,
+        right: -25,
+        top: -240,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
 
@@ -172,7 +190,7 @@ const styles = StyleSheet.create({
         color: 'white',                   // blue or white color
         fontFamily: 'Avenir',               // Change font family
         fontSize: 10,
-        top: -295,
+        top: -95,
         right: 130,
         textDecorationLine: 'underline',
 
@@ -215,6 +233,16 @@ const styles = StyleSheet.create({
 
 
     },
+    STabsView:{
+        alignItems:'flex-end',
+        top: 175,
+        bottom: 715,
+        width: 75,
+        opacity: 30,
+        flex: 1,
+        justifyContent: 'flex-end',
+
+    }
 
 
 
