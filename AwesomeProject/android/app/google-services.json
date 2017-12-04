@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1002267002264",
+    "firebase_url": "https://fourpaws-acc49.firebaseio.com",
+    "project_id": "fourpaws-acc49",
+    "storage_bucket": "fourpaws-acc49.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002267002264:android:bdda3018bb58ca0a",
+        "android_client_info": {
+          "package_name": "com.awesomeproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002267002264-d5ucr9uu0ph328gemkk9aodfoeflvc8l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.awesomeproject",
+            "certificate_hash": "d319cd1a36b238f1688d31f0b1f2e2284642f13f"
+          }
+        },
+        {
+          "client_id": "1002267002264-1j8pm8s5q7go07v22ilej3ma7s1v4f3v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaum2Ame_nP5fMRoGQXc8Z8ueMMwdKdyg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002267002264-1j8pm8s5q7go07v22ilej3ma7s1v4f3v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

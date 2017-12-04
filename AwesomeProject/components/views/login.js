@@ -19,10 +19,12 @@ import {
 
 import dismissKeyboard from 'react-native-dismiss-keyboard';
 import * as firebase from "firebase";
+import {GoogleSignin} from 'react-native-google-signin'
 
-
-//put a space between the buttons, or side by side?
-//TEST all the firebase oodes and customize them as needed.
+//TODO put a space between the buttons, or side by side?
+//TODO TEST all the firebase oodes and customize them as needed.
+//TODO fix the google button because the onPress active range is way outside the actual button (whole container)
+//TODO dismissKeyboard() needs to be looked at... what is it doing?
 
 export default class Login extends Component {
 
@@ -33,13 +35,27 @@ export default class Login extends Component {
             email: "",
             password: "",
             buttonColor: 'red',
-            button2color: 'blue'
+            button2color: 'blue',
+
         };
         this.signup = this.signup.bind(this);
         this.login = this.login.bind(this);
         this.resetPassword = this.resetPassword.bind(this);
         this.passwordLength = this.passwordLength.bind(this);
         this.validateEmail = this.validateEmail.bind(this);
+        this.googleSignIn = this.googleSignIn.bind(this);
+    }
+
+    //current scope is set to example (google drive) default is email and profile
+    componentWillMount(){
+        GoogleSignin.hasPlayServices({autoResolve: true});
+        GoogleSignin.configure({
+            webClientId:'1002267002264-1j8pm8s5q7go07v22ilej3ma7s1v4f3v.apps.googleusercontent.com',
+            offlineAccess: false,
+            forceConsentPrompt: true,
+
+        });
+
     }
 
     passwordLength(password) {
@@ -62,12 +78,32 @@ export default class Login extends Component {
             return re.test(email);
     }
 
+    async googleSignIn(){
+
+            const {idToken} = await GoogleSignin.signIn();
+            const provider = firebase.auth.GoogleAuthProvider;
+            const credential = provider.credential(idToken);
+            const data = await firebase.auth().signInWithCredential(credential);
+
+            //idToken contains the basic information about the google user
+            const user = {
+                mail: data.email,
+                photoURL: data.photoURL,
+                name: data.displayName,
+            };
+            this.props.navigator.push({id:'Home'});
+            return user;
+
+
+    }
+
+
     async signup(email, password) {
         dismissKeyboard();
         if (this.validateEmail(email)) {
             this.passwordLength(password);
             try {
-                await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
+                await firebase.auth().createUserWithEmailAndPassword(email, password);
 
                 setTimeout(() => {
                     this.props.navigator.push({
@@ -106,11 +142,15 @@ export default class Login extends Component {
 
     resetPassword (email){
         if (this.validateEmail(email)){
-            firebase.auth().sendPasswordResetEmail(email).then(function() {
-                alert("Password reset link has been sent to email")
-            });
+                firebase.auth().sendPasswordResetEmail(email).then(function() {
+                   alert("Password reset link has been sent to email");
+               }).catch(function(error){
+                    let errorCode = error.code;
+                    let errorMessage = error.message;
+                    alert(errorMessage);
+                }).done();
         } else {
-        alert("Not a valid email")
+        alert("Not a valid email");
         }
     }
 
@@ -188,8 +228,8 @@ export default class Login extends Component {
                 />
                 </View>
             <View style={styles.container2}>
-            <TouchableOpacity onPress={()=>{alert("pressed")}}>
-                <Image source = {require('../images/google_signin.png')} style ={styles.image}/>
+            <TouchableOpacity onPress={()=>this.googleSignIn()}>
+                <Image source = {require('../assets/google_signin.png')} style ={styles.image}/>
 
 
                 </TouchableOpacity>
@@ -331,6 +371,7 @@ const styles = StyleSheet.create({
 
     container2: {
         marginBottom: -110,
+
     },
 
     titleStyle: {
@@ -369,10 +410,10 @@ const styles = StyleSheet.create({
 
     },
     image:{
-        marginTop: 20,
+
         width: 170,
         height: 90,
-        resizeMode: 'contain',
+        resizeMode: 'contain'
 
     }
 

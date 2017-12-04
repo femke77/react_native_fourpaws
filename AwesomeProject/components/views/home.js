@@ -13,22 +13,21 @@ import {
     Button
 
 } from 'react-native';
-
-
 import Tabs from '../styles/tabs';
 import * as firebase from "firebase";
 import Login from './login.js';
+import {GoogleSignin} from 'react-native-google-signin'
+
 
 export default class Home extends Component {
 
     constructor(props){
         super(props);
 
+        this.state = {};
+
         this.logout = this.logout.bind(this);
-
-        this.state = {}
-
-
+        this.googleSignOut = this.googleSignOut.bind(this);
     }
 
     logout() {
@@ -36,11 +35,15 @@ export default class Home extends Component {
         this.props.navigator.push({ id: 'Login'});
         firebase.auth().signOut().then(function() {
         }).catch(function(error) {
-        });
+        }).done();
 
     }
 
-
+    googleSignOut() {
+        GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
+            this.props.navigator.push({id: 'Login'});
+        }).done();
+    }
 
     render() {
 
@@ -60,6 +63,8 @@ export default class Home extends Component {
 
                         <Button onPress={()=>{this.logout()}}
                                 title={"Log Out  "}/>
+                        <Button onPress={()=>{this.googleSignOut()}}
+                                title={"Revoke Google Auth and Logout "}/>
                     </View>
                     {/* Second tab */}
                     <View title="Upcoming appointments" style={styles.content13}>

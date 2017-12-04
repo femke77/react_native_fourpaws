@@ -16,9 +16,9 @@ import {
 import {Navigator} from 'react-native-deprecated-custom-components';
 
 
-//do an email verification - send user email
-//do a first name and last name and don't do the email or password
-//do a username
+//TODO do an email verification - send user email
+//TODO do a first name and last name and don't do the email or password
+//TODO do a username, and see whole list under "changes to signup" in JIRA
 
 export default class Signup extends Component {
 
