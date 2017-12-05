@@ -5,18 +5,23 @@ import {
     Text,
     View,
     Image,
-    Dimensions
+    Dimensions,
+    ListView,
+    ScrollView
 
 
 } from 'react-native';
 
 
 import Tabs from './tabs';
+import UserPic from './UserPic';
 
 import {RkStyle, RkTabView, RkText,RkTheme} from 'react-native-ui-kitten';
+import List from "./ListView";
 
 
 export default class Profile_Information extends Component {
+
 
 
     render() {
@@ -24,40 +29,50 @@ export default class Profile_Information extends Component {
             let backgroundColor = isSelected ? '#d91e18' : 'white';
             let color = (!isSelected) ? '#d91e18' : 'white';
             return (
+
                 <View
                     style={{
                         backgroundColor,
                         justifyContent: 'flex-end',
                         flexDirection: 'row',
+                        right: 7 ,
+                        //left: 5,
+                        paddingBottom: 0,
+                        height: 25,
+                        bottom: 3,
+                        width: 108,
+                        borderRadius: 100,
 
 
 
                     }}>
 
-                    <RkText style={{color, marginLeft: 1}}>{title}</RkText>
+                    <RkText style={{color,  alignContent:'center' , right: 25 }}>{title}</RkText>
                 </View>);
         };
         return (
 
-                <View >
+                <View style={styles.NewTab}>
                 <RkTabView rkType='rounded'>
                     <RkTabView.Tab title={(selected) => {
-                        return renderTab(selected, 'Review', 213);
+                        return renderTab(selected, 'Reviews');
                     }}>
-                        <Text style={styles.text13}> Reviews..... </Text>
+
+                        <List style={styles.text13} />
                     </RkTabView.Tab>
 
                     <RkTabView.Tab title={(selected) => {
-                        return renderTab(selected, 'Follower', 5);
+                        return renderTab(selected, 'Follower');
                     }}>
-                        <Text>Follower</Text>
+                        <Text style={styles.text13}>Follower</Text>
                     </RkTabView.Tab>
                     <RkTabView.Tab title={(selected) => {
-                        return renderTab(selected, 'Photo', 6);
+                        return renderTab(selected, 'Photo');
                     }}>
-                        <Text>Photos</Text>
+                        <Text style={styles.text13}>Photos</Text>
                     </RkTabView.Tab>
                 </RkTabView>
+
                 </View>
         );
     }
@@ -89,7 +104,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',                // Center
         fontFamily: 'Avenir',
         fontSize: 18,
-        width: 140,
+        width: 300,
+
 
     },
     statContainer: {
@@ -134,6 +150,10 @@ const styles = StyleSheet.create({
     imageTab: {
         backgroundColor: 'white',
     },
+    NewTab: {
+        top: 200,
+
+    },
 
 
 
@@ -142,11 +162,11 @@ const styles = StyleSheet.create({
 RkTheme.setType('RkTabView', 'rounded', {
     flex: 2,
     backgroundColor: 'transparent',
-    color: 'white',
+    color: '#fff',
     borderColor: '#4a636d',
     tabContainer: {
         padding: 2,
-        borderRadius: 10,
+        borderRadius: 360,
 
 
         borderWidth: 5,

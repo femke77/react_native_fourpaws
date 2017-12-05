@@ -3,37 +3,103 @@ import {
     StyleSheet,         // CSS-like styles
     Text,               // Renders text
     TouchableOpacity,   // Pressable container
-    View                // Container component
+    View,
+    Animated,
+    Dimensions
+    // Container component
 } from 'react-native';
 
 import MapView from 'react-native-maps';
-export default class Mapviews extends Component {
 
+import PriceMarker from './AmountTag.js'
+let id = 0;
+
+const {width,height} = Dimensions.get('window')
+
+const SCREEN_H= height
+const SCREEN_W= width
+const Ratio = width/height
+
+const LATTITUDE_DELTA = 0.0922
+const LONGITUDE_DELTA = 0.0421
+export default class Mapviews extends Component {
+    constructor(props) {
+        super(props);
+
+    this.state = {
+            initialRegion: {
+                latitude: 34.24116,
+                longitude: -118.5291,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            },
+
+        };
+
+    }
+
+    watchID: ?number = null
+
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition((position) => {
+                var lat = parseFloat(position.coords.latitude)
+                var long = parseFloat(position.coords.longitude)
+
+                var initialRegion2 = {
+                    latitude: lat,
+                    longitude: long,
+                    latitudeDelta: LATTITUDE_DELTA,
+                    longitudeDelta: LONGITUDE_DELTA,
+                }
+                this.setState({initialRegion: initialRegion2})
+
+            },
+            (error) => alert(JSON.stringify(error)),
+            {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000})
+        this.watchID = navigator.geolocation.watchPosition((position) => {
+            var lat = parseFloat(position.coords.latitude)
+            var long = parseFloat(position.coords.longitude)
+
+            var RegionLast = {
+                latitude: lat,
+                longitude: long,
+                latitudeDelta: LATTITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA,
+            }
+            this.setState({initialRegion: RegionLast})
+        })
+    }
+    componentWillUnmount(){
+
+            navigator.geolocation.clearWatch(this.watchID )
+        }
+
+
+
+
+
+
+    onRegionChange(initialRegion) {
+        this.setState({ initialRegion });
+    }
 
 
     // Pull children out of props passed from App component
     render() {
+
         return (
             <View style={styles.container}>
                <MapView
+                   provider={this.props.provider}
                    style={styles.map}
-                   initialRegion={{
-                       latitude: 34.24116,
-                       longitude: -118.5291,
-                       latitudeDelta: 0.0922,
-                       longitudeDelta: 0.0421,
-                   }}>
-                    <MapView.Marker
-                    coordinate={{
-                        latitude: 34.24116,
-                        longitude: -118.5291,
-                    }}
-                    >
-                        <View style={styles.radius}>
-                            <View style={styles.marker}     />
-                        </View>
-                    </MapView.Marker>
+                   initialRegion={this.state.initialRegion}
+                   onPress={this.onMapPress}
+               >
+                        <PriceMarker/>
+
                 </MapView>
+
+
 
             </View>
         );
@@ -58,6 +124,12 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
+    },
+    radius2:{
+        width: 80,
+        paddingHorizontal: 12,
+        alignItems: 'center',
+        marginHorizontal: 10,
     },
     // Tabs row container
     tabsContainer: {

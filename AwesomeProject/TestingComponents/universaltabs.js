@@ -13,6 +13,7 @@ import {
     TextInput,
     Keyboard,
     Button,
+    ScrollView
 
 
 
@@ -21,13 +22,24 @@ import {
 
 import Tabs from './tabs';
 import Profile_Information from './Profile_Information';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import StarRating from 'react-native-star-rating';
 import UserPic from './UserPic';
+import Mapviews from './MapComponents/Mapview.js'
+import PriceMarker from './MapComponents/AmountTag.js'
+import Icon from 'react-native-vector-icons/EvilIcons'
+import {OffCanvas3D} from 'react-native-off-canvas-menu'
+
 
 
 
 import MapView from 'react-native-maps';
+
+const SideMenu = require('react-native-side-menu');
+
+this.state = {
+    menuOpen: false
+}
 
 export default class Universaltabs extends Component {
 
@@ -41,17 +53,28 @@ export default class Universaltabs extends Component {
     onStarRatingPress(rating) {
         this.setState({
             starCount: rating
-        });
+});
+}
+
+    handleMenu() {
+        const {menuOpen} = this.state
+        this.setState({
+            menuOpen: !menuOpen
+        })
     }
     render() {
 
         return (
+
             <View style={styles.container13}>
 
 
                 <Tabs>
                     {/* First tab */}
+
                     <View title="User Profile" style={styles.content13}>
+
+
                         <Image
                             style={{backgroundColor: '#ccc',
                                 flex: 1,
@@ -64,20 +87,32 @@ export default class Universaltabs extends Component {
                             source={{ uri: 'http://www.clker.com/cliparts/0/5/9/1/1430368724442417087yellow%20orange%20peach%20pink%20blur%20wallpaper%20android%20background%20mixed%20combiantion%20plus%20radiant%20gradient.jpg'}}
                         />
 
+                        <View>
+                            <UserPic/>
+                        </View>
+                        <View>
 
+                        </View>
 
-
-
-
-                            <Profile_Information/>
-
-
+                        <Profile_Information/>
 
                     </View>
 
 
+
                     {/* Second tab */}
                     <View title="Upcoming appointments" style={styles.content13}>
+                        <Image
+                            style={{backgroundColor: '#ccc',
+                                flex: 1,
+                                resizeMode: 'cover',
+                                position: 'absolute',
+                                width: '100%',
+                                height: '100%',
+                                justifyContent: 'flex-end',
+                            }}
+                            source={{ uri: 'http://www.clker.com/cliparts/0/5/9/1/1430368724442417087yellow%20orange%20peach%20pink%20blur%20wallpaper%20android%20background%20mixed%20combiantion%20plus%20radiant%20gradient.jpg'}}
+                        />
 
                         <Text style={styles.header13}>
                             You have no appointments
@@ -88,6 +123,17 @@ export default class Universaltabs extends Component {
                     </View>
                     {/* Third tab */}
                     <View title="Favorite pet keeper" style={styles.content13}>
+                        <Image
+                            style={{backgroundColor: '#ccc',
+                                flex: 1,
+                                resizeMode: 'cover',
+                                position: 'absolute',
+                                width: '100%',
+                                height: '100%',
+                                justifyContent: 'flex-end',
+                            }}
+                            source={{ uri: 'http://www.clker.com/cliparts/0/5/9/1/1430368724442417087yellow%20orange%20peach%20pink%20blur%20wallpaper%20android%20background%20mixed%20combiantion%20plus%20radiant%20gradient.jpg'}}
+                        />
                         <Text style={styles.header13}>
                             Coming Soon
                         </Text>
@@ -95,39 +141,30 @@ export default class Universaltabs extends Component {
                             Hopefully by next sprint
                         </Text>
                     </View>
-                    {/* Third tab */}
+                    {/* Fourth tab */}
                     <View title="User Search" style={styles.content13}>
-                        <MapView
-                            style={styles.map}
-                            initialRegion={{
-                                latitude: 34.24116,
-                                longitude: -118.5291,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }}>
-                            <MapView.Marker
-                                coordinate={{
-                                    latitude: 34.24116,
-                                    longitude: -118.5291,
-                                }}
-                            >
-                                <View style={styles.radius}>
-                                    <View style={styles.marker}     />
-                                </View>
-                            </MapView.Marker>
-                        </MapView>
+
+                    <Mapviews/>
 
                     </View>
 
                 </Tabs>
             </View>
+
         );
     }
 }
 const styles = StyleSheet.create({
     container13: {
-        flex: 56,                            // Take up all screen
+        flex: 1,                            // Take up all screen
         backgroundColor: '#383838',
+
+        // Background color
+    },
+    container14: {
+        flex: 2,
+        top:100// Take up all screen
+
         // Background color
     },
 // Tab content container
@@ -242,10 +279,39 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
 
-    }
+    },
 
-
+    container10: {
+        flex: 1,                            // Take up all screen
+        top: -200,
+        //paddingBottom: 150,
+    },
+    text10: {
+        marginHorizontal: 0,               // Add horizontal margin
+        color: '#fff', // Semi-transparent text
+        top: 115, // Center
+        fontFamily: 'Avenir',
+        fontSize: 18,
+        right: -8,
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
+    },
 
 
 });
+
+class Application extends React.Component {
+    render() {
+        const menu = <Menu navigator={navigator}/>;
+
+        return (
+            <SideMenu menu={menu}>
+                <Universaltabs/>
+            </SideMenu>
+        );
+    }
+}
+
+
+
 

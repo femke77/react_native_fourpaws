@@ -17,6 +17,10 @@ import Universaltabs from './TestingComponents/universaltabs';
 import Login from './components/views/login';
 import Mapviews from './TestingComponents/MapComponents/Mapview';
 import Profile_Information from './TestingComponents/Profile_Information';
+import UserPic from "./TestingComponents/UserPic";
+import OffCanvasReveal from "./TestingComponents/Menu";
+import List from "./TestingComponents/ListView";
+
 
 
 const instructions = Platform.select({
