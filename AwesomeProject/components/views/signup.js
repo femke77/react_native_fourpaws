@@ -10,11 +10,12 @@ import {
     TouchableOpacity,
     StatusBar,
     TextInput,
+    ToastAndroid,
 
 
 } from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
-
+import Signup2 from '../views/signupaddress'
 
 //TODO do an email verification - send user email
 //TODO do a first name and last name and don't do the email or password
@@ -27,8 +28,10 @@ export default class Signup extends Component {
         super(props);
 
         this.state = {
-            name: "",
-            contactNumber: ''
+            fname: null,
+            lname: null,
+            contactNumber: null,
+            username: null
         };
 
         this.goLogin = this.goLogin.bind(this);
@@ -40,7 +43,11 @@ export default class Signup extends Component {
     }
 
     next (){
-        this.props.navigator.push({id: 'Signup2'});
+        if (this.state.fname !==null && this.state.lname !== null && this.state.contactNumber !== null && this.state.username !== null) {
+            this.props.navigator.push({id: 'Signup2'});
+        } else {
+            ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
+        }
     }
 
     render(){
@@ -62,7 +69,7 @@ export default class Signup extends Component {
                         height: '100%',
                         justifyContent: 'flex-end',
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/qtq50-2cmvAT-1024x769.jpeg'}}
+                    source={{ uri: 'https://static.pexels.com/photos/38867/pexels-photo-38867.jpeg'}}
                 />
 
                 <Image
@@ -79,39 +86,43 @@ export default class Signup extends Component {
                     }}
                     source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
                 />
-
+                <Text style = {styles.topText}>
+                    Please verify your email address by responding to our verification in your inbox
+                </Text>
 
                 <TextInput
-                    placeholder="Email"
+                    placeholder=" First Name"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="next"
                     keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    underlineColorAndroid={'transparent'}
                     style= { styles.inputBox}
-                    onChangeText={(email) => this.setState({email})}
+                    onChangeText={(fname) => this.setState({fname})}
 
                 />
 
                 <TextInput
-                    placeholder="Verify Password"
+                    placeholder="Last Name"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
-                    secureTextEntry={true}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    underlineColorAndroid={'transparent'}
                     style= { styles.inputBox}
-                    onChangeText={(password) => this.setState({password})}
+                    onChangeText={(lname) => this.setState({lname})}
                 />
+
                 <TextInput
-                    placeholder="Name"
+                    placeholder="Username"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
-
                     autoCapitalize="none"
                     autoCorrect={false}
+                    underlineColorAndroid={'transparent'}
                     style= { styles.inputBox}
-                    onChangeText={(name) => this.setState({name})}
+                    onChangeText={(username) => this.setState({username})}
                 />
 
 
@@ -125,7 +136,7 @@ export default class Signup extends Component {
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
-                    onChangeText={( contactnumber) => this.setState({ contactnumber})}
+                    onChangeText={( contactNumber) => this.setState({ contactNumber})}
                 />
 
 
@@ -215,7 +226,7 @@ const styles = StyleSheet.create({
     },
     //Forgot password
     SignIntext: {
-        fontSize: 20,
+        fontSize: 16,
         textAlign: 'center',
         margin: 10,
         color: "#ffffff",
@@ -223,8 +234,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         bottom: -50,
         right: -20,
-        paddingVertical:0,
-
+        paddingVertical:0
     },
     SignIntextbox: {
         margin: 10,
@@ -235,9 +245,8 @@ const styles = StyleSheet.create({
         paddingVertical:0,
     },
     SignIntextboxtext:{
-        fontSize: 20,
+        fontSize: 18,
         color: "blue",
-        textDecorationLine: 'underline'
     },
 
     instructions: {
@@ -295,8 +304,9 @@ const styles = StyleSheet.create({
 
     inputBox: {
         width:300,
-        height: 40,
-        backgroundColor:'black',
+        height: 50,
+        backgroundColor:'#666666',
+        opacity: 10,
         borderRadius: 25,
         paddingHorizontal:16,
         fontSize:16,
@@ -305,10 +315,18 @@ const styles = StyleSheet.create({
     },
     button: {
         width:150,
-        backgroundColor:'#c84d55',
+        backgroundColor:'#2b98f0',
         borderRadius: 25,
         marginVertical: 10,
         paddingVertical: 13
+    },
+    topText: {
+        fontSize:14,
+        fontWeight:'200',
+        color:'red',
+        textAlign:'center',
+        flex: -100,
+
     },
     buttonText: {
         fontSize:16,

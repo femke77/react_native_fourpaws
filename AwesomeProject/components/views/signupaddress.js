@@ -10,33 +10,43 @@ import {
     TouchableOpacity,
     StatusBar,
     TextInput,
+    ToastAndroid
 
 
 } from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
+//do i need to import signup for goback?
 
 
-
-export default class Signup extends Component {
+export default class Signupaddress extends Component {
 
     constructor(props){
         super(props);
 
         this.state ={
-            address: '',
-            city: '',
-            state: '',
-            zipcode: ''
-        }
+            address: null,
+            city: null,
+            state: null,
+            zipcode: null
+        };
 
+        this.navHome = this.navHome.bind(this);
+        this.goBack = this.goBack.bind(this);
 
     }
 
     navHome(){
-        this.props.navigator.push({id:'Home'})
+        if (this.state.address !==null && this.state.city !== null && this.state.state !== null && this.state.zipcode !==null) {
+            this.props.navigator.push({id: 'Home'});
+        }else {
+            ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
+        }
+
     }
 
-
+    goBack(){
+        this.props.navigator.push({id:'Signup'})
+    }
 
     render(){
         const resizeMode = 'cover';
@@ -57,7 +67,7 @@ export default class Signup extends Component {
                         height: '100%',
                         justifyContent: 'flex-end',
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/qtq50-2cmvAT-1024x769.jpeg'}}
+                    source={{ uri: 'https://static.pexels.com/photos/38867/pexels-photo-38867.jpeg'}}
                 />
 
                 <Image
@@ -77,31 +87,34 @@ export default class Signup extends Component {
 
 
                 <TextInput
-                    placeholder="address"
+                    placeholder=" Address"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="next"
-                    keyboardType= "address"
+                    keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    underlineColorAndroid={'transparent'}
                     style= { styles.inputBox}
                     onChangeText={(address) => this.setState({address})}
 
                 />
 
                 <TextInput
-                    placeholder="city"
+                    placeholder="City"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
+                    secureTextEntry
                     autoCapitalize="none"
                     autoCorrect={false}
+                    underlineColorAndroid={'transparent'}
                     style= { styles.inputBox}
                     onChangeText={(city) => this.setState({city})}
                 />
                 <TextInput
-                    placeholder="state"
+                    placeholder="State"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
-
+                    underlineColorAndroid={'transparent'}
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
@@ -111,26 +124,31 @@ export default class Signup extends Component {
 
 
                 <TextInput
-                    placeholder=" zipcode"
-                    keyboardType="numeric"
+                    placeholder=" Zipcode"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
+                    keyboardType="numeric"
                     maxLength={5}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    underlineColorAndroid={'transparent'}
                     style= { styles.inputBox}
                     onChangeText={( zipcode) => this.setState({ zipcode})}
                 />
 
 
-
-                <TouchableOpacity style= {styles.button}>
-
-                    <Text style= {styles.buttonText} onPress={()=> this.navHome()}> Create Account </Text>
-
-
-                </TouchableOpacity>
-
+                <View style={ {flexDirection:'row',marginTop:20}}>
+                    <View style={ {margin:10}}>
+                        <TouchableOpacity style= {styles.button}>
+                            <Text style= {styles.buttonText}onPress={this.goBack}> Previous</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={ {margin:10}}>
+                        <TouchableOpacity style= {styles.button}>
+                            <Text style= {styles.buttonText}onPress={this.navHome}> Sign Up</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 <View>
 
                     <Text style={styles.bottomtext}>
@@ -138,6 +156,8 @@ export default class Signup extends Component {
                         Copyright © 2017 Four Paws
                     </Text>
                 </View>
+
+
 
 
 
@@ -209,7 +229,7 @@ const styles = StyleSheet.create({
     },
     //Forgot password
     SignIntext: {
-        fontSize: 20,
+        fontSize: 16,
         textAlign: 'center',
         margin: 10,
         color: "#ffffff",
@@ -228,7 +248,7 @@ const styles = StyleSheet.create({
         paddingVertical:0,
     },
     SignIntextboxtext:{
-        fontSize: 20,
+        fontSize: 18,
         color: "blue",
     },
 
@@ -287,8 +307,8 @@ const styles = StyleSheet.create({
 
     inputBox: {
         width:300,
-        height: 40,
-        backgroundColor:'black',
+        height: 50,
+        backgroundColor:'#666666',
         borderRadius: 25,
         paddingHorizontal:16,
         fontSize:16,
@@ -296,8 +316,8 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     button: {
-        width:150,
-        backgroundColor:'#c84d55',
+        width:140,
+        backgroundColor:'#2b98f0',
         borderRadius: 25,
         marginVertical: 10,
         paddingVertical: 13
