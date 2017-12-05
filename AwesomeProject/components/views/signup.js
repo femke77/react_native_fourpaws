@@ -36,6 +36,7 @@ export default class Signup extends Component {
 
         this.goLogin = this.goLogin.bind(this);
         this.next = this.next.bind(this);
+        this.checkPhoneLen = this.checkPhoneLen.bind(this);
     }
 
     goLogin(){
@@ -47,6 +48,15 @@ export default class Signup extends Component {
             this.props.navigator.push({id: 'Signup2'});
         } else {
             ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
+        }
+    }
+
+    checkPhoneLen(contactNumber){
+        const length = 10;
+        if (contactNumber  < 10){
+            alert("Invalid phone entry")
+        } else {
+            this.next();
         }
     }
 
@@ -141,13 +151,13 @@ export default class Signup extends Component {
 
 
 
-                <TouchableOpacity style= {styles.button} onPress={this.next}>
+                <TouchableOpacity style= {styles.button} onPress={()=>this.checkPhoneLen(this.state.contactNumber)}>
                     <Text style= {styles.buttonText} > Next </Text>
                 </TouchableOpacity>
 
                 <View>
                     <Text style= {styles.SignIntext}> Have account?</Text>
-                    <TouchableOpacity style= {styles.SignIntextbox} onPress={this.goLogin}>
+                    <TouchableOpacity style= {styles.SignIntextbox} onPress={()=>this.goLogin()}>
                         <Text style= {styles.SignIntextboxtext}>Login Here</Text>
                     </TouchableOpacity>
                     <Text style={styles.bottomtext}>
