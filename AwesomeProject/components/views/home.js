@@ -81,7 +81,6 @@ export default class Home extends Component {
                             .......
                         </Text>
                         <Text style={styles.text13}>
-                            Whats up
                         </Text>
                     </View>
                     {/* Third tab */}
