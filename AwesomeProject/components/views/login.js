@@ -141,7 +141,7 @@ export default class Login extends Component {
                         width: 170,
                         height: 100,
                         justifyContent: 'flex-end',
-                        top: 100,
+                        top: 60,
                         paddingVertical:50
                     }}
                     source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}

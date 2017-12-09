@@ -17,7 +17,8 @@ import {
 import Prompt from 'react-native-prompt';
 import CalendarPicker from 'react-native-calendar-picker';
 import Calendar from 'react-native-calendar-select';
-export default class App extends Component {
+
+export default class Calendars extends Component {
     constructor (props) {
         super(props);
         this.state = {

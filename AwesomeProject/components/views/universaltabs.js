@@ -25,15 +25,13 @@ import Profile_Information from './Profile_Information';
 
 import StarRating from 'react-native-star-rating';
 import UserPic from './UserPic';
-import Mapviews from './MapComponents/Mapview.js'
-import PriceMarker from './MapComponents/AmountTag.js'
+import Mapviews from './Mapview.js'
+import PriceMarker from './AmountTag.js'
 import Icon from 'react-native-vector-icons/EvilIcons'
-import {OffCanvas3D} from 'react-native-off-canvas-menu'
-
-
-
-
 import MapView from 'react-native-maps';
+import Calendars from "./calendar";
+
+
 
 const SideMenu = require('react-native-side-menu');
 
@@ -84,9 +82,8 @@ export default class Universaltabs extends Component {
                                 height: '100%',
                                 justifyContent: 'flex-end',
                             }}
-                            source={{ uri: 'http://www.clker.com/cliparts/0/5/9/1/1430368724442417087yellow%20orange%20peach%20pink%20blur%20wallpaper%20android%20background%20mixed%20combiantion%20plus%20radiant%20gradient.jpg'}}
-                        />
-
+                            source={require('../images/bluebackground1-1024x640.png')}
+                            />
                         <View>
                             <UserPic/>
                         </View>
@@ -111,15 +108,10 @@ export default class Universaltabs extends Component {
                                 height: '100%',
                                 justifyContent: 'flex-end',
                             }}
-                            source={{ uri: 'http://www.clker.com/cliparts/0/5/9/1/1430368724442417087yellow%20orange%20peach%20pink%20blur%20wallpaper%20android%20background%20mixed%20combiantion%20plus%20radiant%20gradient.jpg'}}
+                            source={require('../images/bluebackground1-1024x640.png')}
                         />
 
-                        <Text style={styles.header13}>
-                            You have no appointments
-                        </Text>
-                        <Text style={styles.text13}>
-                            Planning of adding a list with option to add to google calendar
-                        </Text>
+                        <Calendars/>
                     </View>
                     {/* Third tab */}
                     <View title="Favorite pet keeper" style={styles.content13}>
@@ -132,14 +124,9 @@ export default class Universaltabs extends Component {
                                 height: '100%',
                                 justifyContent: 'flex-end',
                             }}
-                            source={{ uri: 'http://www.clker.com/cliparts/0/5/9/1/1430368724442417087yellow%20orange%20peach%20pink%20blur%20wallpaper%20android%20background%20mixed%20combiantion%20plus%20radiant%20gradient.jpg'}}
+                            source={require('../images/bluebackground1-1024x640.png')}
                         />
-                        <Text style={styles.header13}>
-                            Coming Soon
-                        </Text>
-                        <Text style={styles.text13}>
-                            Hopefully by next sprint
-                        </Text>
+                        
                     </View>
                     {/* Fourth tab */}
                     <View title="User Search" style={styles.content13}>
@@ -300,17 +287,7 @@ const styles = StyleSheet.create({
 
 });
 
-class Application extends React.Component {
-    render() {
-        const menu = <Menu navigator={navigator}/>;
 
-        return (
-            <SideMenu menu={menu}>
-                <Universaltabs/>
-            </SideMenu>
-        );
-    }
-}
 
 
 

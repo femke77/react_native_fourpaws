@@ -11,7 +11,7 @@ import {
 
 import MapView from 'react-native-maps';
 
-import PriceMarker from './AmountTag.js'
+import PriceMarker from '../../components/views/AmountTag.js'
 let id = 0;
 
 const {width,height} = Dimensions.get('window')
