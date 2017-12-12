@@ -15,7 +15,6 @@ import {
     ToastAndroid
 } from 'react-native';
 import Prompt from 'react-native-prompt';
-import CalendarPicker from 'react-native-calendar-picker';
 import Calendar from 'react-native-calendar-select';
 export default class App extends Component {
     constructor (props) {
@@ -102,11 +101,12 @@ export default class App extends Component {
                         {this.state.message}
                     </Text>
                 </View>
-                <Prompt
+                <Prompt style={styles.container13}
                     title="Add event"
                     placeholder="add a description"
                     //defaultValue="New Event"
                     visible={this.state.promptVisible}
+
                     onCancel={() => this.setState({ promptVisible: false, message: "No event for now" })}
                     onSubmit={(value) => this.setState({ promptVisible: false, message: `Event: "${value}"` })}/>
             </View>
@@ -115,4 +115,18 @@ export default class App extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+
+    container13: {
+       backgroundColor: 'white'                            // Take up all screen
+
+    },
+        textPrompt: {
+        color: 'white'
+    }
+
+
+
+});
 

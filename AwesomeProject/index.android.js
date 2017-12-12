@@ -81,7 +81,7 @@ export default class AwesomeProject extends Component {
         render() {
             if (this.state.userLoaded) {
                 return (
-                    <Navigator initialRoute={{id: this.state.initialView}}
+                    <Navigator initialRoute={{id: 'Login'}}
                                renderScene={this.renderScene}/>
                 );
             } else {

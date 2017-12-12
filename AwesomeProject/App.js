@@ -13,13 +13,14 @@ import {
 } from 'react-native';
 //Testing 1
 
-import Universaltabs from './TestingComponents/universaltabs';
+import Universaltabs from './components/views/universaltabs';
 import Login from './components/views/login';
-import Mapviews from './TestingComponents/MapComponents/Mapview';
-import Profile_Information from './TestingComponents/Profile_Information';
-import UserPic from "./TestingComponents/UserPic";
-import OffCanvasReveal from "./TestingComponents/Menu";
-import List from "./TestingComponents/ListView";
+import Mapviews from './components/views/Mapview';
+import Profile_Information from './components/views/Profile_Information';
+import UserPic from "./components/views/UserPic";
+
+import List from "./components/views/ListView";
+import AwesomeProject from "./index.android";
 
 
 
@@ -33,7 +34,7 @@ const instructions = Platform.select({
 export default class App extends Component {
   render() {
     return (
-      <Universaltabs/>
+      <AwesomeProject/>
     );
   }
 }

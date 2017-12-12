@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
 
+
 class List extends Component {
     state = {
         names: [
@@ -8,7 +9,7 @@ class List extends Component {
                 id: 0,
                 name: 'Alison',
                 review: " I loved the service that fourpaws provide and the pet keeper was amazing! ",
-                image: { "url": "https://static.pexels.com/photos/324658/pexels-photo-324658.jpeg" },
+                image:  { "uri": "https://static.pexels.com/photos/324658/pexels-photo-324658.jpeg" },
             },
             {
                 id: 1,
@@ -65,28 +66,31 @@ class List extends Component {
         return (
 
             <View>
+
                 <ScrollView style={styles.container36}>
-                {
-                    this.state.names.map((item, index) => (
-                        <TouchableOpacity
-                            key = {item.id}
-                            style = {styles.container}
-                            onPress = {() => this.alertItemName(item)}>
+                    {
+                        this.state.names.map((item, index) => (
+                            <TouchableOpacity
+                                key = {item.id}
+                                style = {styles.container}
+                                onPress = {() => this.alertItemName(item)}>
 
-                            <Image style={styles.image}>
-                                source={{ uri: item.image }}
-                            </Image>
+                                <Image style={styles.image}>
+                                    source={{ uri: item.image }}
+                                </Image>
 
-                            <Text style = {styles.text}>
-                                {item.name}
-                            </Text>
-                            <Text style = {styles.text2}>
-                                {item.review}
-                            </Text>
-                        </TouchableOpacity>
-                    ))
-                }
+                                <Text style = {styles.text}>
+                                    {item.name}
+                                </Text>
+                                <Text style = {styles.text2}>
+                                    {item.review}
+                                </Text>
+                            </TouchableOpacity>
+                        ))
+                    }
                 </ScrollView>
+
+
             </View>
 
         )
@@ -99,24 +103,33 @@ const styles = StyleSheet.create ({
         padding: 20,
 
         marginTop: 5,
-        backgroundColor: '#d9f9b1',
+        backgroundColor: '#fffff9',
         alignItems: 'center',
         width: 350,
+        borderWidth:3,
+        opacity: 0.8,
+
 
     },
     text: {
-        color: '#4f603c',
+        color: '#000000',
         top: -10,
+        textDecorationLine: 'underline',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 20,
     },
     container36: {
-        paddingBottom: 245,
+        paddingBottom: 260,
         paddingTop: 5,
         width: 350,
         height: 0,
     },
     text2: {
-        color: '#176007',
+        color: '#ff7500',
         top: -10,
+        textAlign: 'center',
+        fontSize: 15,
     },
     image: {
         width:10,

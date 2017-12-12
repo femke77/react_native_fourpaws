@@ -15,7 +15,6 @@ import {
 
 import Tabs from './tabs';
 import UserPic from './UserPic';
-
 import {RkStyle, RkTabView, RkText,RkTheme} from 'react-native-ui-kitten';
 import List from "./ListView";
 
@@ -26,8 +25,9 @@ export default class Profile_Information extends Component {
 
     render() {
         let renderTab = (isSelected, title, value) => {
-            let backgroundColor = isSelected ? '#d91e18' : 'white';
+            let backgroundColor = isSelected ? '#ff7a00' : 'white';
             let color = (!isSelected) ? '#d91e18' : 'white';
+            let opacity= (!isSelected) ? 0.7 : 1;
             return (
 
                 <View
@@ -42,6 +42,7 @@ export default class Profile_Information extends Component {
                         bottom: 3,
                         width: 108,
                         borderRadius: 100,
+                        opacity,
 
 
 
@@ -52,7 +53,7 @@ export default class Profile_Information extends Component {
         };
         return (
 
-                <View style={styles.NewTab}>
+            <View style={styles.NewTab}>
                 <RkTabView rkType='rounded'>
                     <RkTabView.Tab title={(selected) => {
                         return renderTab(selected, 'Reviews');
@@ -73,7 +74,7 @@ export default class Profile_Information extends Component {
                     </RkTabView.Tab>
                 </RkTabView>
 
-                </View>
+            </View>
         );
     }
 }
@@ -151,7 +152,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     NewTab: {
-        top: 200,
+        top: 180,
+
 
     },
 
@@ -162,8 +164,8 @@ const styles = StyleSheet.create({
 RkTheme.setType('RkTabView', 'rounded', {
     flex: 2,
     backgroundColor: 'transparent',
-    color: '#fff',
-    borderColor: '#4a636d',
+    color: '#ffffff',
+    borderColor: '#192229',
     tabContainer: {
         padding: 2,
         borderRadius: 360,
