@@ -15,7 +15,7 @@ import {
 
 } from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
-//do i need to import signup for goback?
+
 
 
 export default class Signupaddress extends Component {
@@ -32,7 +32,7 @@ export default class Signupaddress extends Component {
 
         this.navHome = this.navHome.bind(this);
         this.goBack = this.goBack.bind(this);
-
+        this.checkZipLen = this.checkZipLen.bind(this);
     }
 
     navHome(){
@@ -46,6 +46,15 @@ export default class Signupaddress extends Component {
 
     goBack(){
         this.props.navigator.push({id:'Signup'})
+    }
+
+    checkZipLen(zipcode){
+        const length = 10;
+        if (zipcode  < 5){
+            alert("Invalid zipcode entry")
+        } else {
+            this.navHome();
+        }
     }
 
     render(){
@@ -140,12 +149,12 @@ export default class Signupaddress extends Component {
                 <View style={ {flexDirection:'row',marginTop:20}}>
                     <View style={ {margin:10}}>
                         <TouchableOpacity style= {styles.button}>
-                            <Text style= {styles.buttonText}onPress={this.goBack}> Previous</Text>
+                            <Text style= {styles.buttonText}onPress={()=> this.goBack()}> Previous</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={ {margin:10}}>
                         <TouchableOpacity style= {styles.button}>
-                            <Text style= {styles.buttonText}onPress={this.navHome}> Sign Up</Text>
+                            <Text style= {styles.buttonText}onPress={()=> this.navHome()}> Sign Up</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
