@@ -38,45 +38,41 @@ export default class Mapviews extends Component {
 
     }
 
-    watchID: ?number = null
-
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition((position) => {
-                var lat = parseFloat(position.coords.latitude)
-                var long = parseFloat(position.coords.longitude)
-
-                var initialRegion2 = {
-                    latitude: lat,
-                    longitude: long,
-                    latitudeDelta: LATTITUDE_DELTA,
-                    longitudeDelta: LONGITUDE_DELTA,
-                }
-                this.setState({initialRegion: initialRegion2})
-
-            },
-            (error) => alert(JSON.stringify(error)),
-            {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000})
-        this.watchID = navigator.geolocation.watchPosition((position) => {
-            var lat = parseFloat(position.coords.latitude)
-            var long = parseFloat(position.coords.longitude)
-
-            var RegionLast = {
-                latitude: lat,
-                longitude: long,
-                latitudeDelta: LATTITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA,
-            }
-            this.setState({initialRegion: RegionLast})
-        })
-    }
-    componentWillUnmount(){
-
-            navigator.geolocation.clearWatch(this.watchID )
-        }
-
-
-
-
+    // watchID: ?number = null
+    //
+    // componentDidMount() {
+    //     navigator.geolocation.getCurrentPosition((position) => {
+    //             var lat = parseFloat(position.coords.latitude)
+    //             var long = parseFloat(position.coords.longitude)
+    //
+    //             var initialRegion2 = {
+    //                 latitude: lat,
+    //                 longitude: long,
+    //                 latitudeDelta: LATTITUDE_DELTA,
+    //                 longitudeDelta: LONGITUDE_DELTA,
+    //             }
+    //             this.setState({initialRegion: initialRegion2})
+    //
+    //         },
+    //         (error) => alert(JSON.stringify(error)),
+    //         {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000})
+    //     this.watchID = navigator.geolocation.watchPosition((position) => {
+    //         var lat = parseFloat(position.coords.latitude)
+    //         var long = parseFloat(position.coords.longitude)
+    //
+    //         var RegionLast = {
+    //             latitude: lat,
+    //             longitude: long,
+    //             latitudeDelta: LATTITUDE_DELTA,
+    //             longitudeDelta: LONGITUDE_DELTA,
+    //         }
+    //         this.setState({initialRegion: RegionLast})
+    //     })
+    // }
+    // componentWillUnmount(){
+    //
+    //         navigator.geolocation.clearWatch(this.watchID )
+    //     }
 
 
     onRegionChange(initialRegion) {

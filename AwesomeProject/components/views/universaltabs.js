@@ -96,11 +96,11 @@ export default class Universaltabs extends Component {
 
                         <Profile_Information/>
 
-                    </View>
+            </View>
 
 
 
-                    {/* Second tab */}
+    {/* Second tab */}
                     <View title="Upcoming appointments" style={styles.content13}>
                         <Image
                             style={{backgroundColor: '#ccc',
