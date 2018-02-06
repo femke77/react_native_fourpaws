@@ -17,7 +17,7 @@ import Tabs from '../styles/tabs';
 import * as firebase from "firebase";
 import Login from './login.js';
 import {GoogleSignin} from 'react-native-google-signin'
-
+import Universaltabs from './universaltabs.js';
 
 export default class Home extends Component {
 
@@ -48,59 +48,18 @@ export default class Home extends Component {
     render() {
 
         return (
-
-
             <View style={styles.container13}>
-                <Tabs >
-                    {/* First tab */}
-                    <View title="User Profile" style={styles.content13}>
-                        <Text style={styles.header13}>
-                            Welcome User
-                        </Text>
-                        <Text style={styles.text13}>
-
-                        </Text>
-
-                        <Button onPress={()=>{this.logout()}}
-                                title={"Log Out  "}/>
-                        <Button onPress={()=>{this.googleSignOut()}}
-                                title={"Revoke Google Auth and Logout "}/>
-                    </View>
-                    {/* Second tab */}
-                    <View title="Upcoming appointments" style={styles.content13}>
-                        <Text style={styles.header13}>
-                            You have no appointments
-                        </Text>
-                        <Text style={styles.text13}>
-                            Planning of adding a list with option to add to google calendar
-                        </Text>
-                    </View>
-                    {/* Third tab */}
-                    <View title="Favorite pet keeper" style={styles.content13}>
-                        <Text style={styles.header13}>
-                            .......
-                        </Text>
-                        <Text style={styles.text13}>
-                            Whats up
-                        </Text>
-                    </View>
-                    {/* Third tab */}
-                    <View title="User Search" style={styles.content13}>
-                        <Text style={styles.header13}>
-                            Search Google maps
-                        </Text>
-                        <Text style={styles.text13}>
-                            No code found in the file
-                        </Text>
-                    </View>
-
-                </Tabs>
+                <Universaltabs/>
             </View>
         );
 
 
     }
 }
+
+
+
+
 const styles = StyleSheet.create({
 // App container
     container13: {
