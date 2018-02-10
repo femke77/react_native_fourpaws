@@ -45,7 +45,7 @@ export default class Home extends Component {
         }).done();
     }
 
-    render() {
+    render() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 
         return (
 

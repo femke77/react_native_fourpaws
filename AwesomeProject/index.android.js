@@ -49,7 +49,7 @@ export default class AwesomeProject extends Component {
 
         getInitialView() {
             firebase.auth().onAuthStateChanged((user) => {
-                let initialView = user ? "Home" : "Login";
+                let initialView = user ? "Home" : "Login"; //TODO SIGNUP CHANGE BACK TO 'HOME'
                 this.setState({
                     userLoaded: true,
                     initialView: initialView
