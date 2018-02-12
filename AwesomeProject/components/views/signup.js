@@ -20,8 +20,7 @@ import Database from '../firebase/database';
 
 
 //TODO do an email verification - send user email
-//TODO need to dismiss keyboard properly in thie and signupaddress.js
-//TODO fix binding
+
 
 export default class Signup extends Component {
 

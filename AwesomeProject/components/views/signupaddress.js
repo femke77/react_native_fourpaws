@@ -14,6 +14,7 @@ import {
 
 
 } from 'react-native';
+import dismissKeyboard from 'react-native-dismiss-keyboard';
 import {Navigator} from 'react-native-deprecated-custom-components';
 import Database from '../firebase/database';
 import * as firebase from "firebase";
@@ -62,7 +63,8 @@ export default class Signupaddress extends Component {
     }
 
     goBack(){
-        this.props.navigator.push({id:'Signup'})
+        this.props.navigator.push({id:'Signup'});
+        dismissKeyboard();
     }
 
     checkZipLen(zipcode){
