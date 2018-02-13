@@ -32,7 +32,7 @@ export default class UserPic extends Component {
                                             height: 100,
                                             top:35,
 
-                                            right: 130,
+                                            right: 150,
                                             //paddingVertical:-10,
                                             borderColor: 'white',
                                             borderRadius: 100/2,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         top: 135, // Center
         fontFamily: 'Avenir',
         fontSize: 25,
-        right: -120 ,
+        right: -150 ,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
 

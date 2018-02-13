@@ -23,12 +23,11 @@ import {
 import Tabs from './tabs';
 import Profile_Information from './Profile_Information';
 
-import StarRating from 'react-native-star-rating';
+
 import UserPic from './UserPic';
 
 
-import Icon from 'react-native-vector-icons/EvilIcons'
-import MapView from 'react-native-maps';
+
 import Mapviews from "./Mapview";
 import Calendars from "./calendar";
 import FavoritePetKeeper from "./favoritepetkeeper";
@@ -96,11 +95,11 @@ export default class Universaltabs extends Component {
 
                         <Profile_Information/>
 
-                    </View>
+            </View>
 
 
 
-                    {/* Second tab */}
+    {/* Second tab */}
                     <View title="Upcoming appointments" style={styles.content13}>
                         <Image
                             style={{backgroundColor: '#ccc',
