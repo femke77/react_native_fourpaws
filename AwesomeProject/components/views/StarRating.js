@@ -61,27 +61,27 @@ export default class Starrating extends Component {
                     maxStars={5}
                     /*rating={this.state.generalStarCount}
                     selectedStar={(rating) => this.onGeneralStarRatingPress(rating)}*/
-                />
+ /*               />
                 <Text style={styles.welcome}>
                     General Star Demo
                 </Text>
 
                 <StarRating
-                    disabled={false}
+                    disabled={false};
                     emptyStar={'ios-star-outline'}
                     fullStar={'ios-star'}
                     halfStar={'ios-star-half'}
                     iconSet={'Ionicons'}
                     maxStars={5}
                    /* rating={this.state.customStarCount}
-                    selectedStar={(rating) => this.onCustomStarRatingPress(rating)}*/
+                    selectedStar={(rating) => this.onCustomStarRatingPress(rating)}
                     starColor={'red'}
                     emptyStarColor={'blue'}
                 />
             </View>
         );
-    }
+    }*/
 }
 
-AppRegistry.registerComponent('Starrating', () => Starrating);
+//AppRegistry.registerComponent('Starrating', () => Starrating);
 
