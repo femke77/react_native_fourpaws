@@ -24,7 +24,8 @@ import {GoogleSignin} from 'react-native-google-signin'
 //TODO put a space between the buttons, or side by side?
 //TODO TEST all the firebase oodes and customize them as needed.
 //TODO fix the google button because the onPress active range is way outside the actual button (whole container)
-//TODO dismissKeyboard() needs to be looked at... what is it doing?
+//TODO need forgot password functionality
+//TODO fix arrow functions in render? or remove binding in constructor
 
 export default class Login extends Component {
 
@@ -47,6 +48,7 @@ export default class Login extends Component {
     }
 
     //current scope is set to example (google drive) default is email and profile
+    //change to DidMount()
     componentWillMount(){
         GoogleSignin.hasPlayServices({autoResolve: true});
         GoogleSignin.configure({
@@ -85,7 +87,7 @@ export default class Login extends Component {
             const credential = provider.credential(idToken);
             const data = await firebase.auth().signInWithCredential(credential);
 
-            //idToken contains the basic information about the google user
+            //idToken contains the basic information about the google user - needsd to be send to DB
             const user = {
                 mail: data.email,
                 photoURL: data.photoURL,
@@ -112,7 +114,6 @@ export default class Login extends Component {
                 }, 1500);
 
             } catch (error) {
-                let errorCode = error.code;
                 let errorMessage = error.message;
                 alert(errorMessage);
             }
@@ -124,8 +125,9 @@ export default class Login extends Component {
 
     async login() {
         dismissKeyboard();
-        try {
-            await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
+        try {                                   //auth persistence should be .NONE in production
+            await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
+            [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
 
             setTimeout(() => {
                 this.props.navigator.push({
@@ -134,7 +136,6 @@ export default class Login extends Component {
             }, 1500);
 
         } catch (error) {
-            let errorCode = error.code;
             let errorMessage = error.message;
             alert(errorMessage);
         }
@@ -145,10 +146,10 @@ export default class Login extends Component {
                 firebase.auth().sendPasswordResetEmail(email).then(function() {
                    alert("Password reset link has been sent to email");
                }).catch(function(error){
-                    let errorCode = error.code;
+
                     let errorMessage = error.message;
                     alert(errorMessage);
-                }).done();
+                });
         } else {
         alert("Not a valid email");
         }
