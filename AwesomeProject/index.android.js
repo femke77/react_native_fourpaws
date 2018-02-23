@@ -32,6 +32,7 @@ export default class AwesomeProject extends Component {
 
     constructor(props) {
         super(props);
+        console.disableYellowBox = true;
 
         //for hot reloading: check if firebase is already initialized
         if (!firebase.apps.length) {
@@ -49,7 +50,7 @@ export default class AwesomeProject extends Component {
 
         getInitialView() {
             firebase.auth().onAuthStateChanged((user) => {
-                let initialView = user ? "Home" : "Login"; //TODO SIGNUP CHANGE BACK TO 'HOME'
+                let initialView = user ? "Home" : "Login";
                 this.setState({
                     userLoaded: true,
                     initialView: initialView
@@ -76,7 +77,7 @@ export default class AwesomeProject extends Component {
                    return (<Upload navigator={navigator}{...route.passProps}/>);
                    break;
             }
-        }
+        };
 
         render() {
             if (this.state.userLoaded) {

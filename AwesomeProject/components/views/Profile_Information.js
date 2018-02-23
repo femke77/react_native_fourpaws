@@ -21,6 +21,9 @@ import List from "./ListView";
 
 export default class Profile_Information extends Component {
 
+    constructor(props){
+        super(props)
+    }
 
 
     render() {

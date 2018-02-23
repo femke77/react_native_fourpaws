@@ -87,6 +87,7 @@ export default class Universaltabs extends Component {
                             }}
                             source={require('../images/bluebackground1-1024x640.png')}
                         />
+
                         <View>
                             <UserPic/>
                         </View>

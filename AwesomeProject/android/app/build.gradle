@@ -142,6 +142,7 @@ dependencies {
     }
     compile 'com.google.android.gms:play-services-auth:10.2.4'
     compile 'com.google.android.gms:play-services-maps:10.2.4'
+
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-maps')

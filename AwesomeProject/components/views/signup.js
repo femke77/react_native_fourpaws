@@ -27,9 +27,7 @@ export default class Signup extends Component {
 
     constructor(props) {
         super(props);
-        console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
-            'Setting a timer'
-        ];
+
 
         this.state = {
             uid: "",
