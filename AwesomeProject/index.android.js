@@ -26,6 +26,7 @@ import Signup from './components/views/signup';
 import Signup2 from './components/views/signupaddress';
 import Upload from './components/tools/upload';
 import * as firebase from 'firebase';
+import Messenger from './components/messenger/App'
 
 export default class AwesomeProject extends Component {
 
