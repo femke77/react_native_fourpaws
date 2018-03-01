@@ -1,67 +1,78 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image, Alert } from 'react-native'
+import Database from '../firebase/database';
+import * as firebase from "firebase";
+
+//TODO only need alert if you force the size of the review boxes to stay the same. Right now they expand to show the whole review anyway so alert is redundant
+//TODO SOME CODE IN HERE IS TO CREATE REVIEWS IN THE FIREBASE DB FIRST .. THIS IS A TEMP SOLUTION UNTIL A PAGE IS CREATED TO REVIEW SOMEONE
+// review id is created automatically by push
 
 
-class List extends Component {
-    state = {
-        names: [
-            {
-                id: 0,
-                name: 'Alison',
-                review: " I loved the service that fourpaws provide and the pet keeper was amazing! ",
-                image:  { "uri": "https://static.pexels.com/photos/324658/pexels-photo-324658.jpeg" },
-            },
-            {
-                id: 1,
-                name: 'Susan',
-                review: " I loved the service that fourpaws provide and the pet keeper was amazing! ",
-                image: { "url": "https://static.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg" },
-            },
-            {
-                id: 2,
-                name: 'Robert',
-                review: " I loved the service that fourpaws provide and the pet keeper was amazing! ",
-                image: { "url": "https://static.pexels.com/photos/220453/pexels-photo-220453.jpeg" },
-            },
-            {
-                id: 3,
-                name: 'Mary',
-                review: " I loved the service that fourpaws provide and the pet keeper was amazing! ",
-                image: { "url": "https://static.pexels.com/photos/324658/pexels-photo-324658.jpeg" },
-            },
 
-            {
-                id: 4,
-                name: 'Mary',
-            },
+export default class List extends Component {
 
-            {
-                id: 5,
-                name: 'Mary',
-            },
-            {
-                id: 6,
-                name: 'Robert',
-            },
-            {
-                id: 7,
-                name: 'Mary',
-            },
 
-            {
-                id: 8,
-                name: 'Mary',
-            },
+    constructor(props) {
+        super(props);
 
-            {
-                id: 9,
-                name: 'End',
-            },
-        ]
+
+        this.state = {
+            names: [],
+            uid: ""
+        };
+
+
+
     }
-    alertItemName = (item) => {
-        alert(item.review)
+
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            this.setState({
+                uid: user.uid,
+            });
+            this.tempWriteToFirebase();
+
+            Database.listenReviews(user.uid, (data)=> {
+            this.setState({
+                names: data
+            })
+            });
+
+        } catch (error) {
+            alert(error);
+        }
     }
+
+
+
+    tempWriteToFirebase ()  {
+
+        Database.setReview(this.state.uid, '','Alison'," I loved the service that fourpaws provide blah blah and the pet keeper was amazing!" +
+            " I loved the service that fourpaws provide blah blah and the pet keeper was amazing! I loved the service " +
+            "that fourpaws provide blah blah and the pet keeper was amazing! ", { "uri": "https://static.pexels.com/photos/324658/pexels-photo-324658.jpeg" },
+            'sDgzGISKnBQ4DmPv9RcJJyineJE2');
+        Database.setReview(this.state.uid, '','Susan'," blah blah and the pet keeper was amazing! I loved the service " +
+            "that fourpaws provide blah blah and the pet keeper was amazing! ", { "url": "https://static.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg"},
+            'vwpfytfNHbPTF24mKL0ggeptT3f1');
+        Database.setReview(this.state.uid, '','Billy'," blah blah and the pet keeper was amazing! I loved the service " +
+            "that fourpaws provide blah blah and the pet keeper was amazing! ", { "url": "https://static.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg"},
+            'vwpfytfNHbPTF24mKL0ggeptT3f1')
+    }
+
+    alertItemName(item) {
+        Alert.alert(
+            item.name + ' says:',
+            item.review,
+            [
+                {text:'OK', onPress: () =>
+                    console.log('ok pressed')},
+            ],
+            {cancelable: true}
+        )
+    }
+
     render() {
         return (
 
@@ -96,7 +107,7 @@ class List extends Component {
         )
     }
 }
-export default List
+
 
 const styles = StyleSheet.create ({
     container: {

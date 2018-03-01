@@ -35,17 +35,51 @@ export default class Database {
         });
     }
 
-  //use this is you need to retrive data and send back to state, need to write callback function in the correct component
-    //use the names that match the database for the snapshot
+    static setReview(userId, id, name, review, image, reviewer_uid){
+        let userPath = "/users/" + userId + "/reviews/";
+        return firebase.database().ref(userPath).push({
+            id: id,
+            name: name,
+            review: review,
+            image: image,
+            reviewer_uid: reviewer_uid
+        });
+    }
+
     static listenUserName(userId, callback) {
         let userPath = "/users/" + userId + "/details";
         firebase.database().ref(userPath).on('value', (snapshot) => {
-            let fname = "";
+            let data = {
+                fname: "",
+                lname: ""
+            };
             if (snapshot.val()) {
-                fname = snapshot.val().first_name;
+                data.fname = snapshot.val().first_name;
+                data.lname = snapshot.val().last_name;
             }
-            callback(fname)
+            callback(data)
         });
     }
+
+    static listenReviews(userId, callback) {
+        let userPath = "/users/" + userId + "/reviews";
+        firebase.database().ref(userPath).on('value', (snapshot) => {
+            let items = [];
+            if (snapshot.val()){
+                snapshot.forEach((child) => {
+                    items.push({
+                        id: child.key,
+                        name: child.val().name,
+                        review: child.val().review,
+                        image: child.val().image,
+                        reviewer_uid: child.val().reviewer_uid
+                    })
+            })}
+
+            callback(items)
+        });
+    }
+
+
 }
 

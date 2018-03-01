@@ -11,17 +11,19 @@ import {
 
 import MapView from 'react-native-maps';
 
-import PriceMarker from './AmountTag.js'
+import PriceMarker from './AmountTag.js';
+
 let id = 0;
 
-const {width,height} = Dimensions.get('window')
+const {width,height} = Dimensions.get('window');
 
-const SCREEN_H= height
-const SCREEN_W= width
-const Ratio = width/height
+const SCREEN_H= height;
+const SCREEN_W= width;
+const Ratio = width/height;
 
-const LATTITUDE_DELTA = 0.0922
-const LONGITUDE_DELTA = 0.0421
+const LATTITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = 0.0421;
+
 export default class Mapviews extends Component {
     constructor(props) {
         super(props);

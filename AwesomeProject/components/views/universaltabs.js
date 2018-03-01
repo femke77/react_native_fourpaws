@@ -32,6 +32,7 @@ import MapView from 'react-native-maps';
 import Mapviews from "./Mapview";
 import Calendars from "./calendar";
 import FavoritePetKeeper from "./favoritepetkeeper";
+import Messenger from "../messenger/App";
 
 
 
@@ -87,6 +88,7 @@ export default class Universaltabs extends Component {
                             }}
                             source={require('../images/bluebackground1-1024x640.png')}
                         />
+
                         <View>
                             <UserPic/>
                         </View>
@@ -135,6 +137,12 @@ export default class Universaltabs extends Component {
 
                     </View>
                     {/* Fourth tab */}
+                    <View title="Messenger" style={styles.container13}>
+
+                        <Messenger/>
+
+                    </View>
+                    {/* Fifth tab */}
                     <View title="User Search" style={styles.content13}>
 
                         <Mapviews/>

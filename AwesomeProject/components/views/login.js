@@ -125,8 +125,8 @@ export default class Login extends Component {
 
     async login() {
         dismissKeyboard();
-        try {                                   //auth persistence should be .NONE in production
-            await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
+        try {                                   //auth persistence should be .NONE in production and .LOCAL for dev
+            await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)],
             [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
 
             setTimeout(() => {
