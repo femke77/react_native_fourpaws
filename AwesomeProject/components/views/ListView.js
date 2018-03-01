@@ -5,7 +5,7 @@ import * as firebase from "firebase";
 
 //TODO only need alert if you force the size of the review boxes to stay the same. Right now they expand to show the whole review anyway so alert is redundant
 //TODO SOME CODE IN HERE IS TO CREATE REVIEWS IN THE FIREBASE DB FIRST .. THIS IS A TEMP SOLUTION UNTIL A PAGE IS CREATED TO REVIEW SOMEONE
-// review id is created automatically by push
+//TODO id in database is blank but IS sent correctly to List, not going to fix this until the reviews are done the final way
 
 
 
@@ -32,7 +32,6 @@ export default class List extends Component {
             this.setState({
                 uid: user.uid,
             });
-            this.tempWriteToFirebase();
 
             Database.listenReviews(user.uid, (data)=> {
             this.setState({
@@ -46,20 +45,6 @@ export default class List extends Component {
     }
 
 
-
-    tempWriteToFirebase ()  {
-
-        Database.setReview(this.state.uid, '','Alison'," I loved the service that fourpaws provide blah blah and the pet keeper was amazing!" +
-            " I loved the service that fourpaws provide blah blah and the pet keeper was amazing! I loved the service " +
-            "that fourpaws provide blah blah and the pet keeper was amazing! ", { "uri": "https://static.pexels.com/photos/324658/pexels-photo-324658.jpeg" },
-            'sDgzGISKnBQ4DmPv9RcJJyineJE2');
-        Database.setReview(this.state.uid, '','Susan'," blah blah and the pet keeper was amazing! I loved the service " +
-            "that fourpaws provide blah blah and the pet keeper was amazing! ", { "url": "https://static.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg"},
-            'vwpfytfNHbPTF24mKL0ggeptT3f1');
-        Database.setReview(this.state.uid, '','Billy'," blah blah and the pet keeper was amazing! I loved the service " +
-            "that fourpaws provide blah blah and the pet keeper was amazing! ", { "url": "https://static.pexels.com/photos/38554/girl-people-landscape-sun-38554.jpeg"},
-            'vwpfytfNHbPTF24mKL0ggeptT3f1')
-    }
 
     alertItemName(item) {
         Alert.alert(

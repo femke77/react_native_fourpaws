@@ -19,13 +19,25 @@ import {
 
 import Tabs from '../styles/tabs';
 import * as firebase from "firebase";
+import Database from '../firebase/database.js'
 import Login from './login.js';
 
 
 import Swipeout from 'react-native-swipeout';
 import testData from '../data/testData.js';
 
+import Database from '../firebase/database';
+import * as firebase from "firebase";
+
+
+//TODO Going to need a temp fuction to set up favorite users in database, going to then need to pull them in from database to this component
+//TODO instead of a splice we need a remove from database, and we need a real add function
+//TODO if we had a bunch of real users, this list of favorites would be references to locations in database, not repeated data in the database
+
+
+
 class FlatListItem extends Component {
+    
     constructor(props){
         super(props);
         this.state = {
@@ -37,7 +49,7 @@ class FlatListItem extends Component {
         const swipeSetting = {
             autoClose:  true,
             onclose:    (secId,rowId,direction) => {
-                if(this.state.activeRowKey != null)
+                if(this.state.activeRowKey !== null)
                     this.setState({activeRowKey: null});
             },
             onOpen:     (secId, rowId, direction) => {
@@ -75,7 +87,7 @@ class FlatListItem extends Component {
                     <View style={{  // each row of data
                         flex: 1,                            // Take up all screen
                         flexDirection: 'row',
-                        backgroundColor: this.props.index % 2 == 0 ? '#F39C12' : '#F9690E',
+                        backgroundColor: this.props.index % 2 === 0 ? '#F39C12' : '#F9690E',
                     }}>
 
                         <Image      //  image is placed to the left of the text

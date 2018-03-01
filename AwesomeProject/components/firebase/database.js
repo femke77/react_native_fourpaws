@@ -63,7 +63,7 @@ export default class Database {
 
     static listenReviews(userId, callback) {
         let userPath = "/users/" + userId + "/reviews";
-        firebase.database().ref(userPath).on('value', (snapshot) => {
+        firebase.database().ref(userPath).once('value', (snapshot) => {
             let items = [];
             if (snapshot.val()){
                 snapshot.forEach((child) => {
