@@ -32,24 +32,26 @@ import MapView from 'react-native-maps';
 import Mapviews from "./Mapview";
 import Calendars from "./calendar";
 import FavoritePetKeeper from "./favoritepetkeeper";
-
-
-
+import {Navigator} from 'react-native-deprecated-custom-components';
+import Login from './login.js';
+import * as firebase from '../firebase/firebase.js';
 
 const SideMenu = require('react-native-side-menu');
 
-this.state = {
-    menuOpen: false
-}
+
 
 export default class Universaltabs extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            starCount: 2
+            starCount: 2,
+            menuOpen: false
         };
+
+
     }
+
 
     onStarRatingPress(rating) {
         this.setState({
@@ -63,6 +65,8 @@ export default class Universaltabs extends Component {
             menuOpen: !menuOpen
         })
     }
+
+
     render() {
 
         return (
@@ -143,6 +147,7 @@ export default class Universaltabs extends Component {
                     </View>
 
                 </Tabs>
+
             </View>
 
         );

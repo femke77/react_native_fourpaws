@@ -11,7 +11,9 @@ import {
 } from 'react-native';
 import Database from '../firebase/database';
 import * as firebase from "firebase";
+import {Navigator} from 'react-native-deprecated-custom-components';
 
+//TODO the image must pull from the image url in user/details
 
 export default class UserPic extends Component {
 
@@ -80,7 +82,7 @@ export default class UserPic extends Component {
 
 
                                         }}
-                                        source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
+                                        source={require ('../images/person.png')}  //need to pull this from the database by uid
                                     />
                                 </View>
 

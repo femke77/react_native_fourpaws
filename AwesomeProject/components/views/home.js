@@ -72,8 +72,10 @@ export default class Home extends Component {
 
         return (
             <View style={styles.container13}>
-                <Universaltabs/>
 
+                <Universaltabs/>
+                <Button onPress={()=>{this.logout()}}
+                        title={"Log Out  "}/>
             </View>
 
         );

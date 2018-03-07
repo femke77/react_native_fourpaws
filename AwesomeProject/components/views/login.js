@@ -20,6 +20,7 @@ import {
 import dismissKeyboard from 'react-native-dismiss-keyboard';
 import * as firebase from "firebase";
 import {GoogleSignin} from 'react-native-google-signin'
+import {Navigator} from 'react-native-deprecated-custom-components';
 
 //TODO put a space between the buttons, or side by side?
 //TODO TEST all the firebase oodes and customize them as needed.
@@ -76,8 +77,9 @@ export default class Login extends Component {
     }
 
     validateEmail(email){
-            let re = /\S+@\S+\.\S+/;
-            return re.test(email);
+
+        let re = /\S+@\S+\.\S+/;
+        return re.test(email);
     }
 
     async googleSignIn(){
@@ -125,8 +127,13 @@ export default class Login extends Component {
 
     async login() {
         dismissKeyboard();
-        try {                                   //auth persistence should be .NONE in production and .LOCAL for dev
-            await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)],
+        if (!this.state.email || !this.state.password){
+            alert("Email and Password Cannot Be Blank")
+        }
+        else{
+            try {
+                                                          //auth persistence should be .NONE in production and .LOCAL for dev
+            await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
             [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
 
             setTimeout(() => {
@@ -139,7 +146,7 @@ export default class Login extends Component {
             let errorMessage = error.message;
             alert(errorMessage);
         }
-    }
+    }}
 
     resetPassword (email){
         if (this.validateEmail(email)){
@@ -154,6 +161,7 @@ export default class Login extends Component {
         alert("Not a valid email");
         }
     }
+
 
     render(){
         const resizeMode = 'cover';

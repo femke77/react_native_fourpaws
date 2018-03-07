@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image, Alert } from 'react-native'
 import Database from '../firebase/database';
 import * as firebase from "firebase";
+import {Navigator} from 'react-native-deprecated-custom-components';
+
 
 //TODO only need alert if you force the size of the review boxes to stay the same. Right now they expand to show the whole review anyway so alert is redundant
 //TODO SOME CODE IN HERE IS TO CREATE REVIEWS IN THE FIREBASE DB FIRST .. THIS IS A TEMP SOLUTION UNTIL A PAGE IS CREATED TO REVIEW SOMEONE
@@ -71,9 +73,6 @@ export default class List extends Component {
                                 style = {styles.container}
                                 onPress = {() => this.alertItemName(item)}>
 
-                                <Image style={styles.image}>
-                                    source={{ uri: item.image }}
-                                </Image>
 
                                 <Text style = {styles.text}>
                                     {item.name}

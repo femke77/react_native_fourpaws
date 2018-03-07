@@ -54,8 +54,9 @@ export default class Signupaddress extends Component {
 
     navHome(){
         if (this.state.zipcode && this.state.address && this.state.state && this.state.city) {
-            Database.setUser2(this.state.uid, this.state.address, this.state.city, this.state.state, this.state.zipcode)
+            Database.setUser2(this.state.uid, this.state.address, this.state.city, this.state.state, this.state.zipcode);
             this.props.navigator.push({id: 'Home'});
+            dismissKeyboard()
         } else {
             ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
         }

@@ -35,7 +35,8 @@ export default class Signup extends Component {
             lname: null,
             contactNumber: null,
             username: null,
-            email: null
+            email: null,
+            image: null
         };
 
         this.goLogin = this.goLogin.bind(this);
@@ -62,8 +63,8 @@ export default class Signup extends Component {
     }
 
     next (){
-        if (this.state.fname && this.state.lname && this.state.username) {
-            Database.setUser(this.state.uid, this.state.contactNumber, this.state.fname, this.state.lname, this.state.username, this.state.email);
+        if (this.state.fname && this.state.lname && this.state.username ) {
+            Database.setUser(this.state.uid, this.state.contactNumber, this.state.fname, this.state.lname, this.state.username, this.state.email, this.state.image);
             this.props.navigator.push({id: 'Signup2'});
         } else {
             ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
@@ -71,8 +72,10 @@ export default class Signup extends Component {
     }
 
     checkPhoneLen(contactNumber){
-
-         if (contactNumber.length  !== 10){
+         if (contactNumber == null){
+             alert("Please input 10 digit phone number")
+         }
+         else if (contactNumber.length  !== 10){
             alert("Invalid phone entry - must be 10 digits")
         } else {
             this.next();
@@ -117,9 +120,7 @@ export default class Signup extends Component {
                     }}
                     source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
                 />
-                <Text style = {styles.topText}>
-                    Please verify your email address by responding to our verification email in your inbox
-                </Text>
+
 
                 <TextInput
                     placeholder=" First Name"
@@ -170,7 +171,18 @@ export default class Signup extends Component {
                     onChangeText={( contactNumber) => this.setState({ contactNumber})}
                 />
 
+                <TextInput
+                    placeholder=" Image URL"
+                    placeholderTextColor= "#ffffff"
+                    returnKeyType="next"
+                    keyboardType= "email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    underlineColorAndroid={'transparent'}
+                    style= { styles.inputBox}
+                    onChangeText={(image) => this.setState({image})}
 
+                />
 
                 <TouchableOpacity style= {styles.button} onPress={()=>this.checkPhoneLen(this.state.contactNumber)}>
                     <Text style= {styles.buttonText} > Next </Text>
