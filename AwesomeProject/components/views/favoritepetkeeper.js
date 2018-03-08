@@ -159,7 +159,7 @@ export default class FavoritePetKeeper extends Component {
 
 
     _onPressAdd(){
-        alert("Add Favorite Pet Keeper");
+        alert("This button can take you to user search or be its own quick search feature");
     }
 
 
