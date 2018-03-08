@@ -130,9 +130,7 @@ export default class Login extends Component {
         if (!this.state.email || !this.state.password){
             alert("Email and Password Cannot Be Blank")
         }
-        else if (!this.validateEmail(this.state.email) || !this.passwordLength(this.state.password)){
-            alert("Invalid login attempt - check email and password")
-        }
+
         else{
 
             try {
