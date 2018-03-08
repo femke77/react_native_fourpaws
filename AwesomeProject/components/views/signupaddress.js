@@ -14,15 +14,19 @@ import {
 
 
 } from 'react-native';
+import dismissKeyboard from 'react-native-dismiss-keyboard';
 import {Navigator} from 'react-native-deprecated-custom-components';
-
+import Database from '../firebase/database';
+import * as firebase from "firebase";
 
 
 export default class Signupaddress extends Component {
 
     constructor(props){
         super(props);
-
+        console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
+            'Setting a timer'
+        ];
         this.state ={
             address: null,
             city: null,
@@ -35,23 +39,38 @@ export default class Signupaddress extends Component {
         this.checkZipLen = this.checkZipLen.bind(this);
     }
 
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            this.setState({
+                uid: user.uid,
+
+            });
+        } catch (error) {
+            alert(error);
+        }
+    }
+
     navHome(){
-        if (this.state.address !==null && this.state.city !== null && this.state.state !== null && this.state.zipcode !==null) {
+        if (this.state.zipcode && this.state.address && this.state.state && this.state.city) {
+            Database.setUser2(this.state.uid, this.state.address, this.state.city, this.state.state, this.state.zipcode)
             this.props.navigator.push({id: 'Home'});
-        }else {
+        } else {
             ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
         }
 
     }
 
     goBack(){
-        this.props.navigator.push({id:'Signup'})
+        this.props.navigator.push({id:'Signup'});
+        dismissKeyboard();
     }
 
     checkZipLen(zipcode){
-        const length = 10;
-        if (zipcode  < 5){
-            alert("Invalid zipcode entry")
+
+        if (zipcode.length  !== 5){
+            alert("Zipcode must be 5 numbers")
         } else {
             this.navHome();
         }
@@ -112,7 +131,6 @@ export default class Signupaddress extends Component {
                     placeholder="City"
                     placeholderTextColor= "#ffffff"
                     returnKeyType="go"
-                    secureTextEntry
                     autoCapitalize="none"
                     autoCorrect={false}
                     underlineColorAndroid={'transparent'}
@@ -154,7 +172,7 @@ export default class Signupaddress extends Component {
                     </View>
                     <View style={ {margin:10}}>
                         <TouchableOpacity style= {styles.button}>
-                            <Text style= {styles.buttonText}onPress={()=> this.navHome()}> Sign Up</Text>
+                            <Text style= {styles.buttonText}onPress={()=> this.checkZipLen(this.state.zipcode)}> Sign Up</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

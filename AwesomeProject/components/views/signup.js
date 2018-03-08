@@ -12,39 +12,60 @@ import {
     TextInput,
     ToastAndroid,
 
-
 } from 'react-native';
+import * as firebase from "firebase";
 import {Navigator} from 'react-native-deprecated-custom-components';
 import Signup2 from '../views/signupaddress'
+import Database from '../firebase/database';
+
 
 //TODO do an email verification - send user email
-//TODO do a first name and last name and don't do the email or password
-//TODO do a username, and see whole list under "changes to signup" in JIRA
+
 
 export default class Signup extends Component {
 
 
     constructor(props) {
         super(props);
+        console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
+            'Setting a timer'
+        ];
 
         this.state = {
+            uid: "",
             fname: null,
             lname: null,
             contactNumber: null,
-            username: null
+            username: null,
+            email: null
         };
 
         this.goLogin = this.goLogin.bind(this);
         this.next = this.next.bind(this);
-        this.checkPhoneLen = this.checkPhoneLen.bind(this);
+
+    }
+
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            this.setState({
+                uid: user.uid,
+                email: user.email,
+            });
+        } catch (error) {
+            alert(error);
+        }
     }
 
     goLogin(){
+        Database.remove(this.state.uid);
         this.props.navigator.push({id: 'Login'})
     }
 
     next (){
-        if (this.state.fname !==null && this.state.lname !== null && this.state.contactNumber !== null && this.state.username !== null) {
+        if (this.state.fname && this.state.lname && this.state.username) {
+            Database.setUser(this.state.uid, this.state.contactNumber, this.state.fname, this.state.lname, this.state.username, this.state.email);
             this.props.navigator.push({id: 'Signup2'});
         } else {
             ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
@@ -52,13 +73,15 @@ export default class Signup extends Component {
     }
 
     checkPhoneLen(contactNumber){
-        const length = 10;
-        if (contactNumber  < 10){
-            alert("Invalid phone entry")
+
+         if (contactNumber.length  !== 10){
+            alert("Invalid phone entry - must be 10 digits")
         } else {
             this.next();
         }
     }
+
+
 
     render(){
         const resizeMode = 'cover';
@@ -97,7 +120,7 @@ export default class Signup extends Component {
                     source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
                 />
                 <Text style = {styles.topText}>
-                    Please verify your email address by responding to our verification in your inbox
+                    Please verify your email address by responding to our verification email in your inbox
                 </Text>
 
                 <TextInput
@@ -165,10 +188,6 @@ export default class Signup extends Component {
                         Copyright © 2017 Four Paws
                     </Text>
                 </View>
-
-
-
-
 
             </KeyboardAvoidingView>
         );
@@ -331,9 +350,9 @@ const styles = StyleSheet.create({
         paddingVertical: 13
     },
     topText: {
-        fontSize:14,
-        fontWeight:'200',
-        color:'red',
+        fontSize:16,
+        fontWeight:'400',
+        color:'black',
         textAlign:'center',
         flex: -100,
 

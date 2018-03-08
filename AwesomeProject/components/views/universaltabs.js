@@ -19,128 +19,178 @@ import {
 
 } from 'react-native';
 
-
+import { Header, Avatar } from 'react-native-elements';
+import { Col, Row, Grid } from "react-native-easy-grid";
 import Tabs from './tabs';
 import Profile_Information from './Profile_Information';
-
-
 import UserPic from './UserPic';
-
-
-
 import Mapviews from "./Mapview";
 import Calendars from "./calendar";
 import FavoritePetKeeper from "./favoritepetkeeper";
+import Menu from "./MenuBar"
+import * as firebase from "firebase";
+import Database from '../firebase/database';
+import { Nav, Tab } from 'react-native-simple-tab';
+import Information from './UserInformation';
+import List from "./ListView";
 
 
 
 
-const SideMenu = require('react-native-side-menu');
 
-this.state = {
-    menuOpen: false
-}
 
 export default class Universaltabs extends Component {
+
 
     constructor(props) {
         super(props);
         this.state = {
-            starCount: 2
+            fname: "",
+            lname: "",
+
+
         };
+
     }
 
-    onStarRatingPress(rating) {
-        this.setState({
-            starCount: rating
-        });
+
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            Database.listenUserName(user.uid, (fname, lname)=> {
+                this.setState({
+                    fname: fname,
+                    lname: lname
+                })
+            });
+
+            this.setState({
+                uid: user.uid,
+            });
+        } catch (error) {
+            alert(error);
+        }
     }
 
-    handleMenu() {
-        const {menuOpen} = this.state
-        this.setState({
-            menuOpen: !menuOpen
-        })
+    _editthings() {
+        // console.log("task value",this.state.newTask);
+        if (this.state.newTask === "") {
+            return;
+        }
+        this.tasksRef.push({ name: this.state.newTask});
+        this.setState({newTask: ""});
+        alert("Task added successfully");
     }
+
     render() {
+        let first_name = this.state.fname;
+        let last_name = this.state.lname;
 
         return (
 
             <View style={styles.container13}>
+                <Header
+
+                    outerContainerStyles={{ backgroundColor: '#a21c16', height: 50, }}
+                    leftComponent={{ icon: 'menu',onPress: () => console.log(this.toggle()), color: '#fff', }}
+                    centerComponent={{ text: "Home" , style: { color: '#fff',fontSize: 20  } }}
+                    rightComponent={{ icon: 'search', color: '#fff' }}
+                />
+<Grid>
+                <Row  style={{ height: 220, backgroundColor: '#BE3A31' }} >
+
+                    <Avatar style={styles.ImageUser}
+                        xlarge
+                            source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
+                        onPress={() => console.log("Works!")}
+                        activeOpacity={0.7}
+                            containerStyle={{borderWidth:4, left:15, top:10, borderColor:'white' }}
+
+                    />
+
+                    <Avatar style={styles.ImageUser}
+                            large
+                            source={{uri: "http://images2.fanpop.com/image/photos/9400000/Hello-puppies-9415183-1280-800.jpg"}}
+                            onPress={() => console.log("Works!")}
+                            activeOpacity={0.7}
+                            containerStyle={{ left:25, top:10, }}
+                            overlayContainerStyle={{backgroundColor: '#BE3A31'}}
+
+                    />
+
+                    <Avatar style={styles.ImageUser}
+                            large
+                            source={{uri: "http://images4.fanpop.com/image/photos/14700000/So-cute-puppies-14749029-1600-1200.jpg"}}
+                            onPress={() => console.log("Works!")}
+                            activeOpacity={0.7}
+                            containerStyle={{ left:35, top:10, }}
+                            overlayContainerStyle={{backgroundColor: '#BE3A31'}}
+
+                    />
+                    <Avatar style={styles.ImageUser}
+                            large
+                            source={{uri: "http://1.bp.blogspot.com/-ekhKVXl7xto/T6-2WZMYpTI/AAAAAAAAGiQ/ioOs_2BfXPA/s1600/Images+for+Dog+:++Wallpaper+:+Cute+:+Funny+:+Beautiful+Puppies8.jpg"}}
+                            onPress={() => console.log("Works!")}
+                            activeOpacity={0.7}
+                            containerStyle={{ left:-125, top:85, }}
+                            overlayContainerStyle={{backgroundColor: '#BE3A31'}}
 
 
-                <Tabs>
-                    {/* First tab */}
+                    />
 
-                    <View title="User Profile" style={styles.content13}>
+                    <Avatar style={styles.ImageUser}
+                            large
+                            source={{uri: "http://www.dogbreedslist.info/uploads/allimg/dog-pictures/German-Shepherd-Dog-2.jpg"}}
+                            onPress={() => console.log("Works!")}
+                            activeOpacity={0.7}
+                            containerStyle={{ left:-115, top:85, }}
+                            overlayContainerStyle={{backgroundColor: '#BE3A31'}}
+
+                    />
+
+                    <Avatar
+                        small
+                        rounded
+                        icon={{name: 'add'}}
+                        onPress={() => console.log("Works!")}
+                        activeOpacity={0.7}
+                        containerStyle={{ right: 100, top: 65, width: 45}}
+
+                    />
+                    <Text style={styles.text13}>
+                        {first_name} {last_name}
+                    </Text>
 
 
-                        <Image
-                            style={{backgroundColor: '#ccc',
-                                flex: 1,
-                                resizeMode: 'cover',
-                                position: 'absolute',
-                                width: '100%',
-                                height: '100%',
-                                justifyContent: 'flex-end',
-                            }}
-                            source={require('../images/bluebackground1-1024x640.png')}
-                        />
-                        <View>
-                            <UserPic/>
+
+                </Row>
+
+                <Row>
+                    <Tabs>
+                        {/* First tab */}
+
+                        <View title="About me" style={styles.content13}>
+                            <Information/>
                         </View>
-                        <View>
 
+                        {/* Second tab */}
+
+                        <View title=" Review" style={styles.content13}>
+                            <List/>
                         </View>
 
-                        <Profile_Information/>
+                        {/* Third tab */}
 
-            </View>
+                        <View title=" My Pets" style={styles.content13}>
+                            <Text>Why</Text>
+                        </View>
 
+                    </Tabs>
 
+                </Row>
+</Grid>
 
-    {/* Second tab */}
-                    <View title="Upcoming appointments" style={styles.content13}>
-                        <Image
-                            style={{backgroundColor: '#ccc',
-                                flex: 1,
-                                resizeMode: 'cover',
-                                position: 'absolute',
-                                width: '100%',
-                                height: '100%',
-                                justifyContent: 'flex-end',
-                            }}
-                            source={require('../images/bluebackground1-1024x640.png')}
-                        />
-                        <Calendars/>
-
-
-                    </View>
-                    {/* Third tab */}
-                    <View title="Favorite pet keeper" style={styles.content13}>
-                        <Image
-                            style={{backgroundColor: '#ccc',
-                                flex: 1,
-                                resizeMode: 'cover',
-                                position: 'absolute',
-                                width: '100%',
-                                height: '100%',
-                                justifyContent: 'flex-end',
-                            }}
-                            source={require('../images/bluebackground1-1024x640.png')}
-                        />
-                        <FavoritePetKeeper/>
-
-
-                    </View>
-                    {/* Fourth tab */}
-                    <View title="User Search" style={styles.content13}>
-
-                        <Mapviews/>
-
-                    </View>
-
-                </Tabs>
             </View>
 
         );
@@ -149,146 +199,39 @@ export default class Universaltabs extends Component {
 const styles = StyleSheet.create({
     container13: {
         flex: 1,                            // Take up all screen
-        backgroundColor: '#383838',
+        backgroundColor: '#fffff9',
+
 
         // Background color
     },
     container14: {
-        flex: 2,
-        top:100// Take up all screen
+                                 // Take up all screen
+        backgroundColor: '#BE3A31',
+        height: 20,
+
+
 
         // Background color
     },
 // Tab content container
-    content13: {
-        flex: 1,                            // Take up all available space
-        justifyContent: 'center',           // Center vertically
-        alignItems: 'center',               // Center horizontally
-        backgroundColor: '#d91e18',         // Darker background for content area
-    },
-// Content header
-    header13: {
-        margin: 10,                         // Add margin
-        color: '#ffec01',                   // White color
-        fontFamily: 'Avenir',               // Change font family
-        fontSize: 26,
-
-        // Bigger font size
-    },
-    headerstars: {
-        top: -330,
-        margin: 40,
-        right: -25,
-
-        // Bigger font size
-    },
-
-    headerstarsIOS: {
-        top: -300,
-        margin: 30,
-        right: -25,
-
-        // Bigger font size
-    },
-    headerUSername: {
-        margin: 30,                         // Add margin
-        color: '#ffec01',                   // White color
-        fontFamily: 'Avenir',               // Change font family
-        fontSize: 25,
-        right: -25,
-        top: -260,
-        textDecorationLine: 'underline',
-        fontWeight: 'bold',
-
-        // Bigger font size
-    },
-    headerUSernameIOS: {
-        margin: 30,                         // Add margin
-        color: '#ffec01',                   // White color
-        fontFamily: 'Avenir',               // Change font family
-        fontSize: 45,
-        right: -25,
-        top: -240,
-        textDecorationLine: 'underline',
-        fontWeight: 'bold',
-
-        // Bigger font size
-    },
-    TextChangepic: {
-        margin: -10,                         // Add margin
-        color: 'white',                   // blue or white color
-        fontFamily: 'Avenir',               // Change font family
-        fontSize: 10,
-        top: -95,
-        right: 130,
-        textDecorationLine: 'underline',
-
-        // Bigger font size
-    },
-// Content text
-    text13: {
-        marginHorizontal: 10,               // Add horizontal margin
-        color: 'white', // Semi-transparent text
-        textAlign: 'center',                // Center
-        fontFamily: 'Avenir',
-        fontSize: 18,
-    },
-    map: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom:0,
-        position:'absolute',
-    },
-    radius: {
-        height: 50,
-        width: 50,
-        borderRadius: 50/2,
-        overflow: 'hidden',
-        backgroundColor:'rgba(0,122,255,0.1)',
-        borderWidth: 1,
-        borderColor: 'rgba(0,122,255,0.3)',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    marker: {
-        height: 20,
-        width: 20,
-        borderWidth: 3,
-        borderColor: 'white',
-        borderRadius: 20/2,
-        overflow: 'hidden',
-        backgroundColor:'#007AFF',
-
-
-    },
-    STabsView:{
-        alignItems:'flex-end',
-        top: 175,
-        bottom: 715,
-        width: 75,
-        opacity: 30,
+    ImageUser: {
         flex: 1,
-        justifyContent: 'flex-end',
-
+        position: 'absolute',
+        borderColor: 'white',
+        right: 15,
+        borderWidth: 3,         // Darker background for content area
     },
-
-    container10: {
-        flex: 1,                            // Take up all screen
-        top: -200,
-        //paddingBottom: 150,
-    },
-    text10: {
-        marginHorizontal: 0,               // Add horizontal margin
+        text13: {
+                       // Add horizontal margin
         color: '#fff', // Semi-transparent text
-        top: 115, // Center
         fontFamily: 'Avenir',
-        fontSize: 18,
-        right: -8,
+        fontSize: 25,
+       left: -465,
+            top: 170,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
-    },
 
+    },
 
 });
 

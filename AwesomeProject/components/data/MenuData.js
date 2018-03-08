@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import Login from '../views/login.js';
 import * as firebase from "firebase";
+import PropTypes from 'prop-types';
+import Database from '../firebase/database';
 
 const window = Dimensions.get('window');
 
@@ -19,6 +21,10 @@ export default class Menu extends Component {
     constructor(props){
         super(props);
         this.logout = this.logout.bind(this);
+        this.state = {
+            fname: "",
+            lname: "",
+        };
 
     }
 
@@ -31,10 +37,29 @@ export default class Menu extends Component {
             });
 
         }
+    async componentDidMount(){
 
+        try {
+            let user = await firebase.auth().currentUser;
+            Database.listenUserName(user.uid, (fname, lname)=> {
+                this.setState({
+                    fname: fname,
+                    lname: lname,
+                })
+            });
+
+            this.setState({
+                uid: user.uid,
+            });
+        } catch (error) {
+            alert(error);
+        }
+    }
 
 
     render() {
+        let user_name = this.state.fname;
+        let last_name = this.state.lname;
         return (
             <View style={styles.menu}>
                 <View style={styles.avatarContainer}>
@@ -53,7 +78,7 @@ export default class Menu extends Component {
                         }}
                         source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
                     />
-                    <Text style={styles.name}>Mary Jane</Text>
+                    <Text style={styles.name}>{user_name} {last_name}</Text>
                 </View>
                 <Text style={{color:'white',paddingBottom:20}}>
 
@@ -61,7 +86,7 @@ export default class Menu extends Component {
 
                 <Button
                     onPress={() => {
-                    Alert.alert('Home');
+                        Alert.alert('Home');
                 }}
                     style={styles.item}
                     title='Home'
@@ -72,7 +97,7 @@ export default class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        Alert.alert('Messenger');
+                        onItemSelected('Messenger');
                     }}
                     style={styles.item}
                     title='Messenger'
@@ -83,7 +108,7 @@ export default class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        Alert.alert('User Search');
+                        onItemSelected('User Search');
                     }}
                     style={styles.item}
                     title='User Search'
@@ -95,7 +120,7 @@ export default class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        Alert.alert('Calendar');
+                        onItemSelected('Calendar');
                     }}
                     style={styles.item}
                     title='Calendar'
@@ -106,7 +131,7 @@ export default class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        Alert.alert('Favourite Pet Keepers');
+                        onItemSelected('Favourite Pet Keepers');
                     }}
                     style={styles.item}
                     title='Favourite Pet Keepers'
@@ -126,7 +151,7 @@ export default class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        Alert.alert('Setting');
+                        onItemSelected('Setting');
                     }}
                     style={styles.item}
                     title='Setting'
@@ -191,3 +216,7 @@ const styles = StyleSheet.create({
 
     },
 });
+
+Menu.propTypes = {
+    onItemSelected: PropTypes.func.isRequired,
+};

@@ -20,6 +20,7 @@ import {GoogleSignin} from 'react-native-google-signin'
 import Universaltabs from './universaltabs.js';
 import MenubarMain from './MenuBar';
 
+import Database from '../firebase/database';
 
 
 
@@ -27,13 +28,34 @@ export default class Home extends Component {
 
     constructor(props){
         super(props);
-
-        this.state = {};
+        console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
+            'Setting a timer'
+        ];
+        this.state = {
+            fname: ""
+        };
 
         this.logout = this.logout.bind(this);
         this.googleSignOut = this.googleSignOut.bind(this);
     }
 
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            Database.listenUserName(user.uid, (fname)=> {
+                this.setState({
+                    fname: fname
+                })
+            });
+
+            this.setState({
+                uid: user.uid,
+            });
+        } catch (error) {
+            alert(error);
+        }
+    }
     logout() {
 
         this.props.navigator.push({ id: 'Login'});
@@ -50,10 +72,12 @@ export default class Home extends Component {
     }
 
     render() {
+        let user_name = this.state.fname;
 
         return (
             <View style={styles.container13}>
                 <MenubarMain/>
+
             </View>
         );
 

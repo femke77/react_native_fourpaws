@@ -9,18 +9,45 @@ import {
 
 
 } from 'react-native';
+import * as firebase from "firebase";
 
 
 export default class UserPic extends Component {
-    onPressUP(){
-        alert("User Information");
+
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            fname: "",
+            lname: ""
+        };
+    }
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            Database.listenUserName(user.uid, (fname, lname)=> {
+                this.setState({
+                    fname: fname,
+                    lname: lname
+                })
+            });
+
+            this.setState({
+                uid: user.uid,
+            });
+        } catch (error) {
+            alert(error);
+        }
     }
 
-    onPressMessage(){
-        alert("User Information");
-    }
+
 
     render() {
+        let first_name = this.state.fname;
+        let last_name = this.state.lname;
+
         return (
             <View>
                 <View>
@@ -46,22 +73,13 @@ export default class UserPic extends Component {
 
                 <View>
                     <Text style={styles.text13}>
-                        Mary Jane
+                        {first_name}{last_name}
                     </Text>
 
                 </View>
 
-                <View>
-                    <Text style={styles.text15}>
-                        There are two means of refuge from the miseries of life: music and cats.
 
-                    </Text>
 
-                </View>
-
-                <View>
-
-                </View>
             </View>
         );
     }
@@ -79,7 +97,7 @@ const styles = StyleSheet.create({
         color: '#fff', // Semi-transparent text
         top: 135, // Center
         fontFamily: 'Avenir',
-        fontSize: 25,
+        fontSize: 15,
         right: -150 ,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
