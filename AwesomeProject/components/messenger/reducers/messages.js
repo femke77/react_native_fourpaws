@@ -5,14 +5,13 @@ const message = (state, action) => {
                 id: action.id,
                 text: action.text,
                 time: action.time,
-                author: action.author
-            }
+                author: action.author,
+                read: false
+            };
         default:
             return state
     }
-}
-
-
+};
 
 const messages = (state = [], action) => {
     switch (action.type) {
@@ -29,7 +28,7 @@ const messages = (state = [], action) => {
             return [
                 ...state,
                 message(undefined, action)
-            ]
+            ];
         default:
             return state
     }

@@ -9,17 +9,20 @@ import Messages from '../containers/Messages';
 import Input from '../containers/Input';
 import { sendMessage } from '../actions';
 
+import * as firebase from "firebase"
+
 const mapStateToProps = (state) => ({
     chat: state.chatroom,
     chatHeight: state.chatroom.meta.height,
-    user: state.user
+    user: state.user,
+    userId: firebase.auth().currentUser.uid
 });
 
 class ChatUI extends Component {
     state = {
         scrollViewHeight: 0,
         inputHeight: 0
-    }
+    };
     componentDidMount() {
         this.scrollToBottom(false);
     }
@@ -32,14 +35,14 @@ class ChatUI extends Component {
         this.setState({
             scrollViewHeight: layout.height
         });
-    }
+    };
     onInputLayout = (event) => {
         const layout = event.nativeEvent.layout;
 
         this.setState({
             inputHeight: layout.height
         });
-    }
+    };
     scrollToBottom(animate = true) {
         const { scrollViewHeight, inputHeight } = this.state,
             { chatHeight } = this.props;
@@ -54,25 +57,26 @@ class ChatUI extends Component {
         this.refs.scroll.scrollToFocusedInput(ReactNative.findNodeHandle(reactRef));
     }
 
-    sendMessage = (text, user, chat) => {
-        return sendMessage(text, this.props.user, this.props.chat)
-    }
+    sendMessage = (text, user, usreId, chat) => {
+        return sendMessage(text, this.props.user, this.props.userId,this.props.chat)
+    };
 
     render() {
         return (
             <Screen>
-                <Title styleName="h-center" style={{paddingTop: 20}}>
-                    Messenger
+                <Title styleName="h-center" style={{padding: 10}}>
+                    Molly Jenkins
                 </Title>
                 <KeyboardAwareScrollView ref="scroll"
                                          onLayout={this.onScrollViewLayout}>
-                    <Messages />
-                    <Input onLayout={this.onInputLayout}
-                           onFocus={this._scrollToInput.bind(this)}
+                    <Messages/>
+                </KeyboardAwareScrollView>
+                    <Input footer={height=100}
+                           onLayout={this.onInputLayout}
+                           // onFocus={this._scrollToInput.bind(this)}
                            submitAction={this.sendMessage}
                            ref="input"
                            placeholder="Message ..." />
-                </KeyboardAwareScrollView>
             </Screen>
         )
     }

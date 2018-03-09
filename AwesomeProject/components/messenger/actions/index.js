@@ -1,4 +1,4 @@
-import fb from '../firebase';
+import Firebase from '../firebase';
 import * as firebase from "firebase";
 import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
 import { Platform } from 'react-native';
@@ -8,21 +8,21 @@ export const addMessage = (msg) => ({
     ...msg
 });
 
-export const sendMessage = (text, user, chat) => {
+export const sendMessage = (text, user, userId, chat) => {
     return function (dispatch) {
         let msg = {
             text: text,
             time: Date.now(),
             author: {
+                userId: userId,
                 uid: user.uid,
                 name: user.name,
                 avatar: user.avatar
             }
         };
 
-        var userId = firebase.auth().currentUser;
-        let userMobilePath = "/messages/" + user.uid +'/'+chat.id;
-        const newMsgRef = fb.database()
+        let userMobilePath = "/messages/" + userId +'/'+ chat.id;
+        const newMsgRef = Firebase.database()
             .ref(userMobilePath)
             .push();
         msg.id = newMsgRef.key;
@@ -41,12 +41,12 @@ export const receivedMessages = () => ({
     receivedAt: Date.now()
 });
 
-export const fetchMessages = (user, chat) => {
+export const fetchMessages = (user, userId, chat) => {
     return function (dispatch) {
         dispatch(startFetchingMessages());
 
-        let userMobilePath = "/messages/" + user.uid + chat.id;
-        fb.database()
+        let userMobilePath = "/messages/" + userId +'/'+ chat.id;
+        Firebase.database()
             .ref(userMobilePath)
             .orderByKey()
             .limitToLast(20)
@@ -59,7 +59,7 @@ export const fetchMessages = (user, chat) => {
                 }, 0);
             });
     }
-}
+};
 
 export const receiveMessages = (messages) => {
     return function (dispatch) {
@@ -67,7 +67,7 @@ export const receiveMessages = (messages) => {
 
         dispatch(receivedMessages());
     }
-}
+};
 
 export const updateMessagesHeight = (event) => {
     const layout = event.nativeEvent.layout;
@@ -76,7 +76,7 @@ export const updateMessagesHeight = (event) => {
         type: 'UPDATE_MESSAGES_HEIGHT',
         height: layout.height
     }
-}
+};
 
 
 
@@ -115,4 +115,4 @@ const startChatting = (user) = function (dispatch) {
     FCM.on(FCMEvent.RefreshToken, token => {
         console.log(token);
     });
-}
+};
