@@ -57,7 +57,7 @@ export default class Universaltabs extends Component {
     }
 
     handleMenu() {
-        const {menuOpen} = this.state
+        const {menuOpen} = this.state;
         this.setState({
             menuOpen: !menuOpen
         })

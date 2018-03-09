@@ -15,7 +15,7 @@ export default class Tabs extends Component {
     state = {
         // First tab is active by default
         activeTab: 0
-    }
+    };
 
     // Pull children out of props passed from App component
     render({ children } = this.props) {
