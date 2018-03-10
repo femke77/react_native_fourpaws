@@ -48,18 +48,43 @@ export default class Database {
 
     //listeners:
 
+    // static listenUserName(userId, callback) {
+    //     let userPath = "/users/" + userId + "/details";
+    //     firebase.database().ref(userPath).on('value', (snapshot) => {
+    //         let data = {
+    //             fname: "",
+    //             lname: ""
+    //         };
+    //         if (snapshot.val()) {
+    //             data.fname = snapshot.val().first_name;
+    //             data.lname = snapshot.val().last_name;
+    //         }
+    //         callback(data)
+    //     });
+    // }
+    //use this is you need to retrive data and send back to state, need to write callback function in the correct component
+    //use the names that match the database for the snapshot
     static listenUserName(userId, callback) {
         let userPath = "/users/" + userId + "/details";
         firebase.database().ref(userPath).on('value', (snapshot) => {
-            let data = {
-                fname: "",
-                lname: ""
-            };
+            let fname = "";
+            let lname= "";
+            let address= "";
+            let city = "";
+            let state="";
+            let zipcode="";
+            let contactNumber="";
+
             if (snapshot.val()) {
-                data.fname = snapshot.val().first_name;
-                data.lname = snapshot.val().last_name;
+                fname = snapshot.val().first_name;
+                lname= snapshot.val().last_name;
+                address= snapshot.val().address;
+                city= snapshot.val().city;
+                state= snapshot.val().state;
+                zipcode= snapshot.val().zipcode;
+                contactNumber= snapshot.val().contactNumber;
             }
-            callback(data)
+            callback(fname, lname, address, city, state, zipcode, contactNumber)
         });
     }
 

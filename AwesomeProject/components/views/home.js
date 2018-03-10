@@ -14,18 +14,23 @@ import {
 
 } from 'react-native';
 import Tabs from '../styles/tabs';
-import Login from './login.js';
-import Universaltabs from './universaltabs.js';
-import {GoogleSignin} from 'react-native-google-signin';
-import Database from '../firebase/database';
 import * as firebase from "firebase";
+import Login from './login.js';
+import {GoogleSignin} from 'react-native-google-signin'
+import Universaltabs from './universaltabs.js';
+import MenubarMain from './MenuBar';
+
+import Database from '../firebase/database';
+
 
 
 export default class Home extends Component {
 
     constructor(props){
         super(props);
-
+        console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
+            'Setting a timer'
+        ];
         this.state = {
             fname: ""
         };
@@ -51,7 +56,6 @@ export default class Home extends Component {
             alert(error);
         }
     }
-
     logout() {
 
         this.props.navigator.push({ id: 'Login'});
@@ -67,17 +71,13 @@ export default class Home extends Component {
         }).done();
     }
 
-    render() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    render() {
         let user_name = this.state.fname;
 
         return (
             <View style={styles.container13}>
-
-                <Universaltabs/>
-                <Button onPress={()=>{this.logout()}}
-                        title={"Log Out  "}/>
+                <MenubarMain/>
             </View>
-
         );
 
 

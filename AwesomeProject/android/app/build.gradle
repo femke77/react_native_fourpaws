@@ -142,6 +142,7 @@ android {
 dependencies {
     //compile 'com.android.support:multidex:1.0.1'
 
+    compile project(':react-native-vector-icons')
     compile project(':react-native-push-notification')
     compile(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms", module: 'multidex'

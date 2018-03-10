@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     },
     // Tab text
     tabText: {
-        color: '#FFFFFF',
+        color: '#858585',
         fontFamily: 'Avenir',
         fontWeight: 'bold',
         textAlign: 'center',
