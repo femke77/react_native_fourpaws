@@ -142,12 +142,16 @@ android {
 dependencies {
     //compile 'com.android.support:multidex:1.0.1'
 
+    compile project(':react-native-push-notification')
     compile(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms", module: 'multidex'
     }
-    compile 'com.google.android.gms:play-services-base:10.2.4'
-    compile 'com.google.android.gms:play-services-auth:10.2.4'
-    compile 'com.google.android.gms:play-services-maps:10.2.4'
+    compile ('com.google.android.gms:play-services-base:10.2.4')
+    compile ('com.google.android.gms:play-services-auth:10.2.4')
+    compile ('com.google.android.gms:play-services-maps:10.2.4')
+    compile ('com.google.android.gms:play-services-gcm:10.2.4') {
+        force = true
+    }
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-maps')

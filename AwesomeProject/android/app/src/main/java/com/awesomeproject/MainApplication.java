@@ -2,6 +2,7 @@ package com.awesomeproject;
 import android.app.Application;
 import com.facebook.react.ReactApplication;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -23,10 +24,11 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNGoogleSigninPackage(),
-            new RNFetchBlobPackage(),
-            new PickerPackage()
+              new MainReactPackage(),
+              new ReactNativePushNotificationPackage(),
+              new RNGoogleSigninPackage(),
+              new RNFetchBlobPackage(),
+              new PickerPackage()
       );
     }
 
