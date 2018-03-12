@@ -1,5 +1,5 @@
-import Firebase from '../firebase';
-import * as firebase from "firebase";
+import firebase from '../firebase';
+import DeviceInfo from 'react-native-device-info';
 import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
 import { Platform } from 'react-native';
 
@@ -8,22 +8,19 @@ export const addMessage = (msg) => ({
     ...msg
 });
 
-export const sendMessage = (text, user, userId, chat) => {
+export const sendMessage = (text, user) => {
     return function (dispatch) {
         let msg = {
             text: text,
             time: Date.now(),
             author: {
-                userId: userId,
-                uid: user.uid,
                 name: user.name,
                 avatar: user.avatar
             }
         };
 
-        let userMobilePath = "/messages/" + userId +'/'+ chat.id;
-        const newMsgRef = Firebase.database()
-            .ref(userMobilePath)
+        const newMsgRef = firebase.database()
+            .ref('messages')
             .push();
         msg.id = newMsgRef.key;
         newMsgRef.set(msg);
@@ -41,13 +38,12 @@ export const receivedMessages = () => ({
     receivedAt: Date.now()
 });
 
-export const fetchMessages = (user, userId, chat) => {
+export const fetchMessages = () => {
     return function (dispatch) {
         dispatch(startFetchingMessages());
 
-        let userMobilePath = "/messages/" + userId +'/'+ chat.id;
-        Firebase.database()
-            .ref(userMobilePath)
+        firebase.database()
+            .ref('messages')
             .orderByKey()
             .limitToLast(20)
             .on('value', (snapshot) => {
@@ -59,7 +55,7 @@ export const fetchMessages = (user, userId, chat) => {
                 }, 0);
             });
     }
-};
+}
 
 export const receiveMessages = (messages) => {
     return function (dispatch) {
@@ -67,7 +63,7 @@ export const receiveMessages = (messages) => {
 
         dispatch(receivedMessages());
     }
-};
+}
 
 export const updateMessagesHeight = (event) => {
     const layout = event.nativeEvent.layout;
@@ -76,7 +72,7 @@ export const updateMessagesHeight = (event) => {
         type: 'UPDATE_MESSAGES_HEIGHT',
         height: layout.height
     }
-};
+}
 
 
 
@@ -84,35 +80,108 @@ export const updateMessagesHeight = (event) => {
 // User actions
 //
 
-const startChatting = (user) = function (dispatch) {
-    dispatch(fetchMessages(user));
+export const setUserName = (name) => ({
+    type: 'SET_USER_NAME',
+    name
+});
+export const setUserID = (uid) => ({
+    type: 'SET_USER_ID',
+    uid
+});
+export const setUserAvatar = (avatar) => ({
+    type: 'SET_USER_AVATAR',
+    avatar: avatar && avatar.length > 0 ? avatar : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_3_400x400.png'
+});
 
-    FCM.requestPermissions();
-    FCM.getFCMToken()
-        .then(token => {
-            console.log(token)
-        });
-    FCM.subscribeToTopic('secret-chatroom');
+export const login = () => {
+    return function (dispatch, getState) {
+        dispatch(startAuthorizing());
 
-    FCM.on(FCMEvent.Notification, async (notif) => {
-        console.log(notif);
+        firebase.auth()
+            .signInAnonymously()
+            .then(() => {
+                const { name, avatar } = getState().user;
 
-        if (Platform.OS === 'ios') {
-            switch (notif._notificationType) {
-                case NotificationType.Remote:
-                    notif.finish(RemoteNotificationResult.NewData); //other types available: RemoteNotificationResult.NewData, RemoteNotificationResult.ResultFailed
-                    break;
-                case NotificationType.NotificationResponse:
-                    notif.finish();
-                    break;
-                case NotificationType.WillPresent:
-                    notif.finish(WillPresentNotificationResult.All); //other types available: WillPresentNotificationResult.None
-                    break;
-            }
+                firebase.database()
+                    .ref(`users/${DeviceInfo.getUniqueID()}`)
+                    .set({
+                        name,
+                        avatar
+                    });
+
+                startChatting(dispatch);
+            });
+    }
+}
+
+export const checkUserExists = () => {
+
+    return function (dispatch) {
+        dispatch(startAuthorizing());
+
+        let user = firebase.auth().currentUser;
+        if (user === null)
+            dispatch(userNoExist());
+        else{
+            let userPath = "/users/" + user.uid + "/details";
+            firebase.database().ref(userPath).on('value', (snapshot) => {
+                const val = snapshot.val();
+                if (val === null) {
+                    dispatch(userNoExist());
+                }else{
+                    dispatch(setUserName(val.first_name + ' ' + val.last_name));
+                    //dispatch(setUserAvatar(val().avatar));
+                    startChatting(dispatch);
+                }
+            })
         }
-    });
+    }
+}
 
-    FCM.on(FCMEvent.RefreshToken, token => {
-        console.log(token);
-    });
-};
+const startChatting = function (dispatch) {
+    dispatch(userAuthorized());
+    dispatch(fetchMessages());
+
+    // ===> notifications code can go here <===
+
+    // FCM.requestPermissions();
+    // FCM.getFCMToken()
+    //     .then(token => {
+    //         console.log(token)
+    //     });
+    // FCM.subscribeToTopic('secret-chatroom');
+    //
+    // FCM.on(FCMEvent.Notification, async (notif) => {
+    //     console.log(notif);
+    //
+    //     if (Platform.OS === 'ios') {
+    //         switch (notif._notificationType) {
+    //             case NotificationType.Remote:
+    //                 notif.finish(RemoteNotificationResult.NewData); //other types available: RemoteNotificationResult.NewData, RemoteNotificationResult.ResultFailed
+    //                 break;
+    //             case NotificationType.NotificationResponse:
+    //                 notif.finish();
+    //                 break;
+    //             case NotificationType.WillPresent:
+    //                 notif.finish(WillPresentNotificationResult.All); //other types available: WillPresentNotificationResult.None
+    //                 break;
+    //         }
+    //     }
+    // });
+    //
+    // FCM.on(FCMEvent.RefreshToken, token => {
+    //     console.log(token);
+    // });
+}
+
+export const startAuthorizing = () => ({
+    type: 'USER_START_AUTHORIZING'
+});
+
+export const userAuthorized = () => ({
+    type: 'USER_AUTHORIZED'
+});
+
+export const userNoExist = () => ({
+    type: 'USER_NO_EXIST'
+});

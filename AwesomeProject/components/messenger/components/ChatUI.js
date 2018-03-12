@@ -8,25 +8,57 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Messages from '../containers/Messages';
 import Input from '../containers/Input';
 import { sendMessage } from '../actions';
-
+import Database from '../../firebase/database';
 import * as firebase from "firebase"
 
 const mapStateToProps = (state) => ({
     chat: state.chatroom,
     chatHeight: state.chatroom.meta.height,
-    user: state.user,
-    userId: firebase.auth().currentUser.uid
+    user: state.user
 });
 
 class ChatUI extends Component {
+    // constructor(props){
+    //     super(props);
+    //     console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
+    //         'Setting a timer',
+    //         'Invalid query string' //not working
+    //     ];
+    //     this.state = {
+    //     };
+    // }
     state = {
         scrollViewHeight: 0,
-        inputHeight: 0
+        inputHeight: 0,
+        fname: "",
+        lname: "",
+        uid: ""
     };
-    componentDidMount() {
+
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            Database.listenUserName(user.uid, (data)=> {
+                this.setState({
+                    fname: data.fname,
+                    lname: data.lname
+                })
+            });
+
+            this.setState({
+                  uid: user.uid,
+            });
+        } catch (error) {
+            alert(error);
+        }
         this.scrollToBottom(false);
     }
+
+
     componentDidUpdate() {
+        // this.props.user.uid = this.state.uid;
+        // this.props.user.name = this.state.fname + ' ' + this.state.lname;
         this.scrollToBottom();
     }
     onScrollViewLayout = (event) => {
@@ -57,15 +89,15 @@ class ChatUI extends Component {
         this.refs.scroll.scrollToFocusedInput(ReactNative.findNodeHandle(reactRef));
     }
 
-    sendMessage = (text, user, usreId, chat) => {
-        return sendMessage(text, this.props.user, this.props.userId,this.props.chat)
+    sendMessage = (text, user, chat) => {
+        return sendMessage(text, this.props.user, this.props.chat)
     };
 
     render() {
         return (
             <Screen>
                 <Title styleName="h-center" style={{padding: 10}}>
-                    Molly Jenkins
+                    Chatroom
                 </Title>
                 <KeyboardAwareScrollView ref="scroll"
                                          onLayout={this.onScrollViewLayout}>

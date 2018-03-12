@@ -7,7 +7,7 @@ import { createLogger } from 'redux-logger';
 
 import ChatUI from '../messenger/components/ChatUI';
 import rootReducer from '../messenger/reducers';
-import { fetchMessages, checkUserExists } from '../messenger/actions';
+import {fetchMessages , checkUserExists} from '../messenger/actions';
 
 
 const loggerMiddleware = createLogger();
@@ -20,11 +20,23 @@ const store = createStore(
     )
 );
 
+const LoginOrChat = connect(
+    (state) => ({
+        authorized: state.user.authorized
+    }))(({ authorized, dispatch }) => {
+    if (authorized) {
+        return (<ChatUI />);
+    }else{
+        dispatch(checkUserExists());
+        return (<ChatUI />);
+    }
+});
+
 class App extends Component {
     render() {
         return (
             <Provider store={store}>
-                <ChatUI />
+                <LoginOrChat  />
             </Provider>
         );
     }
