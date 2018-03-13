@@ -9,34 +9,33 @@ import {
 
 
 } from 'react-native';
-import Database from '../firebase/database';
 import * as firebase from "firebase";
 
 
 export default class UserPic extends Component {
 
-    constructor(props){
+
+
+    constructor(props) {
         super(props);
         console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
             'Setting a timer',
             'Invalid query string' //not working
         ];
+        
         this.state = {
-            fname: ""
+            fname: "",
+            lname: ""
         };
-
-
     }
-
-
     async componentDidMount(){
 
         try {
             let user = await firebase.auth().currentUser;
-            Database.listenUserName(user.uid, (data)=> {
+            Database.listenUserName(user.uid, (fname, lname)=> {
                 this.setState({
-                    fname: data.fname,
-                    lname: data.lname
+                    fname: fname,
+                    lname: lname
                 })
             });
 
@@ -49,59 +48,44 @@ export default class UserPic extends Component {
     }
 
 
-    onPressUP(){
-        alert("User Information");
-    }
-
-    onPressMessage(){
-        alert("User Information");
-    }
 
     render() {
-        let fname = this.state.fname;
-        let lname = this.state.lname;
+        let first_name = this.state.fname;
+        let last_name = this.state.lname;
 
         return (
             <View>
                 <View>
-                                    <Image
-                                        style={{backgroundColor: 'transparent',
-                                            flex: -1,
-                                            position: 'absolute',
-                                            width: 100,
-                                            height: 100,
-                                            top:35,
+                    <Image
+                        style={{backgroundColor: 'transparent',
+                            flex: -1,
+                            position: 'absolute',
+                            width: 100,
+                            height: 100,
+                            top:35,
 
-                                            right: 160,
-                                            //paddingVertical:-10,
-                                            borderColor: 'white',
-                                            borderRadius: 100/2,
-                                            borderWidth: 3,
+                            right: 150,
+                            //paddingVertical:-10,
+                            borderColor: 'white',
+                            borderRadius: 100/2,
+                            borderWidth: 3,
 
 
-                                        }}
-                                        source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
-                                    />
-                                </View>
+                        }}
+                        source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
+                        // source={require ('../images/person.png')} //need to pull this from the database by uid
+                    />
+                </View>
 
                 <View>
                     <Text style={styles.text13}>
-                        {fname} {lname}
+                        {first_name}{last_name}
                     </Text>
 
                 </View>
 
-                <View>
-                    <Text style={styles.text15}>
-                        There are two means of refuge from the miseries of life: music and cats.
 
-                    </Text>
 
-                </View>
-
-                <View>
-
-                </View>
             </View>
         );
     }
@@ -119,8 +103,8 @@ const styles = StyleSheet.create({
         color: '#fff', // Semi-transparent text
         top: 135, // Center
         fontFamily: 'Avenir',
-        fontSize: 25,
-        textAlign: 'center' ,
+        fontSize: 15,
+        right: -150 ,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
 
@@ -149,4 +133,3 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
 });
-

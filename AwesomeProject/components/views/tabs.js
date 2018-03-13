@@ -5,6 +5,9 @@ import {
     TouchableOpacity,   // Pressable container
     View                // Container component
 } from 'react-native';
+import {Navigator} from 'react-native-deprecated-custom-components';
+
+
 
 export default class Tabs extends Component {
 
@@ -12,7 +15,7 @@ export default class Tabs extends Component {
     state = {
         // First tab is active by default
         activeTab: 0
-    }
+    };
 
     // Pull children out of props passed from App component
     render({ children } = this.props) {
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
     },
     // Tab text
     tabText: {
-        color: '#FFFFFF',
+        color: '#858585',
         fontFamily: 'Avenir',
         fontWeight: 'bold',
         textAlign: 'center',

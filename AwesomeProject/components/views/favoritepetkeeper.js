@@ -18,30 +18,51 @@ import {
 } from 'react-native';
 
 import Tabs from '../styles/tabs';
-import * as firebase from "firebase";
-import Login from './login.js';
-
-
 import Swipeout from 'react-native-swipeout';
-import testData from '../data/testData.js';
+import Database from '../firebase/database';
+import * as firebase from "firebase";
+import Temp from '../tempCode/tempFunctions.js';
+import {Navigator} from 'react-native-deprecated-custom-components';
+
+//TODO Going to need a temp fuction to set up favorite users in database,
+
+
 
 class FlatListItem extends Component {
+
     constructor(props){
         super(props);
         this.state = {
-            activeRowKey:   null    // where selected key can be stored
+            activeRowKey:   null,    // where selected key can be stored
+
         };
+    }
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            this.setState({
+                uid: user.uid,
+            });
+
+
+        } catch (error) {
+            alert(error);
+        }
+
     }
 
     render() {
         const swipeSetting = {
             autoClose:  true,
             onclose:    (secId,rowId,direction) => {
-                if(this.state.activeRowKey != null)
+                if(this.state.activeRowKey !== null)
                     this.setState({activeRowKey: null});
             },
             onOpen:     (secId, rowId, direction) => {
-                this.setState({activeRowKey: this.props.item.key});
+                this.setState({
+                    activeRowKey: this.props.item.key
+                });
             },
             right:      [
                 {
@@ -52,8 +73,9 @@ class FlatListItem extends Component {
                             'Are you sure you want to delete?',
                             [
                                 {text: 'Yes', onPress: () => {
-                                    testData.splice(this.props.index, 1);
-                                    this.props.parentFlatList.refreshFlatList(deletingRow);
+                                   let key = this.props.item.key;
+                                   Database.removeFavorite(this.state.uid, key);
+
                                 }},
                                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'}
                             ],
@@ -75,7 +97,7 @@ class FlatListItem extends Component {
                     <View style={{  // each row of data
                         flex: 1,                            // Take up all screen
                         flexDirection: 'row',
-                        backgroundColor: this.props.index % 2 == 0 ? '#F39C12' : '#F9690E',
+                        backgroundColor: this.props.index % 2 === 0 ? '#F39C12' : '#F9690E',
                     }}>
 
                         <Image      //  image is placed to the left of the text
@@ -110,15 +132,31 @@ export default class FavoritePetKeeper extends Component {
         super(props);
         this.state = {
             deletedRowKey: null,
+            testData: []
         }
     }
-    refreshFlatList = (deletedKey) => { // automatically refresh list after deleting object
-        this.setState((prevState) => {
-            return {
-                deletedRowKey: deletedKey
-            };
-        });
-    };
+
+    async componentDidMount(){
+
+        try {
+            let user = await firebase.auth().currentUser;
+            this.setState({
+                uid: user.uid,
+            });
+
+
+            Database.listenFavoriteUsers(user.uid, (data)=> {
+                this.setState({
+                    testData: data
+                })
+            });
+
+        } catch (error) {
+            alert(error);
+        }
+
+    }
+
 
     _onPressAdd(){
         alert("Add Favorite Pet Keeper");
@@ -126,11 +164,8 @@ export default class FavoritePetKeeper extends Component {
 
 
 
-
-
-
-
     render() {
+
         return (
             <View style={styles.container13}>
 
@@ -146,7 +181,7 @@ export default class FavoritePetKeeper extends Component {
                             </TouchableHighlight>
 
                         <FlatList
-                            data={testData}
+                            data={this.state.testData}
                             renderItem={({item, index})=>{
                                 return(
                                     <FlatListItem item = {item} index = {index} parentFlatList={this}>
@@ -214,4 +249,3 @@ const styles = StyleSheet.create({
 
 });
 
-module.exports = FavoritePetKeeper;

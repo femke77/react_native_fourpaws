@@ -106,7 +106,6 @@ export default class App extends Component {
                     placeholder="add a description"
                     //defaultValue="New Event"
                     visible={this.state.promptVisible}
-
                     onCancel={() => this.setState({ promptVisible: false, message: "No event for now" })}
                     onSubmit={(value) => this.setState({ promptVisible: false, message: `Event: "${value}"` })}/>
             </View>
