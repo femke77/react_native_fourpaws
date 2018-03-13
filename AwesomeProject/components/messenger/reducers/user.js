@@ -1,9 +1,9 @@
 const initialState = {
-    uid: 'T3V3IrKaVPhkHJ9pXr68kA9sVA33',
-    name: 'Bill Dauterive',
+    uid: null,
+    name: null,
     avatar: 'https://abs.twimg.com/sticky/default_profile_images/default_profile_3_400x400.png',
     authorizing: false,
-    authorized: true
+    authorized: false
 };
 
 const user = (state = initialState, action) => {
