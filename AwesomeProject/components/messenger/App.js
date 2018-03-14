@@ -9,7 +9,6 @@ import ChatUI from '../messenger/components/ChatUI';
 import rootReducer from '../messenger/reducers';
 import {fetchMessages , checkUserExists} from '../messenger/actions';
 
-
 const loggerMiddleware = createLogger();
 
 const store = createStore(
