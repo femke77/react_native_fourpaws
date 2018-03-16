@@ -145,9 +145,9 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-push-notification')
     compile(project(":react-native-google-signin")){
-        exclude group: "com.google.android.gms", module: 'multidex'
+        exclude group: "com.google.android.gms"
     }
-    compile ('com.google.android.gms:play-services-base:10.2.4')
+
     compile ('com.google.android.gms:play-services-auth:10.2.4')
     compile ('com.google.android.gms:play-services-maps:10.2.4')
     compile ('com.google.android.gms:play-services-gcm:10.2.4') {
@@ -157,10 +157,10 @@ dependencies {
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-maps')
 
-    //compile fileTree(dir: "libs", include: ["*.jar"])
-    //compile "com.android.support:appcompat-v7:23.0.1"
+    compile fileTree(dir: "libs", include: ["*.jar"])
+    compile "com.android.support:appcompat-v7:23.0.1"
     compile ("com.facebook.react:react-native:+"){
-        exclude group: 'com.google.android.gms', module: 'multidex'
+        exclude group: 'com.google.android.gms'
     }  // From node_modules
 
 

@@ -14,6 +14,7 @@ import * as firebase from "firebase";
 import PropTypes from 'prop-types';
 import Database from '../firebase/database';
 
+
 const window = Dimensions.get('window');
 
 
@@ -33,7 +34,7 @@ export default class Menu extends Component {
 
     logout() {
 
-        this.props.navigator.push({ id: 'Login'});
+        this.props.navigator.jumpTo({ id: 'Login'});
         firebase.auth().signOut().then(function() {
         }).catch(function(error) {
         });

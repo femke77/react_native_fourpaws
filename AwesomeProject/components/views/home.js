@@ -56,6 +56,7 @@ export default class Home extends Component {
             alert(error);
         }
     }
+
     logout() {
 
         this.props.navigator.push({ id: 'Login'});
