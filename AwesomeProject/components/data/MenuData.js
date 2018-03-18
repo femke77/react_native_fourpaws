@@ -13,10 +13,13 @@ import Login from '../views/login.js';
 import * as firebase from "firebase";
 import PropTypes from 'prop-types';
 import Database from '../firebase/database';
-
+import {GoogleSignin} from 'react-native-google-signin'
 
 const window = Dimensions.get('window');
 
+//logout is needed whether signed up via firebase or signed in via googlesignin in order to clear the observer back to null user
+//google signout doesn't seem useful/doesn't seem to work with observer, but if you want to revoke access of google signin you do need revokeaccess()
+//how this is currently set up is that access is revoked every signout if they are signed in under google
 
 export default class Menu extends Component {
     constructor(props){
@@ -25,36 +28,29 @@ export default class Menu extends Component {
         this.state = {
             fname: "",
             lname: "",
+            user: ""
         };
 
-        this.logout = this.logout.bind(this);
-        this.googleSignOut = this.googleSignOut.bind(this);
-    }
-
-
-    logout() {
-
-        this.props.navigator.jumpTo({ id: 'Login'});
-        firebase.auth().signOut().then(function() {
-        }).catch(function(error) {
-        });
-
-    }
-
-    googleSignOut() {
-        GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
-            this.props.navigator.push({id: 'Login'});
-        }).done();
     }
 
     async componentDidMount(){
+        GoogleSignin.hasPlayServices({autoResolve: true});
+        GoogleSignin.configure({
+            webClientId:'1002267002264-1j8pm8s5q7go07v22ilej3ma7s1v4f3v.apps.googleusercontent.com',
+            offlineAccess: false,
+            forceConsentPrompt: true,
 
+        });
+        GoogleSignin.currentUserAsync().then((user) => {
+            console.log('USER', user);
+            this.setState({user: user});
+        }).done();
         try {
             let user = await firebase.auth().currentUser;
-            Database.listenUserName(user.uid, (fname, lname)=> {
+            Database.listenUserName(user.uid, (data)=> {
                 this.setState({
-                    fname: fname,
-                    lname: lname,
+                    fname: data.fname,
+                    lname: data.lname,
                 })
             });
 
@@ -65,6 +61,25 @@ export default class Menu extends Component {
             alert(error);
         }
     }
+
+    logout() {
+        //     this.props.navigator.push({id: 'Login'});
+        firebase.auth().signOut().then(function() {
+        }).catch(function(error) {
+        });
+
+    }
+
+    googleSignOut() {
+        this.logout();
+        if (this.state.user !== null) {
+            GoogleSignin.revokeAccess().then(() => {
+            }).done();
+
+        }
+    }
+
+
 
 
     render() {
@@ -174,7 +189,8 @@ export default class Menu extends Component {
 
                 </Text>
                 <Button
-                    onPress={()=>this.logout()}
+                    onPress={()=>this.googleSignOut()}
+
                     style={styles.item}
                     title='Sign Out'
                     color='#273444'

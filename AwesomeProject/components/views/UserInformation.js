@@ -58,15 +58,15 @@ export default class Information extends Component {
 
         try {
             let user = await firebase.auth().currentUser;
-            Database.listenUserName(user.uid, (fname, lname, address, city, state, zipcode, contactNumber)=> {
+            Database.listenUserInfo(user.uid, (data)=> {
                 this.setState({
-                    fname: fname,
-                    lname: lname,
-                    address: address,
-                    city: city,
-                    state: state,
-                    zipcode: zipcode,
-                    contactNumber:contactNumber
+                    fname: data.fname,
+                    lname: data.lname,
+                    address: data.address,
+                    city: data.city,
+                    state: data.state,
+                    zipcode: data.zipcode,
+                    contactNumber: data.contactNumber
                 })
             });
 

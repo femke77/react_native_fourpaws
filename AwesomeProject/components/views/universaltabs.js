@@ -58,10 +58,10 @@ export default class Universaltabs extends Component {
 
         try {
             let user = await firebase.auth().currentUser;
-            Database.listenUserName(user.uid, (fname, lname)=> {
+            Database.listenUserName(user.uid, (data)=> {
                 this.setState({
-                    fname: fname,
-                    lname: lname
+                    fname: data.fname,
+                    lname: data.lname
                 })
             });
 
