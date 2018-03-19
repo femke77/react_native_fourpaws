@@ -20,7 +20,7 @@ import {
 import dismissKeyboard from 'react-native-dismiss-keyboard';
 import * as firebase from "firebase";
 import {GoogleSignin} from 'react-native-google-signin'
-import {Navigator} from 'react-native-deprecated-custom-components';
+
 import Database from '../firebase/database.js'
 
 //TODO put a space between the buttons, or side by side?

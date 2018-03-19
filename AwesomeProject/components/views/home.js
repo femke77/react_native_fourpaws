@@ -13,11 +13,11 @@ import {
     Button
 
 } from 'react-native';
-import Tabs from '../styles/tabs';
+
 import * as firebase from "firebase";
 import Login from './login.js';
 import {GoogleSignin} from 'react-native-google-signin'
-import Universaltabs from './universaltabs.js';
+
 import MenubarMain from './MenuBar';
 
 import Database from '../firebase/database';

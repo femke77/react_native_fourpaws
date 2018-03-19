@@ -22,12 +22,6 @@ import {
 import { Header, Avatar } from 'react-native-elements';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import Tabs from './tabs';
-import Profile_Information from './Profile_Information';
-import UserPic from './UserPic';
-import Mapviews from "./Mapview";
-import Calendars from "./calendar";
-import FavoritePetKeeper from "./favoritepetkeeper";
-import Menu from "./MenuBar"
 import * as firebase from "firebase";
 import Database from '../firebase/database';
 import { Nav, Tab } from 'react-native-simple-tab';

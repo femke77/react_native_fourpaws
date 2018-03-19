@@ -14,7 +14,7 @@ import {
 
 } from 'react-native';
 import * as firebase from "firebase";
-import {Navigator} from 'react-native-deprecated-custom-components';
+
 import Signup2 from '../views/signupaddress'
 import Database from '../firebase/database';
 

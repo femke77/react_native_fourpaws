@@ -17,12 +17,12 @@ import {
 
 } from 'react-native';
 
-import Tabs from '../styles/tabs';
+
 import Swipeout from 'react-native-swipeout';
 import Database from '../firebase/database';
 import * as firebase from "firebase";
 import Temp from '../tempCode/tempFunctions.js';
-import {Navigator} from 'react-native-deprecated-custom-components';
+
 
 //TODO Going to need a temp fuction to set up favorite users in database,
 
