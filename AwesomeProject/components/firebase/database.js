@@ -7,7 +7,7 @@ export default class Database {
 
     static setUser(userId, contactNumber, fname, lname, username, email, image) {
         let userPath = "/users/" + userId + "/details";
-        return firebase.database().ref(userPath).set({
+        return firebase.database().ref(userPath).update({
             contactNumber: contactNumber,
             first_name: fname,
             last_name: lname,
@@ -46,6 +46,14 @@ export default class Database {
         });
     }
 
+    static setFromGoogleAccount(userId, userInfo){
+        let userPath = "/users/" + userId + "/details/";
+        return firebase.database().ref(userPath).update({
+            image: userInfo.photoURL,
+        })
+
+    }
+
     //listeners:
 
     static listenUserName(userId, callback) {
@@ -63,6 +71,20 @@ export default class Database {
         });
     }
 
+    static listenGoogleAccountInfo(userId, callback) {
+        let userPath = "/users/" + userId + "/details";
+        firebase.database().ref(userPath).on('value', (snapshot) => {
+            let data = {
+                image: "",
+
+            };
+            if (snapshot.val()) {
+                data.image = snapshot.val().image;
+
+            }
+            callback(data)
+        });
+    }
 
     //use this is you need to retrive data and send back to state, need to write callback function in the correct component
     //use the names that match the database for the snapshot
@@ -94,10 +116,10 @@ export default class Database {
 
     static findUID(userId, callback){
         let userPath = "/users/" + userId;
-        firebase.database().ref(userPath).on('value', (snapshot) => {
+        firebase.database().ref(userPath).once('value', (snapshot) => {
             let bool = false;
             if (snapshot.exists()) {
-               bool = true;
+                bool = true;
             }
             callback(bool);
         });
@@ -146,6 +168,8 @@ export default class Database {
             callback(items)
         });
     }
+
+
 
     //remove:
 

@@ -93,21 +93,22 @@ export default class Login extends Component {
 
             //idToken contains the basic information about the google user - needs to be send to DB
             const user = {
-                mail: data.email,
                 photoURL: data.photoURL,
-                name: data.displayName,
                 uid: await firebase.auth().currentUser.uid
             };
 
+            if (!user.photoURL){
+             user.photoURL= "";  //avoids a null reference error should no url be ava. from google acount
+            }
            Database.findUID(user.uid, (bool) => {
                 if (bool){
                     this.props.navigator.push({id:'Home'});
                 }
                 else{
-                    this.props.navigator.push({id: 'Signup'})
+                    this.props.navigator.push({id: 'Signup'});
+                    Database.setFromGoogleAccount(user.uid, user);
                 }
-                })
-
+           });
 
     }
 

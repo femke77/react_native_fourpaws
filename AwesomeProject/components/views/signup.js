@@ -36,7 +36,7 @@ export default class Signup extends Component {
             contactNumber: null,
             username: null,
             email: null,
-            image: null
+            image: "image URL",
         };
 
         this.goLogin = this.goLogin.bind(this);
@@ -48,9 +48,16 @@ export default class Signup extends Component {
 
         try {
             let user = await firebase.auth().currentUser;
+
             this.setState({
                 uid: user.uid,
                 email: user.email,
+            });
+
+            Database.listenGoogleAccountInfo(user.uid, (data)=> {
+                this.setState({
+                    image: data.image
+                })
             });
         } catch (error) {
             alert(error);
@@ -86,6 +93,7 @@ export default class Signup extends Component {
 
     render(){
         const resizeMode = 'cover';
+        let image = this.state.image;
         return (
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
 
@@ -172,7 +180,7 @@ export default class Signup extends Component {
                 />
 
                 <TextInput
-                    placeholder=" Image URL"
+                    value = {image}
                     placeholderTextColor= "#ffffff"
                     returnKeyType="next"
                     keyboardType= "email-address"
