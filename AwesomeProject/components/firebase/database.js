@@ -98,7 +98,8 @@ export default class Database {
              city: "",
              state: "",
              zipcode : "",
-             contactNumber: ""
+             contactNumber: "",
+             image: ""
             };
 
             if (snapshot.val()) {
@@ -109,6 +110,7 @@ export default class Database {
                 data.state= snapshot.val().state;
                 data.zipcode= snapshot.val().zipcode;
                 data.contactNumber= snapshot.val().contactNumber;
+                data.image = snapshot.val().image;
             }
             callback(data)
         });

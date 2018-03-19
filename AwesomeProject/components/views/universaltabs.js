@@ -47,6 +47,7 @@ export default class Universaltabs extends Component {
         this.state = {
             fname: "",
             lname: "",
+            image: ""
 
 
         };
@@ -58,10 +59,11 @@ export default class Universaltabs extends Component {
 
         try {
             let user = await firebase.auth().currentUser;
-            Database.listenUserName(user.uid, (data)=> {
+            Database.listenUserInfo(user.uid, (data)=> {
                 this.setState({
                     fname: data.fname,
-                    lname: data.lname
+                    lname: data.lname,
+                    image: data.image
                 })
             });
 
@@ -102,7 +104,7 @@ export default class Universaltabs extends Component {
 
                         <Avatar style={styles.ImageUser}
                                 xlarge
-                                source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
+                                source={{uri: this.state.image}}
                                 onPress={() => console.log("Works!")}
                                 activeOpacity={0.7}
                                 containerStyle={{borderWidth:4, left:15, top:10, borderColor:'white' }}
@@ -218,6 +220,8 @@ const styles = StyleSheet.create({
         flex: 1,
         position: 'absolute',
         borderColor: 'white',
+        height: 50,
+        width: 50,
         right: 15,
         borderWidth: 3,         // Darker background for content area
     },

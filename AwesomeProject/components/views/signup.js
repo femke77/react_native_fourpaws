@@ -181,6 +181,7 @@ export default class Signup extends Component {
 
                 <TextInput
                     value = {image}
+                    selectTextOnFocus = {true}
                     placeholderTextColor= "#ffffff"
                     returnKeyType="next"
                     keyboardType= "email-address"

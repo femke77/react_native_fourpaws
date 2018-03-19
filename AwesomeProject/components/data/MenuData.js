@@ -28,7 +28,8 @@ export default class Menu extends Component {
         this.state = {
             fname: "",
             lname: "",
-            user: ""
+            user: "",
+            image: ""
         };
 
     }
@@ -47,20 +48,22 @@ export default class Menu extends Component {
         }).done();
         try {
             let user = await firebase.auth().currentUser;
-            Database.listenUserName(user.uid, (data)=> {
+            Database.listenUserInfo(user.uid, (data)=> {
                 this.setState({
                     fname: data.fname,
                     lname: data.lname,
+                    image: data.image
                 })
             });
-
             this.setState({
                 uid: user.uid,
             });
         } catch (error) {
             alert(error);
         }
+
     }
+
 
     logout() {
         //     this.props.navigator.push({id: 'Login'});
@@ -101,7 +104,7 @@ export default class Menu extends Component {
                             borderRadius: 100/2,
                             borderWidth: 3,
                         }}
-                        source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
+                        source={{uri: this.state.image}}
                     />
                     <Text style={styles.name}>{user_name} {last_name}</Text>
                 </View>
