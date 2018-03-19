@@ -21,12 +21,12 @@ import {
 import {Navigator} from 'react-native-deprecated-custom-components';
 import Login from './components/views/login';
 import Firebase from './components/firebase/firebase';
-import Home from './components/views/home';
+import Home from './components/views/MenuBar.js';
 import Signup from './components/views/signup';
 import Signup2 from './components/views/signupaddress';
 import Upload from './components/tools/upload';
 import * as firebase from 'firebase';
-import Messenger from './components/messenger/App'
+
 
 export default class AwesomeProject extends Component {
 

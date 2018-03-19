@@ -9,7 +9,7 @@ import {
     Button,
     Alert
 } from 'react-native';
-import Login from '../views/login.js';
+
 import * as firebase from "firebase";
 import PropTypes from 'prop-types';
 import Database from '../firebase/database';

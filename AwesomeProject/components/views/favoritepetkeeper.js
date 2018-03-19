@@ -21,11 +21,10 @@ import {
 import Swipeout from 'react-native-swipeout';
 import Database from '../firebase/database';
 import * as firebase from "firebase";
-import Temp from '../tempCode/tempFunctions.js';
 
 
-//TODO Going to need a temp fuction to set up favorite users in database,
 
+//TODO Going to need a temp fuction to set up favorite users in database ??
 
 
 class FlatListItem extends Component {
