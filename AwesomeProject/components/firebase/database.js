@@ -128,6 +128,26 @@ export default class Database {
 
     }
 
+    static listenChatUsers(userId, callback) {
+        let userPath = "/users/" + userId + "/messages/";
+        firebase.database().ref(userPath).on('value', (snapshot) => {
+            let list = [];
+
+            if (snapshot.val()) {
+                snapshot.forEach((child) => {
+                    firebase.database().ref(userPath + child.val().id + "/author/").on('value', (snapshot) => {
+                        list.push({
+                            name: snapshot.val().name,
+                            avatar: snapshot.val().avatar
+                        })
+                    })
+
+                });
+            }
+            callback(list);
+        });
+    }
+
     static listenFavoriteUsers(userId, callback) {
         let userPath = "/users/" + userId + "/favorites/";
         firebase.database().ref(userPath).on('value', (snapshot) => {
@@ -193,6 +213,16 @@ export default class Database {
             console.log(error)
 
         });
+
+    }
+
+    static removeChat(userId, id) {
+        let userPath = "/users/" + userId + "/messages/" + id;
+        return firebase.database().ref(userPath).remove()
+            .catch(function (error) {
+                console.log(error)
+
+            });
 
     }
 

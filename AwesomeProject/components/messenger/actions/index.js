@@ -1,6 +1,4 @@
-import firebase from '../firebase';
-import DeviceInfo from 'react-native-device-info';
-import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
+import * as firebase from "firebase";
 import { Platform } from 'react-native';
 
 export const addMessage = (msg) => ({
@@ -93,32 +91,8 @@ export const setUserAvatar = (avatar) => ({
     avatar: avatar && avatar.length > 0 ? avatar : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_3_400x400.png'
 });
 
-export const login = () => {
-    return function (dispatch, getState) {
-        dispatch(startAuthorizing());
-
-        firebase.auth()
-            .signInAnonymously()
-            .then(() => {
-                const { name, avatar } = getState().user;
-
-                firebase.database()
-                    .ref(`users/${DeviceInfo.getUniqueID()}`)
-                    .set({
-                        name,
-                        avatar
-                    });
-
-                startChatting(dispatch);
-            });
-    }
-}
-
-export const checkUserExists = () => {
-
+export const userInformation = () => {
     return function (dispatch) {
-        dispatch(startAuthorizing());
-
         let user = firebase.auth().currentUser;
         if (user === null)
             dispatch(userNoExist());
@@ -129,8 +103,9 @@ export const checkUserExists = () => {
                 if (val === null) {
                     dispatch(userNoExist());
                 }else{
+                    dispatch(setUserID(user.uid));
                     dispatch(setUserName(val.first_name + ' ' + val.last_name));
-                    //dispatch(setUserAvatar(val().avatar));
+                    dispatch(setUserAvatar(snapshot.val().image));
                     startChatting(dispatch);
                 }
             })
@@ -173,10 +148,6 @@ const startChatting = function (dispatch) {
     //     console.log(token);
     // });
 }
-
-export const startAuthorizing = () => ({
-    type: 'USER_START_AUTHORIZING'
-});
 
 export const userAuthorized = () => ({
     type: 'USER_AUTHORIZED'

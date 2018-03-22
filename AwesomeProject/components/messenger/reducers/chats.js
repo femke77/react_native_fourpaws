@@ -11,7 +11,7 @@ const initialState = {
 
 const meta = (state = initialState, action) => {
     switch (action.type) {
-        case 'CREATE_CHATROOM':
+        case 'CREATE_CHAT':
             return Object.assign({}, state, {
                 id: action.id
             });

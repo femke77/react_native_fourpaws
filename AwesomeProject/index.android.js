@@ -25,6 +25,8 @@ import Home from './components/views/MenuBar.js';
 import Signup from './components/views/signup';
 import Signup2 from './components/views/signupaddress';
 import Upload from './components/tools/upload';
+import FavoritePetKeeper from './components/views/favoritepetkeeper';
+import Messenger from './components/messenger/Messenger';
 import * as firebase from 'firebase';
 
 
@@ -51,7 +53,7 @@ export default class AwesomeProject extends Component {
 
         getInitialView() {
             firebase.auth().onAuthStateChanged((user) => {
-                let initialView = user ? "Home" : "Login";
+                let initialView = user ? "Messenger" : "Login";
                 this.setState({
                     userLoaded: true,
                     initialView: initialView
@@ -77,6 +79,12 @@ export default class AwesomeProject extends Component {
                 case 'Upload':
                    return (<Upload navigator={navigator}{...route.passProps}/>);
                    break;
+                case 'Messenger':
+                    return (<Messenger navigator={navigator}{...route.passProps}/>);
+                    break;
+                case 'FavoritePetKeeper':
+                    return (<FavoritePetKeeper navigator={navigator}{...route.passProps}/>);
+                    break;
             }
         };
 

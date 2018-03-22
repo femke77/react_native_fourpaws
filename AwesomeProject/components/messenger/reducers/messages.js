@@ -29,6 +29,10 @@ const messages = (state = [], action) => {
                 ...state,
                 message(undefined, action)
             ];
+        case 'READ_MESSAGE':
+            return Object.assign({}, state, {
+                read: true
+            });
         default:
             return state
     }

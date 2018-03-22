@@ -5,7 +5,6 @@ import ReactNative from 'react-native';
 import { View, Title, Screen } from '@shoutem/ui';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import ChatList from '../components/ChatList'
 import Messages from '../containers/Messages';
 import Input from '../containers/Input';
 import { sendMessage } from '../actions';
@@ -18,7 +17,7 @@ const mapStateToProps = (state) => ({
     user: state.user
 });
 
-class ChatUI extends Component {
+class MessageUI extends Component {
     // constructor(props){
     //     super(props);
     //     console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
@@ -83,11 +82,17 @@ class ChatUI extends Component {
                 </Title>
                 <KeyboardAwareScrollView ref="scroll"
                                          onLayout={this.onScrollViewLayout}>
-                    <ChatList/>
+                    <Messages/>
                 </KeyboardAwareScrollView>
+                    <Input footer={height=100}
+                           onLayout={this.onInputLayout}
+                           // onFocus={this._scrollToInput.bind(this)}
+                           submitAction={this.sendMessage}
+                           ref="input"
+                           placeholder="Message ..." />
             </Screen>
         )
     }
 }
 
-export default connect(mapStateToProps)(ChatUI);
+export default connect(mapStateToProps)(MessageUI);

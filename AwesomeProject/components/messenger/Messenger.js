@@ -1,45 +1,34 @@
 import React, { Component } from 'react';
-
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
-
-import ChatUI from '../messenger/components/ChatUI';
 import rootReducer from '../messenger/reducers';
-import {fetchMessages , checkUserExists} from '../messenger/actions';
-
-
-const loggerMiddleware = createLogger();
+import {fetchMessages , userInformation} from '../messenger/actions';
+import ChatUI from './components/ChatUI';
 
 const store = createStore(
     rootReducer,
     applyMiddleware(
         thunkMiddleware,
-        //loggerMiddleware
     )
 );
 
-const LoginOrChat = connect(
+const InitializeOrChat = connect(
     (state) => ({
         authorized: state.user.authorized
     }))(({ authorized, dispatch }) => {
-    if (authorized) {
+        dispatch(userInformation());
         return (<ChatUI />);
-    }else{
-        dispatch(checkUserExists());
-        return (<ChatUI />);
-    }
 });
 
-class App extends Component {
+class Messenger extends Component {
     render() {
         return (
             <Provider store={store}>
-                <LoginOrChat  />
+                <InitializeOrChat  />
             </Provider>
         );
     }
 }
 
-export default App;
+export default Messenger;

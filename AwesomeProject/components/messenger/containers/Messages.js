@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Spinner } from '@shoutem/ui';
+import { View } from '@shoutem/ui';
 
 import MessageList from '../components/MessageList';
 import { updateMessagesHeight } from '../actions';
@@ -17,7 +17,6 @@ const Messages = connect(
         return (
             <View style={{paddingTop: 50,
                 paddingBottom: 50}}>
-                <Spinner />
             </View>
         )
     }else{
