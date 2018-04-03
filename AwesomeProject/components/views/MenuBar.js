@@ -17,72 +17,16 @@ import PropTypes from 'prop-types';
 import Database from '../firebase/database';
 import {GoogleSignin} from 'react-native-google-signin'
 import Login from '../views/login.js'
+import Messenger from "../messenger/Messenger";
 
 
 const window = Dimensions.get('window');
-
-export default class MenubarMain extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.toggle = this.toggle.bind(this);
-
-        this.state = {
-            isOpen: false,
-
-            selectedItem: 'Home',
-        };
-    }
-
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen,
-        });
-    }
-
-    updateMenuState(isOpen) {
-        this.setState({ isOpen });
-    }
-
-    onMenuItemSelected = item =>
-        this.setState({
-            isOpen: false,
-            selectedItem: item,
-        });
-    render() {
-
-        const menu = <Menu onItemSelected={this.onMenuItemSelected} navigator={this.props.navigator}/>;
-
-
-        return (
-
-            <SideMenu
-                isOpen={this.state.isOpen}
-                onChange={isOpen => this.updateMenuState(isOpen)}
-                hiddenMenuOffset={10}
-
-                toleranceY={10}
-                menu={menu}
-
-
-            >
-                <Universaltabs/>
-
-            </SideMenu>
-        );
-    }
-}
-
-
 
 //logout is needed whether signed up via firebase or signed in via googlesignin in order to clear the observer back to null user
 //google signout doesn't seem useful/doesn't seem to work with observer, but if you want to revoke access of google signin you do need revokeaccess()
 //how this is currently set up is that access is revoked every signout if they are signed in under google
 
-class Menu extends Component {
-
-
+export default class Menu extends Component {
     constructor(props){
         super(props);
 
@@ -92,7 +36,6 @@ class Menu extends Component {
             user: "",
             image: ""
         };
-
     }
 
     async componentDidMount(){
@@ -125,6 +68,11 @@ class Menu extends Component {
 
     }
 
+    onMenuItemSelected = item =>
+        this.setState({
+            isOpen: false,
+            selectedItem: item,
+        });
 
     logout() {
         this.props.navigator.push({id: 'Login'});
@@ -142,9 +90,6 @@ class Menu extends Component {
 
         }
     }
-
-
-
 
     render() {
         let user_name = this.state.fname;
@@ -175,7 +120,8 @@ class Menu extends Component {
 
                 <Button
                     onPress={() => {
-                        Alert.alert('Home');
+                        this.state.onMenuItemSelected = 'Home';
+                        this.props.navigator.push({id: 'Home'})
                     }}
                     style={styles.item}
                     title='Home'
@@ -186,7 +132,8 @@ class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        onItemSelected('Messenger');
+                        this.state.onMenuItemSelected = 'Messenger';
+                        this.props.navigator.push({id: 'Messenger'});
                     }}
                     style={styles.item}
                     title='Messenger'
@@ -197,7 +144,8 @@ class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        onItemSelected('User Search');
+                        this.state.onMenuItemSelected = ('UserSearch');
+                        this.props.navigator.push({id: 'UserSearch'})
                     }}
                     style={styles.item}
                     title='User Search'
@@ -209,7 +157,8 @@ class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        onItemSelected('Calendar');
+                        this.state.onMenuItemSelected = ('Calendar');
+                        this.props.navigator.push({id: 'Calendar'})
                     }}
                     style={styles.item}
                     title='Calendar'
@@ -220,10 +169,11 @@ class Menu extends Component {
                 </Text>
                 <Button
                     onPress={() => {
-                        onItemSelected('Favourite Pet Keepers');
+                        this.state.onMenuItemSelected = ('FavoritePetKeeper');
+                        this.props.navigator.push({id: 'FavoritePetKeeper'})
                     }}
                     style={styles.item}
-                    title='Favourite Pet Keepers'
+                    title='Favorite Pet Keepers'
                     color='#273444'
                 />
                 <Text
@@ -265,8 +215,6 @@ class Menu extends Component {
     }
 }
 
-
-
 const styles = StyleSheet.create({
     menu1: {
         flex: 1,
@@ -292,8 +240,9 @@ const styles = StyleSheet.create({
         borderRadius: 100/2,
     },
     name: {
-        position: 'absolute',
-        right: 85,
+        // position: 'absolute',
+        // right: 85,
+        flex: 1,
         top: 140,
         textAlign: 'center',
         fontSize: 25,

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-
     AppRegistry,
     StyleSheet,
     Text,
@@ -14,9 +13,6 @@ import {
     Keyboard,
     Button,
     ScrollView
-
-
-
 } from 'react-native';
 
 import { Header, Avatar } from 'react-native-elements';
@@ -27,10 +23,7 @@ import Database from '../firebase/database';
 import { Nav, Tab } from 'react-native-simple-tab';
 import Information from './UserInformation';
 import List from "./ListView";
-
-
-
-
+import Menu from '../../components/views/MenuBar';
 
 
 export default class Universaltabs extends Component {
@@ -45,7 +38,6 @@ export default class Universaltabs extends Component {
 
 
         };
-
     }
 
 

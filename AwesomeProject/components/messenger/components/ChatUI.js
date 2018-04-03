@@ -12,22 +12,14 @@ import { sendMessage } from '../actions';
 import Database from '../../firebase/database';
 import * as firebase from "firebase"
 
-const mapStateToProps = (state) => ({
-    chat: state.chatroom,
-    chatHeight: state.chatroom.meta.height,
-    user: state.user
-});
+export default class ChatUI extends Component {
+    constructor(props){
+        super(props);
 
-class ChatUI extends Component {
-    // constructor(props){
-    //     super(props);
-    //     console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
-    //         'Setting a timer',
-    //         'Invalid query string' //not working
-    //     ];
-    //     this.state = {
-    //     };
-    // }
+        this.state = {
+            // navigator: this.props.navigator
+        };
+    }
     state = {
         scrollViewHeight: 0,
         inputHeight: 0
@@ -83,11 +75,9 @@ class ChatUI extends Component {
                 </Title>
                 <KeyboardAwareScrollView ref="scroll"
                                          onLayout={this.onScrollViewLayout}>
-                    <ChatList/>
+                    <ChatList {...this.props} navigator={this.props.navigator}/>
                 </KeyboardAwareScrollView>
             </Screen>
         )
     }
 }
-
-export default connect(mapStateToProps)(ChatUI);

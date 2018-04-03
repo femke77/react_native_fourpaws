@@ -13,7 +13,9 @@ import {
     TouchableOpacity,
     StatusBar,
     TextInput,
-    Button
+    Button,
+    Keyboard,
+    AsyncStorage
 
 } from 'react-native';
 
@@ -21,24 +23,20 @@ import {Navigator} from 'react-native-deprecated-custom-components';
 import Swipeout from 'react-native-swipeout';
 import Database from '../../firebase/database';
 import * as firebase from "firebase";
-import MessageUI from '../components/MessageUI';
 
+const mapStateToProps = (state) => ({
+    chat: state.chatroom,
+    chatHeight: state.chatroom.meta.height,
+    user: state.user,
+    navigator: state.navigator
+});
 
 class FlatListItem extends Component {
-    renderScene = (route, navigator) => {
-        _navigator = navigator;
-        switch (route.id) {
-            case 'MessageUI':
-                return (<MessageUI navigator={navigator}{...route.passProps}/>);
-                break;
-        }
-    };
-
     constructor(props){
         super(props);
+
         this.state = {
             activeRowKey:   null,    // where selected key can be stored
-
         };
     }
     async componentDidMount(){
@@ -56,7 +54,6 @@ class FlatListItem extends Component {
 
     }
 
-
     _onPressAdd(){
         alert("Add New");
     }
@@ -73,10 +70,6 @@ class FlatListItem extends Component {
             ],
             {cancelable: true}
         );
-    }
-    _onPressMessage(){
-        <Navigator initialRoute={{id: this.state.initialView}}
-                   renderScene={this.renderScene}/>
     }
 
     render() {
@@ -142,7 +135,10 @@ class FlatListItem extends Component {
                         <TouchableHighlight
                             style={{flex: 1}}
                             underlayColor = 'grey'
-                            onPress={this._onPressMessage}>
+                            onPress={() => {
+                                this.props.navigator.push({id: 'MessageUI'})
+                            }}
+                        >
 
                             <View style={{ // text is placed as a column to the right of the image
                                 flex: 1,                           // Take up all screen
@@ -173,6 +169,7 @@ export default class ChatList extends Component {
 
     constructor(props){
         super(props);
+
         this.state = {
             deletedRowKey: null,
             data: []
@@ -214,27 +211,27 @@ export default class ChatList extends Component {
 
         return (
             <View style={styles.container13}>
-
-
-
-                        <FlatList
-                            data={this.state.data}
-                            renderItem={({item, index})=>{
-                                return(
-                                    <FlatListItem
-                                        item = {item}
-                                        index = {index}
-                                        parentFlatList={this}
-                                        onPress={this._onPressSwitch}>
-                                    </FlatListItem>
-                                );
-                            }}
-                        >
-                        </FlatList>
-                    </View>
+                <FlatList
+                    // navigator={this.props.navigator}
+                    data={this.state.data}
+                    renderItem={({item, index})=>{
+                        return(
+                            <FlatListItem
+                                navigator={this.props.navigator}
+                                item = {item}
+                                index = {index}
+                                parentFlatList={this}
+                                onPress={this._onPressSwitch}>
+                            </FlatListItem>
+                        );
+                    }}
+                >
+                </FlatList>
+            </View>
         );
     }
 }
+
 const styles = StyleSheet.create({
 // App container
     container13: {

@@ -105,7 +105,7 @@ export const userInformation = () => {
                 }else{
                     dispatch(setUserID(user.uid));
                     dispatch(setUserName(val.first_name + ' ' + val.last_name));
-                    dispatch(setUserAvatar(snapshot.val().image));
+                    dispatch(setUserAvatar(val.image));
                     startChatting(dispatch);
                 }
             })

@@ -18,15 +18,15 @@ const mapStateToProps = (state) => ({
 });
 
 class MessageUI extends Component {
-    // constructor(props){
-    //     super(props);
+    constructor(props){
+        super(props);
     //     console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
     //         'Setting a timer',
     //         'Invalid query string' //not working
     //     ];
-    //     this.state = {
-    //     };
-    // }
+        this.state = {
+        };
+    }
     state = {
         scrollViewHeight: 0,
         inputHeight: 0
@@ -38,8 +38,6 @@ class MessageUI extends Component {
 
 
     componentDidUpdate() {
-        // this.props.user.uid = this.state.uid;
-        // this.props.user.name = this.state.fname + ' ' + this.state.lname;
         this.scrollToBottom();
     }
     onScrollViewLayout = (event) => {

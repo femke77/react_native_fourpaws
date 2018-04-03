@@ -19,7 +19,7 @@ const InitializeChat = connect(
         authorized: state.user.authorized
     }))(({ authorized, dispatch }) => {
         dispatch(userInformation());
-        return (<ChatUI />);
+        return (<MessageUI />);
 });
 
 class Messenger extends Component {
@@ -30,7 +30,7 @@ class Messenger extends Component {
     render() {
         return (
             <Provider store={store}>
-                <ChatUI {...this.props} navigator = {this.props.navigator} />
+                <InitializeChat {...this.props} navigator = {this.props.navigator} />
             </Provider>
         );
     }
