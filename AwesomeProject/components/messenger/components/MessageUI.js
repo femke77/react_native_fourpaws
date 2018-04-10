@@ -12,7 +12,7 @@ import Database from '../../firebase/database';
 import * as firebase from "firebase"
 
 const mapStateToProps = (state) => ({
-    chat: state.chatroom,
+    chat: state.chatroom.meta,
     chatHeight: state.chatroom.meta.height,
     user: state.user
 });
@@ -20,12 +20,6 @@ const mapStateToProps = (state) => ({
 class MessageUI extends Component {
     constructor(props){
         super(props);
-    //     console.ignoredYellowBox = [  //related to timeout on auth token of 60min, known issue
-    //         'Setting a timer',
-    //         'Invalid query string' //not working
-    //     ];
-        this.state = {
-        };
     }
     state = {
         scrollViewHeight: 0,
@@ -35,8 +29,6 @@ class MessageUI extends Component {
     async componentDidMount(){
         this.scrollToBottom(false);
     }
-
-
     componentDidUpdate() {
         this.scrollToBottom();
     }

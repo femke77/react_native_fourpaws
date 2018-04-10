@@ -5,7 +5,7 @@ import { TextInput } from '@shoutem/ui';
 class Input extends Component {
     state = {
         text: null
-    }
+    };
 
     onChangeText = text => this.setState({text: text});
 
@@ -19,25 +19,25 @@ class Input extends Component {
                 text: null
             });
         }
-    }
+    };
 
     onFocus = (event) => {
         if (this.props.onFocus) {
             this.props.onFocus(this.refs.input);
         }
-    }
+    };
 
     onBlur = () => {
         if (this.props.submitOnBlur) {
             this.onSubmitEditing();
         }
-    }
+    };
 
     onLayout = (event) => {
         if (this.props.onLayout) {
             this.props.onLayout(event);
         }
-    }
+    };
 
     render() {
         return (

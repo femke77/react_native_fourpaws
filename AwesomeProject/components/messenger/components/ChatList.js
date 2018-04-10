@@ -46,12 +46,9 @@ class FlatListItem extends Component {
             this.setState({
                 uid: user.uid,
             });
-
-
         } catch (error) {
             alert(error);
         }
-
     }
 
     _onPressAdd(){
@@ -95,7 +92,6 @@ class FlatListItem extends Component {
                                 {text: 'Yes', onPress: () => {
                                    let key = this.props.item.key;
                                    Database.removeChat(this.state.uid, key);
-
                                 }},
                                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'}
                             ],
@@ -107,10 +103,9 @@ class FlatListItem extends Component {
             ],
             rowId:      this.props.index,
         };
+
         return (
-
             <View>
-
             <Swipeout {...swipeSetting}>
                 <View style={{      // makes the column that will have rows of data
                     flex: 1,                                // Take up all screen
@@ -121,8 +116,6 @@ class FlatListItem extends Component {
                         flexDirection: 'row',
                         // backgroundColor: this.props.index % 2 === 0 ? '#F39C12' : '#F9690E',
                     }}>
-
-
                         <TouchableHighlight // click on user image to go to profile
                             underlayColor = 'grey'
                             onPress={this._onPressProfile}>
@@ -130,24 +123,23 @@ class FlatListItem extends Component {
                                 source={{uri: this.props.item.avatar}}
                                 style={{width: 80, height: 80, margin:5}}>
                             </Image>
-
                         </TouchableHighlight>
                         <TouchableHighlight
                             style={{flex: 1}}
                             underlayColor = 'grey'
                             onPress={() => {
-                                this.props.navigator.push({id: 'MessageUI'})
+                                this.props.navigator.push({
+                                    id: 'MessageUI',
+                                    chatId: this.props.item.id,
+                                });
                             }}
                         >
-
                             <View style={{ // text is placed as a column to the right of the image
                                 flex: 1,                           // Take up all screen
                                 flexDirection: 'column',
                             }}>
                                 <Text style={styles.text13}>{this.props.item.name}</Text>
-
-                                    <Text style={styles.text13}>Last message</Text>
-
+                                    <Text style={styles.text13}>Send a message</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -155,18 +147,15 @@ class FlatListItem extends Component {
                         height: 1,                              // trim width
                         backgroundColor: 'white',               // trim color
                     }}>
-
                     </View>
                 </View>
             </Swipeout>
             </View>
-
         );
     }
 }
 
 export default class ChatList extends Component {
-
     constructor(props){
         super(props);
 
@@ -177,7 +166,6 @@ export default class ChatList extends Component {
     }
 
     async componentDidMount(){
-
         try {
             let user = await firebase.auth().currentUser;
             this.setState({
@@ -192,23 +180,9 @@ export default class ChatList extends Component {
         } catch (error) {
             alert(error);
         }
-
     }
 
-
-
     render() {
-        {/*<TouchableHighlight*/}
-            {/*style={{marginRight: 10}}*/}
-            {/*underlayColor = 'grey'*/}
-            {/*onPress={this._onPressAdd}>*/}
-            {/*<Image*/}
-                {/*style={{width: 35, height: 35}}*/}
-                {/*//source={require('../icons/icons-add.png')*/}
-                {/*source={{uri: "https://image.flaticon.com/icons/png/128/54/54443.png"}}>*/}
-            {/*</Image>*/}
-        {/*</TouchableHighlight>*/}
-
         return (
             <View style={styles.container13}>
                 <FlatList
@@ -238,9 +212,7 @@ const styles = StyleSheet.create({
         flex: 1,                            // Take up all screen
         marginTop: Platform.OS === 'ios' ? 34 : 0,      // iOS or Android
         paddingTop: 10,
-        // backgroundColor: '#383838',
-        // width: 335,
-        height: 135,
+        // backgroundColor: '#383838'
     },
 // Tab content container
     content13: {
@@ -273,8 +245,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Avenir',
         fontSize: 18,
     },
-
-
-
 });
 

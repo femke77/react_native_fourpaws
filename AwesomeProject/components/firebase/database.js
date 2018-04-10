@@ -135,10 +135,11 @@ export default class Database {
 
             if (snapshot.val()) {
                 snapshot.forEach((child) => {
-                    firebase.database().ref(userPath + child.val().id + "/author/").on('value', (snapshot) => {
+                    firebase.database().ref(userPath + child.val().id).on('value', (snapshot) => {
                         list.push({
                             name: snapshot.val().name,
-                            avatar: snapshot.val().avatar
+                            avatar: snapshot.val().avatar,
+                            id: snapshot.val().id,
                         })
                     })
 

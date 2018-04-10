@@ -83,7 +83,9 @@ export default class AwesomeProject extends Component {
                     return (<Upload navigator={navigator}{...route.passProps}/>);
                     break;
                 case 'MessageUI':
-                    return (<MessageUI navigator={navigator}{...route.passProps}/>);
+                    return (<MessageUI navigator={navigator}
+                                       chatId={route.chatId}
+                                       {...route.passProps}/>);
                     break;
                 case 'Home':
                     return (

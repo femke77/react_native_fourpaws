@@ -16,10 +16,9 @@ const store = createStore(
 
 const InitializeChat = connect(
     (state) => ({
-        authorized: state.user.authorized
-    }))(({ authorized, dispatch }) => {
+    }))(({ navigator, dispatch }) => {
         dispatch(userInformation());
-        return (<ChatUI />);
+        return (<ChatUI navigator = {navigator}/>);
 });
 
 class Messenger extends Component {

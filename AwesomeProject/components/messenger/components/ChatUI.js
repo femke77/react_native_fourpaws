@@ -15,10 +15,6 @@ import * as firebase from "firebase"
 export default class ChatUI extends Component {
     constructor(props){
         super(props);
-
-        this.state = {
-            // navigator: this.props.navigator
-        };
     }
     state = {
         scrollViewHeight: 0,
@@ -28,7 +24,6 @@ export default class ChatUI extends Component {
     async componentDidMount(){
         this.scrollToBottom(false);
     }
-
 
     componentDidUpdate() {
         // this.props.user.uid = this.state.uid;
@@ -70,7 +65,7 @@ export default class ChatUI extends Component {
     render() {
         return (
             <Screen>
-                <Title styleName="h-center" style={{padding: 10}}>
+                <Title styleName="h-center" style={{paddingTop: 10}}>
                     Messenger
                 </Title>
                 <KeyboardAwareScrollView ref="scroll"

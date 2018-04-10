@@ -14,23 +14,28 @@ const store = createStore(
     )
 );
 
-const InitializeChat = connect(
-    (state) => ({
-        authorized: state.user.authorized
-    }))(({ authorized, dispatch }) => {
-        dispatch(userInformation());
-        return (<MessageUI />);
+const InitializeChat =
+    connect((state) => ({}))
+    (({ navigator, chatId , dispatch }) => {
+        dispatch(userInformation(chatId));
+        return (<MessageUI navigator = {navigator}/>);
 });
 
 class Messenger extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            chatId: this.props.chatId
+        }
     }
 
     render() {
         return (
             <Provider store={store}>
-                <InitializeChat {...this.props} navigator = {this.props.navigator} />
+                <InitializeChat {...this.props}
+                                navigator = {this.props.navigator}
+                                chatId = {this.state.chatId}/>
             </Provider>
         );
     }
