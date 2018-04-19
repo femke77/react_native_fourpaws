@@ -23,6 +23,7 @@ import Login from './components/views/login';
 import Firebase from './components/firebase/firebase';
 import Menu from './components/views/MenuBar';
 import Home from './components/views/universaltabs';
+import User from './components/views/UserProfile';
 import Signup from './components/views/signup';
 import Signup2 from './components/views/signupaddress';
 import Upload from './components/tools/upload';
@@ -82,20 +83,28 @@ export default class AwesomeProject extends Component {
                 case 'Upload':
                     return (<Upload navigator={navigator}{...route.passProps}/>);
                     break;
+                case 'User':
+                    return (<User navigator={navigator}
+                                  uniqueId={route.uniqueId}
+                                  {...route.passProps}/>);
+                    break;
                 case 'MessageUI':
                     return (<MessageUI navigator={navigator}
+                                       name={route.name}
                                        chatId={route.chatId}
                                        {...route.passProps}/>);
                     break;
                 case 'Home':
                     return (
+
                         <SideMenu
                             isOpen={this.state.isOpen}
                             hiddenMenuOffset={10}
                             toleranceY={10}
                             menu={menu}
                         >
-                            <Home navigator={navigator}{...route.passProps}/>
+                            <Home navigator={navigator}
+                                    {...route.passProps}/>
                         </SideMenu>);
                     break;
                 case 'Messenger':

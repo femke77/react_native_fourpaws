@@ -28,7 +28,7 @@ const mapStateToProps = (state) => ({
     chat: state.chatroom,
     chatHeight: state.chatroom.meta.height,
     user: state.user,
-    navigator: state.navigator
+    navigator: state.navigator,
 });
 
 class FlatListItem extends Component {
@@ -61,7 +61,6 @@ class FlatListItem extends Component {
             [
                 {text: 'Yes', onPress: () => {
                     let key = this.props.item.key;
-                    // navigate to profile
                 }},
                 {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'}
             ],
@@ -118,7 +117,13 @@ class FlatListItem extends Component {
                     }}>
                         <TouchableHighlight // click on user image to go to profile
                             underlayColor = 'grey'
-                            onPress={this._onPressProfile}>
+                            onPress={() => {
+                                this.props.navigator.push({
+                                    id: 'User',
+                                    uniqueId: this.props.item.uid,
+                                });
+                            }}
+                        >
                             <Image
                                 source={{uri: this.props.item.avatar}}
                                 style={{width: 80, height: 80, margin:5}}>
@@ -130,6 +135,7 @@ class FlatListItem extends Component {
                             onPress={() => {
                                 this.props.navigator.push({
                                     id: 'MessageUI',
+                                    name: this.props.item.name,
                                     chatId: this.props.item.id,
                                 });
                             }}

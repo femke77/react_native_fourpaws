@@ -121,7 +121,7 @@ export default class Menu extends Component {
                 <Button
                     onPress={() => {
                         this.state.onMenuItemSelected = 'Home';
-                        this.props.navigator.push({id: 'Home'})
+                        this.props.navigator.push({id: 'Home'});
                     }}
                     style={styles.item}
                     title='Home'
@@ -150,7 +150,6 @@ export default class Menu extends Component {
                     style={styles.item}
                     title='User Search'
                     color='#273444'
-
                 />
                 <Text style={{color:'white',paddingBottom:20}}>
 
@@ -176,10 +175,7 @@ export default class Menu extends Component {
                     title='Favorite Pet Keepers'
                     color='#273444'
                 />
-                <Text
-
-                    style={styles.item}
-                >
+                <Text style={styles.item}>
 
                 </Text>
                 <Text
@@ -196,10 +192,7 @@ export default class Menu extends Component {
                     title='Setting'
                     color='#273444'
                 />
-                <Text
-
-                    style={styles.item}
-                >
+                <Text style={styles.item}>
 
                 </Text>
                 <Button

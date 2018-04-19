@@ -140,6 +140,7 @@ export default class Database {
                             name: snapshot.val().name,
                             avatar: snapshot.val().avatar,
                             id: snapshot.val().id,
+                            uid: snapshot.val().uid,
                         })
                     })
 

@@ -16,9 +16,12 @@ const store = createStore(
 
 const InitializeChat =
     connect((state) => ({}))
-    (({ navigator, chatId , dispatch }) => {
+    (({ navigator, name, chatId , dispatch }) => {
         dispatch(userInformation(chatId));
-        return (<MessageUI navigator = {navigator}/>);
+        return (<MessageUI
+            navigator = {navigator}
+            name = {name}
+        />);
 });
 
 class Messenger extends Component {
@@ -26,6 +29,7 @@ class Messenger extends Component {
         super(props);
 
         this.state = {
+            name: this.props.name,
             chatId: this.props.chatId
         }
     }
@@ -35,6 +39,7 @@ class Messenger extends Component {
             <Provider store={store}>
                 <InitializeChat {...this.props}
                                 navigator = {this.props.navigator}
+                                name = {this.state.name}
                                 chatId = {this.state.chatId}/>
             </Provider>
         );

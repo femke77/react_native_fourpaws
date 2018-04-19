@@ -2,6 +2,10 @@ import * as firebase from "firebase";
 import { Platform } from 'react-native';
 
 
+export const clearChat = (msg) => ({
+    type: 'CLEAR_MESSAGES',
+    ...msg
+});
 export const setChatID = (chat) => ({
     type: 'SET_CHAT_ID',
     id: chat.id
@@ -48,7 +52,6 @@ export const fetchMessages = (chat) => {
         firebase.database()
             .ref('messages/' + chat.id)
             .orderByKey()
-            .limitToLast(30)
             .on('value', (snapshot) => {
                 // gets around Redux panicking about actions in reducers
                 setTimeout(() => {
