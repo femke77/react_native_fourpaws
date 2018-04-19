@@ -58,7 +58,7 @@ export default class AwesomeProject extends Component {
 
         getInitialView() {
             firebase.auth().onAuthStateChanged((user) => {
-                let initialView = user ? "Messenger" : "Login";
+                let initialView = user ? "Home" : "Login";
                 this.setState({
                     userLoaded: true,
                     initialView: initialView
