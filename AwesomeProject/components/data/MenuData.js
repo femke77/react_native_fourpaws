@@ -9,13 +9,17 @@ import {
     Button,
     Alert
 } from 'react-native';
-import Login from '../views/login.js';
+
 import * as firebase from "firebase";
 import PropTypes from 'prop-types';
 import Database from '../firebase/database';
+import {GoogleSignin} from 'react-native-google-signin'
 
 const window = Dimensions.get('window');
 
+//logout is needed whether signed up via firebase or signed in via googlesignin in order to clear the observer back to null user
+//google signout doesn't seem useful/doesn't seem to work with observer, but if you want to revoke access of google signin you do need revokeaccess()
+//how this is currently set up is that access is revoked every signout if they are signed in under google
 
 export default class Menu extends Component {
     constructor(props){
@@ -24,16 +28,45 @@ export default class Menu extends Component {
         this.state = {
             fname: "",
             lname: "",
+            user: "",
+            image: ""
         };
 
-        this.logout = this.logout.bind(this);
-        this.googleSignOut = this.googleSignOut.bind(this);
+    }
+
+    async componentDidMount(){
+        GoogleSignin.hasPlayServices({autoResolve: true});
+        GoogleSignin.configure({
+            webClientId:'1002267002264-1j8pm8s5q7go07v22ilej3ma7s1v4f3v.apps.googleusercontent.com',
+            offlineAccess: false,
+            forceConsentPrompt: true,
+
+        });
+        GoogleSignin.currentUserAsync().then((user) => {
+            console.log('USER', user);
+            this.setState({user: user});
+        }).done();
+        try {
+            let user = await firebase.auth().currentUser;
+            Database.listenUserInfo(user.uid, (data)=> {
+                this.setState({
+                    fname: data.fname,
+                    lname: data.lname,
+                    image: data.image
+                })
+            });
+            this.setState({
+                uid: user.uid,
+            });
+        } catch (error) {
+            alert(error);
+        }
+
     }
 
 
     logout() {
-
-        this.props.navigator.push({ id: 'Login'});
+        //     this.props.navigator.push({id: 'Login'});
         firebase.auth().signOut().then(function() {
         }).catch(function(error) {
         });
@@ -41,29 +74,15 @@ export default class Menu extends Component {
     }
 
     googleSignOut() {
-        GoogleSignin.revokeAccess().then(() => GoogleSignin.signOut()).then(() => {
-            this.props.navigator.push({id: 'Login'});
-        }).done();
-    }
+        this.logout();
+        if (this.state.user !== null) {
+            GoogleSignin.revokeAccess().then(() => {
+            }).done();
 
-    async componentDidMount(){
-
-        try {
-            let user = await firebase.auth().currentUser;
-            Database.listenUserName(user.uid, (fname, lname)=> {
-                this.setState({
-                    fname: fname,
-                    lname: lname,
-                })
-            });
-
-            this.setState({
-                uid: user.uid,
-            });
-        } catch (error) {
-            alert(error);
         }
     }
+
+
 
 
     render() {
@@ -85,7 +104,7 @@ export default class Menu extends Component {
                             borderRadius: 100/2,
                             borderWidth: 3,
                         }}
-                        source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
+                        source={{uri: this.state.image}}
                     />
                     <Text style={styles.name}>{user_name} {last_name}</Text>
                 </View>
@@ -173,7 +192,8 @@ export default class Menu extends Component {
 
                 </Text>
                 <Button
-                    onPress={()=>this.logout()}
+                    onPress={()=>this.googleSignOut()}
+
                     style={styles.item}
                     title='Sign Out'
                     color='#273444'

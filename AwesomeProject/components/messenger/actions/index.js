@@ -1,14 +1,21 @@
-import firebase from '../firebase';
-import DeviceInfo from 'react-native-device-info';
-import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
+import * as firebase from "firebase";
 import { Platform } from 'react-native';
 
+
+export const clearChat = (msg) => ({
+    type: 'CLEAR_MESSAGES',
+    ...msg
+});
+export const setChatID = (chat) => ({
+    type: 'SET_CHAT_ID',
+    id: chat.id
+});
 export const addMessage = (msg) => ({
     type: 'ADD_MESSAGE',
     ...msg
 });
 
-export const sendMessage = (text, user) => {
+export const sendMessage = (text, user, chat) => {
     return function (dispatch) {
         let msg = {
             text: text,
@@ -20,7 +27,7 @@ export const sendMessage = (text, user) => {
         };
 
         const newMsgRef = firebase.database()
-            .ref('messages')
+            .ref('messages/' + chat.id)
             .push();
         msg.id = newMsgRef.key;
         newMsgRef.set(msg);
@@ -38,14 +45,13 @@ export const receivedMessages = () => ({
     receivedAt: Date.now()
 });
 
-export const fetchMessages = () => {
+export const fetchMessages = (chat) => {
     return function (dispatch) {
         dispatch(startFetchingMessages());
 
         firebase.database()
-            .ref('messages')
+            .ref('messages/' + chat.id)
             .orderByKey()
-            .limitToLast(20)
             .on('value', (snapshot) => {
                 // gets around Redux panicking about actions in reducers
                 setTimeout(() => {
@@ -55,7 +61,7 @@ export const fetchMessages = () => {
                 }, 0);
             });
     }
-}
+};
 
 export const receiveMessages = (messages) => {
     return function (dispatch) {
@@ -63,7 +69,7 @@ export const receiveMessages = (messages) => {
 
         dispatch(receivedMessages());
     }
-}
+};
 
 export const updateMessagesHeight = (event) => {
     const layout = event.nativeEvent.layout;
@@ -72,8 +78,7 @@ export const updateMessagesHeight = (event) => {
         type: 'UPDATE_MESSAGES_HEIGHT',
         height: layout.height
     }
-}
-
+};
 
 
 //
@@ -82,43 +87,23 @@ export const updateMessagesHeight = (event) => {
 
 export const setUserName = (name) => ({
     type: 'SET_USER_NAME',
-    name
+    name: name
 });
 export const setUserID = (uid) => ({
     type: 'SET_USER_ID',
-    uid
+    uid: uid
 });
 export const setUserAvatar = (avatar) => ({
     type: 'SET_USER_AVATAR',
     avatar: avatar && avatar.length > 0 ? avatar : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_3_400x400.png'
 });
 
-export const login = () => {
-    return function (dispatch, getState) {
-        dispatch(startAuthorizing());
 
-        firebase.auth()
-            .signInAnonymously()
-            .then(() => {
-                const { name, avatar } = getState().user;
-
-                firebase.database()
-                    .ref(`users/${DeviceInfo.getUniqueID()}`)
-                    .set({
-                        name,
-                        avatar
-                    });
-
-                startChatting(dispatch);
-            });
-    }
-}
-
-export const checkUserExists = () => {
-
+export const userInformation = (chatId) => {
+    let chat = {
+        id: chatId
+    };
     return function (dispatch) {
-        dispatch(startAuthorizing());
-
         let user = firebase.auth().currentUser;
         if (user === null)
             dispatch(userNoExist());
@@ -129,14 +114,18 @@ export const checkUserExists = () => {
                 if (val === null) {
                     dispatch(userNoExist());
                 }else{
+                    dispatch(setUserID(user.uid));
                     dispatch(setUserName(val.first_name + ' ' + val.last_name));
-                    //dispatch(setUserAvatar(val().avatar));
-                    startChatting(dispatch);
+                    dispatch(setUserAvatar(val.image));
+
+                    dispatch(setChatID(chat));
+                    dispatch(userAuthorized());
+                    dispatch(fetchMessages(chat));
                 }
             })
         }
     }
-}
+};
 
 const startChatting = function (dispatch) {
     dispatch(userAuthorized());
@@ -173,10 +162,6 @@ const startChatting = function (dispatch) {
     //     console.log(token);
     // });
 }
-
-export const startAuthorizing = () => ({
-    type: 'USER_START_AUTHORIZING'
-});
 
 export const userAuthorized = () => ({
     type: 'USER_AUTHORIZED'

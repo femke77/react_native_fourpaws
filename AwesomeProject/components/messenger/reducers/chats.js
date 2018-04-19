@@ -3,17 +3,17 @@ import { combineReducers } from 'redux';
 import messages from './messages';
 
 const initialState = {
-    id: 'chat001',
+    id: null,
     isFetching: false,
     lastFetched: null,
     height: 0
-}
+};
 
 const meta = (state = initialState, action) => {
     switch (action.type) {
-        case 'CREATE_CHATROOM':
+        case 'SET_CHAT_ID':
             return Object.assign({}, state, {
-                id: action.id
+                id: action.id,
             });
         case 'START_FETCHING_MESSAGES':
             return Object.assign({}, state, {
@@ -31,7 +31,7 @@ const meta = (state = initialState, action) => {
         default:
             return state
     }
-}
+};
 
 const chatroom = combineReducers({
     messages,

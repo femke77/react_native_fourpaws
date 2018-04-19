@@ -13,21 +13,15 @@ import {
     TextInput,
     Keyboard,
     Button,
-    ScrollView
+    ScrollView,
+    Alert
 
 
 
 } from 'react-native';
 
 import { Header, Icon, List, ListItem } from 'react-native-elements';
-import { Col, Row, Grid } from "react-native-easy-grid";
-import Tabs from './tabs';
-import Profile_Information from './Profile_Information';
-import UserPic from './UserPic';
-import Mapviews from "./Mapview";
-import Calendars from "./calendar";
-import FavoritePetKeeper from "./favoritepetkeeper";
-import Menu from "./MenuBar"
+
 import * as firebase from "firebase";
 import Database from '../firebase/database';
 import { Nav, Tab } from 'react-native-simple-tab';
@@ -43,7 +37,7 @@ export default class Information extends Component {
         this.state = {
             fname: "",
             lname: "",
-            ddress: "",
+            address: "",
             city: "",
             state: "",
             zipcode: "",
@@ -58,15 +52,15 @@ export default class Information extends Component {
 
         try {
             let user = await firebase.auth().currentUser;
-            Database.listenUserName(user.uid, (fname, lname, address, city, state, zipcode, contactNumber)=> {
+            Database.listenUserInfo(user.uid, (data)=> {
                 this.setState({
-                    fname: fname,
-                    lname: lname,
-                    address: address,
-                    city: city,
-                    state: state,
-                    zipcode: zipcode,
-                    contactNumber:contactNumber
+                    fname: data.fname,
+                    lname: data.lname,
+                    address: data.address,
+                    city: data.city,
+                    state: data.state,
+                    zipcode: data.zipcode,
+                    contactNumber: data.contactNumber
                 })
             });
 

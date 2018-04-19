@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 
 
-import Tabs from './tabs';
-import UserPic from './UserPic';
+
+
 import {RkStyle, RkTabView, RkText,RkTheme} from 'react-native-ui-kitten';
 import List from "./ListView";
 

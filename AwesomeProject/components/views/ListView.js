@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image, Alert } from 'react-native'
 import Database from '../firebase/database';
 import * as firebase from "firebase";
-import {Navigator} from 'react-native-deprecated-custom-components';
+
 
 
 //TODO only need alert if you force the size of the review boxes to stay the same. Right now they expand to show the whole review anyway so alert is redundant

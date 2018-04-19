@@ -11,7 +11,7 @@ import {
 
 import MapView from 'react-native-maps';
 
-import PriceMarker from './AmountTag.js';
+//import PriceMarker from './AmountTag.js';
 
 let id = 0;
 

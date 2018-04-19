@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import {
-    ListView, Text, Row, Image,
-    View, Subtitle, Caption, Heading
+    ListView,
+    Text,
+    Row,
+    Image,
+    View,
+    Subtitle,
+    Caption,
+    Heading
 } from '@shoutem/ui';
 import moment from 'moment';
 

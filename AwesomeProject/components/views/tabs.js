@@ -5,7 +5,7 @@ import {
     TouchableOpacity,   // Pressable container
     View                // Container component
 } from 'react-native';
-import {Navigator} from 'react-native-deprecated-custom-components';
+
 
 
 

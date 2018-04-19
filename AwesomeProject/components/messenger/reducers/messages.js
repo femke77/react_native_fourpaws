@@ -18,7 +18,8 @@ const messages = (state = [], action) => {
         case 'ADD_MESSAGE':
             if (state.map(m => m.id).includes(action.id)) {
                 return state;
-            }else{
+            }
+            else{
                 return [
                     ...state,
                     message(undefined, action)
@@ -29,6 +30,11 @@ const messages = (state = [], action) => {
                 ...state,
                 message(undefined, action)
             ];
+
+        case 'READ_MESSAGE':
+            return Object.assign({}, state, {
+                read: true
+            });
         default:
             return state
     }

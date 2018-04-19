@@ -36,8 +36,11 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "save": "^2.3.2"
+    "save": "^2.3.2",
+    "react-native-push-notification": "^3.0.2",
+    "react-native-calendar-select": "^0.1.2"
   },
+
   "devDependencies": {
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",

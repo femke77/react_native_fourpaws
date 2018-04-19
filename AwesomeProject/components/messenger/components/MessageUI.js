@@ -5,14 +5,19 @@ import ReactNative from 'react-native';
 import { View, Title, Screen } from '@shoutem/ui';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import ChatList from '../components/ChatList'
 import Messages from '../containers/Messages';
 import Input from '../containers/Input';
 import { sendMessage } from '../actions';
 import Database from '../../firebase/database';
 import * as firebase from "firebase"
 
-export default class ChatUI extends Component {
+const mapStateToProps = (state) => ({
+    chat: state.chatroom.meta,
+    chatHeight: state.chatroom.meta.height,
+    user: state.user
+});
+
+class MessageUI extends Component {
     constructor(props){
         super(props);
     }
@@ -24,10 +29,7 @@ export default class ChatUI extends Component {
     async componentDidMount(){
         this.scrollToBottom(false);
     }
-
     componentDidUpdate() {
-        // this.props.user.uid = this.state.uid;
-        // this.props.user.name = this.state.fname + ' ' + this.state.lname;
         this.scrollToBottom();
     }
     onScrollViewLayout = (event) => {
@@ -65,14 +67,21 @@ export default class ChatUI extends Component {
     render() {
         return (
             <Screen>
-                <Title styleName="h-center" style={{paddingTop: 10}}>
-                    Messenger
+                <Title styleName="h-center" style={{padding: 10}}>
+                    {this.props.name}
                 </Title>
                 <KeyboardAwareScrollView ref="scroll"
                                          onLayout={this.onScrollViewLayout}>
-                    <ChatList {...this.props} navigator={this.props.navigator}/>
+                    <Messages/>
                 </KeyboardAwareScrollView>
+                    <Input footer={height=100}
+                           onLayout={this.onInputLayout}
+                           submitAction={this.sendMessage}
+                           ref="input"
+                           placeholder="Message ..." />
             </Screen>
         )
     }
 }
+
+export default connect(mapStateToProps)(MessageUI);

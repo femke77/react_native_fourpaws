@@ -26,7 +26,7 @@ import List from "./ListView";
 import Menu from '../../components/views/MenuBar';
 
 
-export default class Universaltabs extends Component {
+export default class UserProfile extends Component {
 
 
     constructor(props) {
@@ -34,18 +34,16 @@ export default class Universaltabs extends Component {
         this.state = {
             fname: "",
             lname: "",
-            image: ""
+            image: "",
 
-
+            uid: this.props.uniqueId
         };
     }
-
 
     async componentDidMount(){
 
         try {
-            let user = await firebase.auth().currentUser;
-            Database.listenUserInfo(user.uid, (data)=> {
+            Database.listenUserInfo(this.state.uid, (data)=> {
                 this.setState({
                     fname: data.fname,
                     lname: data.lname,
@@ -53,9 +51,6 @@ export default class Universaltabs extends Component {
                 })
             });
 
-            this.setState({
-                uid: user.uid,
-            });
         } catch (error) {
             alert(error);
         }
@@ -81,7 +76,6 @@ export default class Universaltabs extends Component {
                 <Header
 
                     outerContainerStyles={{ backgroundColor: '#a21c16', height: 50, }}
-                    leftComponent={{ icon: 'menu',onPress: () => console.log(this.toggle()), color: '#fff', }}
                     centerComponent={{ text: "Home" , style: { color: '#fff',fontSize: 20  } }}
                     rightComponent={{ icon: 'search', color: '#fff' }}
                 />
@@ -159,7 +153,7 @@ export default class Universaltabs extends Component {
                             {/* First tab */}
 
                             <View title="About me" style={styles.content13}>
-                                <Information/>
+                                <Text>Information</Text>
                             </View>
 
                             {/* Second tab */}
@@ -171,7 +165,7 @@ export default class Universaltabs extends Component {
                             {/* Third tab */}
 
                             <View title=" My Pets" style={styles.content13}>
-                                <Text>Why</Text>
+                                <Text>None</Text>
                             </View>
 
                         </Tabs>

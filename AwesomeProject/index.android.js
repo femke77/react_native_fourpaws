@@ -21,12 +21,20 @@ import {
 import {Navigator} from 'react-native-deprecated-custom-components';
 import Login from './components/views/login';
 import Firebase from './components/firebase/firebase';
-import Home from './components/views/home';
+import Menu from './components/views/MenuBar';
+import Home from './components/views/universaltabs';
+import User from './components/views/UserProfile';
 import Signup from './components/views/signup';
 import Signup2 from './components/views/signupaddress';
 import Upload from './components/tools/upload';
+import Calendar from './components/views/calendar';
+import UserSearch from './components/views/Mapview';
+import FavoritePetKeeper from './components/views/favoritepetkeeper';
+import Messenger from './components/messenger/Messenger';
+import MessageUI from './components/messenger/Messenger2';
 import * as firebase from 'firebase';
-import Messenger from './components/messenger/App'
+
+import SideMenu from 'react-native-side-menu';
 
 export default class AwesomeProject extends Component {
 
@@ -35,7 +43,6 @@ export default class AwesomeProject extends Component {
         super(props);
         console.disableYellowBox = true;
 
-        //for hot reloading: check if firebase is already initialized
         if (!firebase.apps.length) {
             Firebase.initialise();
         }
@@ -51,7 +58,7 @@ export default class AwesomeProject extends Component {
 
         getInitialView() {
             firebase.auth().onAuthStateChanged((user) => {
-                let initialView = user ? "Home" : "Login";
+                let initialView = user ? "Messenger" : "Login";
                 this.setState({
                     userLoaded: true,
                     initialView: initialView
@@ -60,13 +67,12 @@ export default class AwesomeProject extends Component {
         }
 
         renderScene = (route, navigator) => {
+            const menu = <Menu onItemSelected={this.onMenuItemSelected} navigator={navigator}/>;
+
             _navigator = navigator;
             switch (route.id) {
                 case 'Login':
                     return (<Login navigator={navigator}{...route.passProps}/>);
-                    break;
-                case 'Home':
-                    return (<Home navigator={navigator}{...route.passProps}/>);
                     break;
                 case 'Signup':
                     return (<Signup navigator={navigator}{...route.passProps}/>);
@@ -75,23 +81,90 @@ export default class AwesomeProject extends Component {
                     return (<Signup2 navigator={navigator}{...route.passProps}/>);
                     break;
                 case 'Upload':
-                   return (<Upload navigator={navigator}{...route.passProps}/>);
-                   break;
+                    return (<Upload navigator={navigator}{...route.passProps}/>);
+                    break;
+                case 'User':
+                    return (<User navigator={navigator}
+                                  uniqueId={route.uniqueId}
+                                  {...route.passProps}/>);
+                    break;
+                case 'MessageUI':
+                    return (<MessageUI navigator={navigator}
+                                       name={route.name}
+                                       chatId={route.chatId}
+                                       {...route.passProps}/>);
+                    break;
+                case 'Home':
+                    return (
+
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+                        >
+                            <Home navigator={navigator}
+                                    {...route.passProps}/>
+                        </SideMenu>);
+                    break;
+                case 'Messenger':
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+                        >
+                            <Messenger navigator={navigator}{...route.passProps}/>
+                        </SideMenu>);
+                    break;
+                case 'Calendar':
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+                        >
+                            <Calendar navigator={navigator}{...route.passProps}/>
+                        </SideMenu>);
+                    break;
+                case 'UserSearch':
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+                        >
+                            <UserSearch navigator={navigator}{...route.passProps}/>
+                        </SideMenu>);
+                    break;
+                case 'FavoritePetKeeper':
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+                        >
+                            <FavoritePetKeeper navigator={navigator}{...route.passProps}/>
+                        </SideMenu>);
+                    break;
             }
         };
 
-        render() {
-            if (this.state.userLoaded) {
-                return (
-                    <Navigator initialRoute={{id: this.state.initialView}}
-                               renderScene={this.renderScene}/>
-                );
-            } else {
-                return null;
-            }
+    render() {
+        if (this.state.userLoaded) {
+            return (
+
+                <Navigator initialRoute={{id: this.state.initialView}}
+                           renderScene={this.renderScene}/>
+            );
+        } else {
+            return null;
         }
-
-
+    }
 }
 
 

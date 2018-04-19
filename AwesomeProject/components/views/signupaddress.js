@@ -15,7 +15,7 @@ import {
 
 } from 'react-native';
 import dismissKeyboard from 'react-native-dismiss-keyboard';
-import {Navigator} from 'react-native-deprecated-custom-components';
+
 import Database from '../firebase/database';
 import * as firebase from "firebase";
 

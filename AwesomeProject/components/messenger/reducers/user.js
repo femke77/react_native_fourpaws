@@ -2,8 +2,7 @@ const initialState = {
     uid: null,
     name: null,
     avatar: 'https://abs.twimg.com/sticky/default_profile_images/default_profile_3_400x400.png',
-    authorizing: false,
-    authorized: false
+    authorized: false   // left for future troubleshooting
 };
 
 const user = (state = initialState, action) => {
@@ -20,24 +19,18 @@ const user = (state = initialState, action) => {
             return Object.assign({}, state, {
                 avatar: action.avatar
             });
-        case 'USER_START_AUTHORIZING':
-            return Object.assign({}, state, {
-                authorizing: true
-            });
         case 'USER_AUTHORIZED':
             return Object.assign({}, state, {
-                authorizing: false,
                 authorized: true
             });
         case 'USER_NO_EXIST':
             return Object.assign({}, state, {
-                authorizing: false,
                 authorized: false
             });
 
         default:
             return state
     }
-}
+};
 
 export default user;

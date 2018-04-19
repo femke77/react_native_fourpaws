@@ -14,7 +14,7 @@ import {
 
 } from 'react-native';
 import * as firebase from "firebase";
-import {Navigator} from 'react-native-deprecated-custom-components';
+
 import Signup2 from '../views/signupaddress'
 import Database from '../firebase/database';
 
@@ -36,7 +36,7 @@ export default class Signup extends Component {
             contactNumber: null,
             username: null,
             email: null,
-            image: null
+            image: "image URL",
         };
 
         this.goLogin = this.goLogin.bind(this);
@@ -48,9 +48,16 @@ export default class Signup extends Component {
 
         try {
             let user = await firebase.auth().currentUser;
+
             this.setState({
                 uid: user.uid,
                 email: user.email,
+            });
+
+            Database.listenGoogleAccountInfo(user.uid, (data)=> {
+                this.setState({
+                    image: data.image
+                })
             });
         } catch (error) {
             alert(error);
@@ -86,6 +93,7 @@ export default class Signup extends Component {
 
     render(){
         const resizeMode = 'cover';
+        let image = this.state.image;
         return (
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
 
@@ -172,7 +180,8 @@ export default class Signup extends Component {
                 />
 
                 <TextInput
-                    placeholder=" Image URL"
+                    value = {image}
+                    selectTextOnFocus = {true}
                     placeholderTextColor= "#ffffff"
                     returnKeyType="next"
                     keyboardType= "email-address"
