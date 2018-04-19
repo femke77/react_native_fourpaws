@@ -13,6 +13,7 @@ import Login from '../views/login.js';
 import * as firebase from "firebase";
 import PropTypes from 'prop-types';
 import Database from '../firebase/database';
+import Mapview from '../views/Mapview'
 
 const window = Dimensions.get('window');
 
@@ -35,6 +36,11 @@ export default class Menu extends Component {
             firebase.auth().signOut().then(function() {
             }).catch(function(error) {
             });
+
+        }
+
+        Maps(){
+            this.props.navigator.push({ id: 'Maps'});
 
         }
     async componentDidMount(){
@@ -107,9 +113,7 @@ export default class Menu extends Component {
 
                 </Text>
                 <Button
-                    onPress={() => {
-                        onItemSelected('User Search');
-                    }}
+                    onPress={()=>this.Maps()}
                     style={styles.item}
                     title='User Search'
                     color='#273444'

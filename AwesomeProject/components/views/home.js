@@ -16,9 +16,11 @@ import {
 import Tabs from '../styles/tabs';
 import * as firebase from "firebase";
 import Login from './login.js';
-import {GoogleSignin} from 'react-native-google-signin'
+import {GoogleSignin} from 'react-native-google-signin';
 import Universaltabs from './universaltabs.js';
 import MenubarMain from './MenuBar';
+import Edit from './EditFun';
+import Mapviews from './Mapview.js';
 
 import Database from '../firebase/database';
 
@@ -76,7 +78,7 @@ export default class Home extends Component {
 
         return (
             <View style={styles.container13}>
-                <MenubarMain/>
+                <Universaltabs/>
 
             </View>
         );

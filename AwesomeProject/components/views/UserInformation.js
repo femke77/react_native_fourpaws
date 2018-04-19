@@ -12,25 +12,19 @@ import {
     StatusBar,
     TextInput,
     Keyboard,
-    Button,
     ScrollView
 
 
 
 } from 'react-native';
 
-import { Header, Icon, List, ListItem } from 'react-native-elements';
-import { Col, Row, Grid } from "react-native-easy-grid";
-import Tabs from './tabs';
-import Profile_Information from './Profile_Information';
-import UserPic from './UserPic';
-import Mapviews from "./Mapview";
-import Calendars from "./calendar";
-import FavoritePetKeeper from "./favoritepetkeeper";
-import Menu from "./MenuBar"
+import { Header, Icon, List, ListItem, FormLabel, FormInput, Button  } from 'react-native-elements';
 import * as firebase from "firebase";
 import Database from '../firebase/database';
 import { Nav, Tab } from 'react-native-simple-tab';
+import Modal from "react-native-modal";
+import { Col, Row, Grid } from "react-native-easy-grid";
+
 
 
 
@@ -40,17 +34,31 @@ import { Nav, Tab } from 'react-native-simple-tab';
 export default class Information extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            fname: "",
-            lname: "",
-            ddress: "",
-            city: "",
-            state: "",
-            zipcode: "",
-            contactNumber:""
 
-
+        this.state ={
+            address: null,
+            city: null,
+            state: null,
+            zipcode: null
         };
+
+        this.Saveinfo = this.Saveinfo.bind(this);
+    }
+
+    state = {
+        isModalVisible: false
+    };
+
+    _toggleModal = () =>
+        this.setState({ isModalVisible: !this.state.isModalVisible });
+
+    Saveinfo(){
+        if (this.state.zipcode || this.state.address || this.state.state || this.state.city) {
+            Database.setUser2(this.state.uid,this.state.address, this.state.city, this.state.state, this.state.zipcode)
+            this._toggleModal()
+        } else {
+            ToastAndroid.show('Sorry, Please try again later',ToastAndroid.SHORT);
+        }
 
     }
 
@@ -78,6 +86,7 @@ export default class Information extends Component {
         }
     }
 
+
     render() {
         let first_name = this.state.fname;
         let last_name = this.state.lname;
@@ -88,6 +97,7 @@ export default class Information extends Component {
         let contactNumber=this.state.contactNumber;
 
         return (
+            <View>
 <ScrollView>
         <List >
 
@@ -96,68 +106,60 @@ export default class Information extends Component {
                   leftIcon={{name: 'person'}}
                   title={first_name}
                   rightTitle='First Name'
-                  onPressRightIcon={() => {
-                      Alert.alert('Home');
-                  } }
+                  onPressRightIcon={this._toggleModal }
 
         >
         </ListItem>
-            <ListItem rightIcon={{name: 'create'}}
+            <ListItem
                       leftIcon={{name: 'person'}}
                       title={last_name}
                       rightTitle='Last Name'
-                      onPressRightIcon={() => {
-                          Alert.alert('Home');
-                      } }
+
+                      chevronColor="white"
 
             >
             </ListItem>
-            <ListItem rightIcon={{name: 'create'}}
+            <ListItem
                       leftIcon={{name: 'home'}}
                       title={address}
                       rightTitle='Address'
-                      onPressRightIcon={() => {
-                          Alert.alert('Home');
-                      } }
+
+                      chevronColor="white"
 
             >
             </ListItem>
-            <ListItem rightIcon={{name: 'create'}}
+            <ListItem
                       leftIcon={{name: 'location-city'}}
                       title={city}
                       rightTitle='City'
-                      onPressRightIcon={() => {
-                          Alert.alert('Home');
-                      } }
+
+                      chevronColor="white"
             >
             </ListItem>
-            <ListItem rightIcon={{name: 'create'}}
+            <ListItem
                       leftIcon={{name: 'explore'}}
                       title={state}
                       rightTitle='State'
-                      onPressRightIcon={() => {
-                          Alert.alert('Home');
-                      } }
+
+                      chevronColor="white"
 
             >
             </ListItem>
-            <ListItem rightIcon={{name: 'create'}}
+            <ListItem
                       leftIcon={{name: 'flag'}}
                       title={zipcode}
                       rightTitle='Zipcode'
-                      onPressRightIcon={() => {
-                          Alert.alert('Home');
-                      } }
+
+                      chevronColor="white"
 
             >
             </ListItem>
-            <ListItem rightIcon={{name: 'create'}}
+            <ListItem
                       leftIcon={{name: 'phone'}}
                       title={contactNumber}
                       rightTitle='Phone Number'
-                      onPressRightIcon={() => {
-                          Alert.alert('Home');
-                      } }
+
+                      chevronColor="white"
 
             >
             </ListItem>
@@ -166,6 +168,144 @@ export default class Information extends Component {
 
       </List>
 </ScrollView>
+                <Modal isVisible={this.state.isModalVisible}
+                        style={styles.Modelcotainer}
+                       backdropOpacity={0.3}
+                       animationIn="zoomInDown"
+                       animationOut="zoomOutUp"
+                       animationInTiming={1000}
+                       animationOutTiming={1000}
+                       backdropTransitionInTiming={1000}
+                       backdropTransitionOutTiming={1000}
+                       onBackdropPress={() => this.setState({ isVisible: false })}
+
+
+                        >
+                    <View style={{ flex: 1 }}>
+                        <ScrollView>
+                        <FormLabel labelStyle={styles.FormContainer}>First Name </FormLabel>
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder={first_name}
+                            placeholderTextColor= "black"
+                            returnKeyType="next"
+                            underlineColorAndroid={'transparent'}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            selectionColor= 'blue'
+                            onChangeText={(first_name) => this.setState({first_name})}
+
+                        />
+                        <FormLabel labelStyle={styles.FormContainer}>Last Name </FormLabel>
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder={last_name}
+                            placeholderTextColor= "black"
+                            returnKeyType="next"
+                            underlineColorAndroid={'transparent'}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            selectionColor= 'blue'
+                            onChangeText={(last_name) => this.setState({last_name})}
+
+                        />
+                        <FormLabel labelStyle={styles.FormContainer}>Address </FormLabel>
+                        <TextInput
+                            style={styles.inputBox}
+                            //placeholder={address}
+                            placeholderTextColor= "black"
+                            returnKeyType="next"
+                            underlineColorAndroid={'transparent'}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            selectionColor= 'blue'
+                            onChangeText={(address) => this.setState({address})}
+
+                        />
+                        <FormLabel labelStyle={styles.FormContainer}>City </FormLabel>
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder={city}
+                            placeholderTextColor= "black"
+                            returnKeyType="next"
+                            underlineColorAndroid={'transparent'}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            selectionColor= 'blue'
+                            onChangeText={(city) => this.setState({city})}
+
+                        />
+                        <FormLabel labelStyle={styles.FormContainer}>State </FormLabel>
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder={state}
+                            placeholderTextColor= "black"
+                            returnKeyType="next"
+                            underlineColorAndroid={'transparent'}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            selectionColor= 'blue'
+                            onChangeText={(state) => this.setState({state})}
+
+                        />
+                        <FormLabel labelStyle={styles.FormContainer}>Zipcode </FormLabel>
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder={zipcode}
+                            keyboardType="numeric"
+                            maxLength={5}
+                            placeholderTextColor= "black"
+                            returnKeyType="next"
+                            underlineColorAndroid={'transparent'}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            selectionColor= 'blue'
+                            onChangeText={(zipcode) => this.setState({zipcode})}
+
+                        />
+                        <FormLabel
+                            labelStyle={styles.FormContainer}>Phone Number </FormLabel>
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder={contactNumber}
+                            keyboardType="numeric"
+
+                            placeholderTextColor= "black"
+                            returnKeyType="next"
+                            underlineColorAndroid={'transparent'}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            selectionColor= 'blue'
+                            onChangeText={(contactNumber) => this.setState({contactNumber})}
+
+                        />
+                            <View>
+                                <Grid>
+                                    <Col>
+                            <Button onPress={this.Saveinfo}
+                                    title={"Save"}
+                                    buttonStyle={styles.FormButton}
+                                    leftIcon={{name:'check'}}
+                                    backgroundColor={'#d91f10'}
+
+                            />
+                                    </Col>
+                                    <Col>
+                        <Button onPress={this._toggleModal}
+                        title={"Cancel"}
+                                buttonStyle={styles.FormButton}
+                         leftIcon={{name:'clear'}}
+                         backgroundColor={'#13A50C'}
+                        />
+                                    </Col>
+                                </Grid>
+                            </View>
+
+
+                        </ScrollView>
+                    </View>
+                </Modal>
+            </View>
         );
  }
 }
@@ -175,4 +315,46 @@ const styles = StyleSheet.create({
         fontSize: 15,                            // Take up all screen
         backgroundColor: '#000000',
 
-    }});
+    },
+
+    Modelcotainer: {
+
+        backgroundColor: "white",
+        padding:22,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius:15,
+        borderColor: "black",
+        width: 335,
+
+
+        },
+
+    inputBox: {
+        width:270,
+        height: 40,
+        //backgroundColor:'blue',
+
+        borderWidth: 0.5,
+        borderColor: "black",
+        paddingHorizontal:16,
+        fontSize:16,
+        color:'black',
+        //marginVertical: 10
+    },
+    FormContainer: {
+        width:170,
+        paddingHorizontal:-56,
+        paddingLeft: -15,
+        height: 20,
+        //backgroundColor: "black",
+
+    },
+    FormButton:{
+        width:100,
+        height: 30,
+        padding: 10,
+        marginVertical:5,
+
+    },
+});

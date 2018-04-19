@@ -4,6 +4,7 @@ import React, { Component, Props } from 'react';
 import {
     StyleSheet,
     Dimensions,
+    View,
 } from 'react-native';
 import Menu from '../data/MenuData.js';
 
@@ -17,8 +18,7 @@ export default class MenubarMain extends Component {
         this.toggle = this.toggle.bind(this);
 
         this.state = {
-            isOpen: false,
-
+            isOpen: true,
             selectedItem: 'Home',
         };
     }
@@ -44,6 +44,9 @@ export default class MenubarMain extends Component {
 
 
         return (
+
+
+
             <SideMenu
                 isOpen={this.state.isOpen}
                 onChange={isOpen => this.updateMenuState(isOpen)}
@@ -54,8 +57,11 @@ export default class MenubarMain extends Component {
 
 
             >
-                <Universaltabs/>
+
+
             </SideMenu>
+
+
         );
     }
 }

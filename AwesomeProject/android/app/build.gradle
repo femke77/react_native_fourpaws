@@ -146,6 +146,12 @@ dependencies {
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-maps')
+    implementation (project(':react-native-maps')){
+    exclude group: 'com.google.android.gms', module: 'play-services-base'
+    exclude group: 'com.google.android.gms', module: 'play-services-maps'
+}
+implementation 'com.google.android.gms:play-services-base:10.2.4'
+implementation 'com.google.android.gms:play-services-maps:10.2.4'
 
 
     compile fileTree(dir: "libs", include: ["*.jar"])

@@ -12,6 +12,7 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
+    Text,
     Button,
     Image,
     ActivityIndicator,
@@ -25,6 +26,7 @@ import ImagePicker from 'react-native-image-crop-picker'
 export default class Upload extends Component {
     constructor(props) {
         super(props);
+        this.getValue = this.getValue.bind(this);
         this.state = {
             loading: false,
             dp: null
@@ -80,13 +82,18 @@ export default class Upload extends Component {
         })
         .catch((error) => {console.log(error)});
     }
+    getValue(){
+        return this.state.dp
+    }
     render() {
         const dpr = this.state.dp ? (<TouchableOpacity onPress={ () => this.openPicker() }>
             <Image
-                style={{width: 100, height: 100, margin: 5}}
+                style={{width: 140, height: 140,margin: 5 }}
                 source={{uri: this.state.dp}}/>
-            </TouchableOpacity>) : (<Button onPress={ () => this.openPicker() }
-            title={ "Upload User Profile Image" }/>);
+
+
+            </TouchableOpacity>) : (<Button color={"transparent"} onPress={ () => this.openPicker() }
+            title={ "" }/>);
 
         const dps = this.state.loading ?
             <ActivityIndicator animating={this.state.loading} /> : (<View style={styles.container}>
@@ -96,7 +103,8 @@ export default class Upload extends Component {
             </View>);
 
         return (
-            <View style={styles.container}>{ dps }</View>
+            <View style={styles.container}>{dpr}</View>
+
         );
     }
 }
@@ -106,7 +114,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: 'transparent',
+        paddingBottom: 390,
+        paddingRight:210,
     },
     welcome: {
         fontSize: 20,

@@ -26,12 +26,21 @@ import Signup from './components/views/signup';
 import Signup2 from './components/views/signupaddress';
 import Upload from './components/tools/upload';
 import * as firebase from 'firebase';
+import Menu from './components/data/MenuData.js';
+import SideMenu from 'react-native-side-menu';
+import Mapviews from './components/views/Mapview';
 
 export default class AwesomeProject extends Component {
 
 
     constructor(props) {
         super(props);
+        this.toggle = this.toggle.bind(this);
+
+        this.state = {
+            isOpen: true,
+            selectedItem: 'Home',
+        };
 
         //for hot reloading: check if firebase is already initialized
         if (!firebase.apps.length) {
@@ -46,6 +55,21 @@ export default class AwesomeProject extends Component {
 
         this.getInitialView = this.getInitialView.bind(this);
     }
+    toggle() {
+        this.setState({
+            isOpen: !this.state.isOpen,
+        });
+    }
+
+    updateMenuState(isOpen) {
+        this.setState({ isOpen });
+    }
+
+    onMenuItemSelected = item =>
+        this.setState({
+            isOpen: true,
+            selectedItem: item,
+        });
 
         getInitialView() {
             firebase.auth().onAuthStateChanged((user) => {
@@ -58,16 +82,29 @@ export default class AwesomeProject extends Component {
         }
 
         renderScene = (route, navigator) => {
+            const menu = <Menu onItemSelected={this.onMenuItemSelected} navigator={navigator}/>;
             _navigator = navigator;
             switch (route.id) {
                 case 'Login':
                     return (<Login navigator={navigator}{...route.passProps}/>);
                     break;
                 case 'Home':
-                    return (<Home navigator={navigator}{...route.passProps}/>);
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            onChange={isOpen => this.updateMenuState(isOpen)}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+
+                        >
+                        <Home navigator={navigator}{...route.passProps}/>
+                        </SideMenu>);
                     break;
                 case 'Signup':
-                    return (<Signup navigator={navigator}{...route.passProps}/>);
+                    return (
+
+                        <Signup navigator={navigator}{...route.passProps}/>);
                     break;
                 case 'Signup2':
                     return (<Signup2 navigator={navigator}{...route.passProps}/>);
@@ -75,6 +112,49 @@ export default class AwesomeProject extends Component {
                 case 'Upload':
                    return (<Upload navigator={navigator}{...route.passProps}/>);
                    break;
+                case "Mapviews":
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            onChange={isOpen => this.updateMenuState(isOpen)}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+
+                        >
+                            <Mapviews navigator={navigator}{...route.passProps}/>
+                        </SideMenu>);
+                    break;
+                case "Calendar":
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            onChange={isOpen => this.updateMenuState(isOpen)}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+
+                        >
+                            <Calendar navigator={navigator}{...route.passProps}/>
+                        </SideMenu>);
+
+                case "Messenger":
+                    return(
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            onChange={isOpen => this.updateMenuState(isOpen)}
+                            hiddenMenuOffset={10}
+                            toleranceY={10}
+                            menu={menu}
+
+                        >
+                            <Messenger navigator={navigator}{...route.passProps}/>
+                        </SideMenu>);
+
+
+
+
+
             }
         }
 

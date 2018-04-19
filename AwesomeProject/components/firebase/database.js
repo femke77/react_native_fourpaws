@@ -25,9 +25,14 @@ export default class Database {
             });
     }
 
-    static setUser2(userId, address, city, state, zipcode){
+    static setUser2(contactNumber, fname, lname,email, username,userId, address, city, state, zipcode){
         let userPath = "/users/" + userId + "/details/";
         return firebase.database().ref(userPath).update({
+            contactNumber: contactNumber,
+            first_name: fname,
+            last_name: lname,
+            user_name: username,
+            email: email,
             address: address,
             city: city,
             state: state,

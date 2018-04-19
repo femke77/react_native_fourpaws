@@ -22,17 +22,14 @@ import {
 import { Header, Avatar } from 'react-native-elements';
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Tabs from './tabs';
-import Profile_Information from './Profile_Information';
-import UserPic from './UserPic';
-import Mapviews from "./Mapview";
-import Calendars from "./calendar";
-import FavoritePetKeeper from "./favoritepetkeeper";
-import Menu from "./MenuBar"
 import * as firebase from "firebase";
 import Database from '../firebase/database';
-import { Nav, Tab } from 'react-native-simple-tab';
 import Information from './UserInformation';
 import List from "./ListView";
+import Modal from "react-native-modal";
+import Upload from "../tools/upload";
+import RNFetchBlob from 'react-native-fetch-blob';
+import ImagePicker from 'react-native-image-crop-picker'
 
 
 
@@ -43,15 +40,31 @@ export default class Universaltabs extends Component {
 
 
     constructor(props) {
-        super(props);
+        super(props)
+        Uploadimage = new Upload();
+
         this.state = {
             fname: "",
             lname: "",
+            loading: false,
+            dp: null,
 
 
         };
 
     }
+    _Open=()=> {
+        return Upload
+    }
+
+    state = {
+        isModalVisible: true,
+
+    };
+
+    _toggleModal = () =>
+        this.setState({ isModalVisible: !this.state.isModalVisible });
+
 
 
     async componentDidMount(){
@@ -83,17 +96,23 @@ export default class Universaltabs extends Component {
         alert("Task added successfully");
     }
 
+
+
     render() {
         let first_name = this.state.fname;
         let last_name = this.state.lname;
 
+
+
         return (
+
+
 
             <View style={styles.container13}>
                 <Header
 
                     outerContainerStyles={{ backgroundColor: '#a21c16', height: 50, }}
-                    leftComponent={{ icon: 'menu',onPress: () => console.log(this.toggle()), color: '#fff', }}
+                    //leftComponent={{ icon: 'menu',onPress= {this.props.updateMenuState}, color: '#fff', }}
                     centerComponent={{ text: "Home" , style: { color: '#fff',fontSize: 20  } }}
                     rightComponent={{ icon: 'search', color: '#fff' }}
                 />
@@ -102,8 +121,8 @@ export default class Universaltabs extends Component {
 
                     <Avatar style={styles.ImageUser}
                         xlarge
-                            source={require ('../images/c6a4645d9f9af45a9c9d7b094c18a47a--portrait-ideas-girl-photos.jpg')}
-                        onPress={() => console.log("Works!")}
+                            source={this.state.dp}
+                        onPress={this._toggleModal}
                         activeOpacity={0.7}
                             containerStyle={{borderWidth:4, left:15, top:10, borderColor:'white' }}
 
@@ -158,6 +177,33 @@ export default class Universaltabs extends Component {
                         containerStyle={{ right: 100, top: 65, width: 45}}
 
                     />
+
+                    <Modal isVisible={this.state.isModalVisible}
+                           //style={styles.Modelcotainer}
+                           backdropOpacity={0.3}
+                           animationIn="zoomInDown"
+                           animationOut="zoomOutUp"
+                           animationInTiming={1000}
+                           animationOutTiming={1000}
+                           backdropTransitionInTiming={1000}
+                           backdropTransitionOutTiming={1000}
+                           onBackdropPress={() => this.setState({ isVisible: false })}
+
+
+
+                    >
+
+
+
+                        <Upload/>
+
+
+
+
+
+                    </Modal>
+
+
                     <Text style={styles.text13}>
                         {first_name} {last_name}
                     </Text>
@@ -189,9 +235,12 @@ export default class Universaltabs extends Component {
                     </Tabs>
 
                 </Row>
-</Grid>
 
+
+</Grid>
             </View>
+
+
 
         );
     }
@@ -232,6 +281,24 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
 
     },
+    Modelcotainer: {
+
+        backgroundColor: "red",
+        //padding: 12,
+        flex:0,
+        //bottom: 15,
+
+        width: 155,
+        //borderRadius: 15,
+        borderColor: "black",
+
+
+        paddingBottom: 190,
+        paddingTop: -230,
+    },
+    text2:{
+        color: 'black'
+    }
 
 });
 
