@@ -37,8 +37,8 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            buttonColor: 'red',
-            button2color: 'blue',
+            buttonColor: '#BE3A31',
+            button2color: '#2095d2',
             uid: '',
 
         };
@@ -182,7 +182,7 @@ export default class Login extends Component {
         return (
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
                 <StatusBar
-                    backgroundColor="red"
+                    //backgroundColor="red"
                     barStyle="light-content"
                 />
                 <Image
@@ -194,38 +194,43 @@ export default class Login extends Component {
                         height: '100%',
                         justifyContent: 'flex-end',
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/qtq50-2cmvAT-1024x769.jpeg'}}
+                    source={require('../images/cat.jpeg')} // background photo
                 />
                 <Image
-                    style={{backgroundColor: 'transparent',
-                        flex: -1,
-                        position: 'absolute',
-                        width: 170,
-                        height: 100,
-                        justifyContent: 'flex-end',
-                        top: 100,
-                        paddingVertical:50
+                    style={{
+                        //backgroundColor: 'transparent',
+                        //flex: -1,
+                        //position: 'absolute',
+                        //justifyContent: 'center',
+
+                        marginTop: 20,
+                        marginBottom: 50,
+                        //justifyContent: 'center',
+                        //alignItems: 'center',
+                        width: 230,
+                        height: 230,
+                        //paddingVertical: 50
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
+
+                    source={require('../images/FourPaws.png')} // logo
                 />
                 <Text style={styles.welcome}>
-
                     Welcome
                 </Text>
                 <TextInput
                     placeholder="Email Address"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="next"
                     keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
                     style= { styles.inputBox}
                     onChangeText={(email) => this.setState({email})}
+                    //backgroundColor="#FFFFFF50"
                 />
-
                 <TextInput
                     placeholder="Password"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="go"
                     secureTextEntry
                     autoCapitalize="none"
@@ -234,31 +239,39 @@ export default class Login extends Component {
                     onChangeText={(password) => this.setState({password})}
 
                 />
-                    <Text style= {styles.passwordFtext} onPress={()=>this.resetPassword(this.state.email)}  >Forgot Password</Text>
-               <View style={{justifyContent:'space-around'}}>
-                <Button
-                        color={this.state.buttonColor}
-                        onPress={()=>{this.login()}}
-                        title={"  login  "}
-                    //    icon={{name: 'lock'}}
-                />
+                <View>
 
-                <Button
-                    color={this.state.button2color}
-                    onPress={()=>{this.signup(this.state.email, this.state.password)}}
-                    title={"create account"}
-                />
+                <View style={{
+                    flex: -1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                }}>
+                    <Button
+                            color={this.state.buttonColor}
+                            onPress={()=>{this.login()}}
+                            title={"  login  "}
+                        //    icon={{name: 'lock'}}
+                    />
+
+                    <Button
+                        color={this.state.button2color}
+                        onPress={()=>{this.signup(this.state.email, this.state.password)}}
+                        title={"create account"}
+                    />
                 </View>
-            <View style={styles.container2}>
-            <TouchableOpacity onPress={()=>this.googleSignIn()}>
-                <Image source = {require('../assets/google_signin.png')} style ={styles.image}/>
+                <View style={styles.container2}>
+                    <TouchableOpacity onPress={()=>this.googleSignIn()}>
+                        <Image source = {require('../images/google_signin.png')} style ={styles.image}/>
+                    </TouchableOpacity>
+                </View>
 
+                <Text style= {styles.passwordFtext} onPress={()=>this.resetPassword(this.state.email)}  >
+                    Forgot Password
+                </Text>
+                </View>
 
-                </TouchableOpacity>
-            </View>
                 <Text style={styles.bottomtext}>
-
-                    Copyright © 2017 Four Paws
+                    Copyright © 2018 FourPaws
                 </Text>
 
             </KeyboardAvoidingView>
@@ -286,15 +299,15 @@ const styles = StyleSheet.create({
     },
 
     welcome: {
-        fontSize: 50,
+        fontSize: 30,
         textAlign: 'center',
-        margin: 10,
-        color: "#000000",
-        textDecorationLine: 'underline'
+        marginBottom: '5%',
+        color: "white",
+        //textDecorationLine: 'underline'
     },
     //Copyright
     bottomtext: {
-        fontSize: 16,
+        fontSize: 8,
         textAlign: 'center',
         margin: 0,
         color: "#ffffff",
@@ -308,9 +321,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
         margin: 10,
-        color: "#0000ff",
-        textDecorationLine: 'underline',
-        position: 'absolute',
+        color: "#2095d2",
+        //textDecorationLine: 'underline',
+        //position: 'absolute',
         justifyContent: 'flex-end',
         bottom: 90,
         paddingVertical:0
@@ -320,9 +333,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
         margin: 10,
-        color: "#0000ff",
-        textDecorationLine: 'underline',
-        position: 'absolute',
+        color: "#2095d2",
+        //textDecorationLine: 'underline',
+        //position: 'absolute',
         justifyContent: 'flex-end',
         bottom: 30,
         paddingVertical:0
@@ -343,7 +356,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        color: "blue",
+        color: '#2095d2',
         position: 'absolute',
         justifyContent: 'flex-end',
         bottom: -120,
@@ -392,8 +405,8 @@ const styles = StyleSheet.create({
     },
 
     container2: {
-        marginBottom: -110,
-
+        marginTop: -15,
+        marginLeft: 17,
     },
 
     titleStyle: {
@@ -407,36 +420,35 @@ const styles = StyleSheet.create({
     },
 
     inputBox: {
-        width:300,
-        height: 50,
-        backgroundColor:'black',
-        borderRadius: 25,
-        paddingHorizontal:16,
-        fontSize:16,
-        color:'#ffffff',
-        marginVertical: 10
+        //marginHorizontal: '100%',
+        //textAlign: 'left',
+        width: '80%',
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        fontSize: 14,
+        marginBottom: 10,
     },
     button: {
-        width:150,
+        width: 150,
         backgroundColor:'#c84d55',
-        borderRadius: 25,
+        borderRadius: 10,
         marginVertical: 10,
         paddingVertical: 13
     },
     buttonText: {
-        fontSize:16,
-        fontWeight:'500',
+        fontSize: 16,
+        fontWeight: '500',
         color:'#ffffff',
         textAlign:'center',
         flex: -1,
 
     },
     image:{
-
         width: 170,
         height: 90,
         resizeMode: 'contain'
-
     }
 
 });

@@ -107,7 +107,7 @@ export default class Menu extends Component {
                             top: 10,
                             alignItems: "center",
                             borderColor: 'white',
-                            borderRadius: 100/2,
+                            borderRadius: 25,
                             borderWidth: 3,
                         }}
                         source={{uri: this.state.image}}

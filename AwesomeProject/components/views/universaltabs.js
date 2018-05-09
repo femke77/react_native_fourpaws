@@ -77,13 +77,18 @@ export default class Universaltabs extends Component {
 
         return (
 
+
             <View style={styles.container13}>
+                <StatusBar
+                    //backgroundColor="red"
+                    barStyle="light-content"
+                />
                 <Header
 
-                    outerContainerStyles={{ backgroundColor: '#a21c16', height: 50, }}
+                    outerContainerStyles={{ backgroundColor: 'white', height: 55, }}
                     leftComponent={{ icon: 'menu',onPress: () => console.log(this.toggle()), color: '#fff', }}
-                    centerComponent={{ text: "Home" , style: { color: '#fff',fontSize: 20  } }}
-                    rightComponent={{ icon: 'search', color: '#fff' }}
+                    centerComponent={{ text: "Home" , style: { color: 'black',fontSize: 20} }}
+                    rightComponent={{ icon: 'search', color: 'black' }}
                 />
                 <Grid>
                     <Row  style={{ height: 220, backgroundColor: '#BE3A31' }} >

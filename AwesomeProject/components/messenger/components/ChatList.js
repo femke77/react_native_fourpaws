@@ -133,6 +133,7 @@ class FlatListItem extends Component {
                             style={{flex: 1}}
                             underlayColor = 'grey'
                             onPress={() => {
+                                this.forceUpdate();
                                 this.props.navigator.push({
                                     id: 'MessageUI',
                                     name: this.props.item.name,
