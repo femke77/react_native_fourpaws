@@ -137,8 +137,11 @@ export default class AwesomeProject extends Component {
                             toleranceY={10}
                             menu={menu}
                         >
+
                             <UserSearch navigator={navigator}{...route.passProps}/>
-                        </SideMenu>);
+                        </SideMenu>
+                            );
+
                     break;
                 case 'FavoritePetKeeper':
                     return (
@@ -159,7 +162,9 @@ export default class AwesomeProject extends Component {
             return (
 
                 <Navigator initialRoute={{id: this.state.initialView}}
-                           renderScene={this.renderScene}/>
+                           renderScene={this.renderScene}
+
+        />
             );
         } else {
             return null;

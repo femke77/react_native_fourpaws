@@ -81,7 +81,7 @@ export default class Universaltabs extends Component {
                 <Header
 
                     outerContainerStyles={{ backgroundColor: '#a21c16', height: 50, }}
-                    leftComponent={{ icon: 'menu',onPress: () => console.log(this.toggle()), color: '#fff', }}
+                    leftComponent={{ icon: 'menu',onPress: () => this.toggle(), color: '#fff', }}
                     centerComponent={{ text: "Home" , style: { color: '#fff',fontSize: 20  } }}
                     rightComponent={{ icon: 'search', color: '#fff' }}
                 />

@@ -14,7 +14,7 @@ buildscript {
 }
 
 allprojects {
-    buildDir = 'C:\\tmp\\'      //added when i ran into 260char path limit
+
     repositories {
         mavenLocal()
         jcenter()

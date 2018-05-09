@@ -84,7 +84,7 @@ export default class UserProfile extends Component {
 
                         <Avatar style={styles.ImageUser}
                                 xlarge
-                                source={{uri: this.state.image}}
+                                source={{uri: "http://images2.fanpop.com/image/photos/9400000/Hello-puppies-9415183-1280-800.jpg"}}
                                 onPress={() => console.log("Works!")}
                                 activeOpacity={0.7}
                                 containerStyle={{borderWidth:4, left:15, top:10, borderColor:'white' }}

@@ -194,7 +194,7 @@ export default class Login extends Component {
                         height: '100%',
                         justifyContent: 'flex-end',
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/qtq50-2cmvAT-1024x769.jpeg'}}
+                    source={{ uri: 'https://i2.wp.com/doglers.com/wp-content/uploads/2016/02/Cute-American-Eskimo-Dog-Puppy-on-Green-Lawn.jpg?resize=683%2C1024'}}
                 />
                 <Image
                     style={{backgroundColor: 'transparent',
