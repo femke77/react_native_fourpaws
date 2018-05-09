@@ -19,7 +19,7 @@ import Signup2 from '../views/signupaddress'
 import Database from '../firebase/database';
 
 
-//TODO do an email verification - send user email
+
 
 
 export default class Signup extends Component {
@@ -45,7 +45,11 @@ export default class Signup extends Component {
     }
 
     async componentDidMount(){
-
+        ToastAndroid.showWithGravity(
+            'Please respond to verification email in your inbox',
+            ToastAndroid.LONG,
+            ToastAndroid.TOP
+        );
         try {
             let user = await firebase.auth().currentUser;
 
@@ -181,6 +185,7 @@ export default class Signup extends Component {
 
                 <TextInput
                     value = {image}
+                    placeholder = "Image URL"
                     selectTextOnFocus = {true}
                     placeholderTextColor= "#ffffff"
                     returnKeyType="next"

@@ -52,7 +52,7 @@ export default class Login extends Component {
 
     //current scope is set to example (google drive) default is email and profile
     //change to DidMount()
-    componentWillMount(){
+    async componentWillMount(){
         GoogleSignin.hasPlayServices({autoResolve: true});
         GoogleSignin.configure({
             webClientId:'1002267002264-1j8pm8s5q7go07v22ilej3ma7s1v4f3v.apps.googleusercontent.com',
@@ -60,7 +60,7 @@ export default class Login extends Component {
             forceConsentPrompt: true,
 
         });
-
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     }
 
     passwordLength(password) {
@@ -118,7 +118,8 @@ export default class Login extends Component {
         if (this.validateEmail(email)) {
             this.passwordLength(password);
             try {
-                await firebase.auth().createUserWithEmailAndPassword(email, password);
+                let task = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                this.emailVerification();
 
                 setTimeout(() => {
                     this.props.navigator.push({
@@ -146,9 +147,10 @@ export default class Login extends Component {
 
             try {
                                                           //auth persistence should be .NONE in production and .LOCAL for dev
-            await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
-            [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
+          //  await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
+           // [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
 
+            await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             setTimeout(() => {
                 this.props.navigator.push({
                     id: "Home"
@@ -175,6 +177,15 @@ export default class Login extends Component {
         }
     }
 
+    emailVerification(){
+        firebase.auth().currentUser.sendEmailVerification().then(function() {
+
+        }, function(error) {
+            console.log(error)
+        });
+
+
+    }
 
     render(){
         const resizeMode = 'cover';
