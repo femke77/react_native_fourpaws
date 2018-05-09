@@ -140,13 +140,24 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-add-calendar-event')
     //compile 'com.android.support:multidex:1.0.1'
 
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-push-notification')
+    compile(project(":react-native-google-signin")){
+        exclude group: "com.google.android.gms"
+    }
+
+    compile ('com.google.android.gms:play-services-auth:10.2.4')
+    compile ('com.google.android.gms:play-services-maps:10.2.4')
+    compile ('com.google.android.gms:play-services-gcm:10.2.4') {
+        force = true
+    }
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-crop-picker')
     compile project(':react-native-maps')
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-push-notification')
+
 
 
     compile fileTree(dir: "libs", include: ["*.jar"])
@@ -155,17 +166,7 @@ dependencies {
         exclude group: 'com.google.android.gms'
     }  // From node_modules
 
-    compile(project(":react-native-google-signin"))
-//    {
-//        exclude group: "com.google.android.gms"
-//    }
 
-
-    compile ('com.google.android.gms:play-services-auth:10.2.4')
-    compile ('com.google.android.gms:play-services-maps:10.2.4')
-    compile ('com.google.android.gms:play-services-gcm:10.2.4') {
-        force = true
-    }
 }
 
 // Run this once to be able to run the application with BUCK
