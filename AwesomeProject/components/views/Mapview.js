@@ -9,9 +9,9 @@ import {
     // Container component
 } from 'react-native';
 
-import MapView from 'react-native-maps';
+import MapView , { Circle } from 'react-native-maps';
 
-//import PriceMarker from './AmountTag.js';
+import PriceMarker from './AmountTag.js';
 
 let id = 0;
 
@@ -23,6 +23,7 @@ const Ratio = width/height;
 
 const LATTITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = 0.0421;
+const SPACE = 0.01;
 
 export default class Mapviews extends Component {
     constructor(props) {
@@ -35,46 +36,53 @@ export default class Mapviews extends Component {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             },
-
+        circle: {
+            center: {
+                latitude: 34.24116 + SPACE,
+                longitude: -118.5291 + SPACE,
+            },
+            radius: 7000,
+        },
         };
 
     }
 
-    // watchID: ?number = null
-    //
-    // componentDidMount() {
-    //     navigator.geolocation.getCurrentPosition((position) => {
-    //             var lat = parseFloat(position.coords.latitude)
-    //             var long = parseFloat(position.coords.longitude)
-    //
-    //             var initialRegion2 = {
-    //                 latitude: lat,
-    //                 longitude: long,
-    //                 latitudeDelta: LATTITUDE_DELTA,
-    //                 longitudeDelta: LONGITUDE_DELTA,
-    //             }
-    //             this.setState({initialRegion: initialRegion2})
-    //
-    //         },
-    //         (error) => alert(JSON.stringify(error)),
-    //         {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000})
-    //     this.watchID = navigator.geolocation.watchPosition((position) => {
-    //         var lat = parseFloat(position.coords.latitude)
-    //         var long = parseFloat(position.coords.longitude)
-    //
-    //         var RegionLast = {
-    //             latitude: lat,
-    //             longitude: long,
-    //             latitudeDelta: LATTITUDE_DELTA,
-    //             longitudeDelta: LONGITUDE_DELTA,
-    //         }
-    //         this.setState({initialRegion: RegionLast})
-    //     })
-    // }
-    // componentWillUnmount(){
-    //
-    //         navigator.geolocation.clearWatch(this.watchID )
-    //     }
+     // noinspection JSAnnotator
+    watchID: ?number = null
+
+     componentDidMount() {
+         navigator.geolocation.getCurrentPosition((position) => {
+                 var lat = parseFloat(position.coords.latitude)
+                 var long = parseFloat(position.coords.longitude)
+
+                 var initialRegion2 = {
+                     latitude: lat,
+                     longitude: long,
+                     latitudeDelta: LATTITUDE_DELTA,
+                     longitudeDelta: LONGITUDE_DELTA,
+                 }
+                 this.setState({initialRegion: initialRegion2})
+
+             },
+             (error) => alert(JSON.stringify(error)),
+             {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000})
+         this.watchID = navigator.geolocation.watchPosition((position) => {
+             var lat = parseFloat(position.coords.latitude)
+             var long = parseFloat(position.coords.longitude)
+
+             var RegionLast = {
+                 latitude: lat,
+                 longitude: long,
+               latitudeDelta: LATTITUDE_DELTA,
+               longitudeDelta: LONGITUDE_DELTA,
+            }
+             this.setState({initialRegion: RegionLast})
+         })
+     }
+     componentWillUnmount(){
+
+             navigator.geolocation.clearWatch(this.watchID )
+         }
 
 
     onRegionChange(initialRegion) {
@@ -84,22 +92,31 @@ export default class Mapviews extends Component {
 
     // Pull children out of props passed from App component
     render() {
+        const { circle} = this.state;
 
         return (
-            <View style={styles.container}>
+            //<View style={styles.container}>
                <MapView
                    provider={this.props.provider}
                    style={styles.map}
                    initialRegion={this.state.initialRegion}
                    onPress={this.onMapPress}
                >
+                   <Circle
+                       center={circle.center}
+                       radius={circle.radius}
+                       fillColor="rgba(255, 255, 255, 1)"
+                       strokeColor="rgba(0,0,0,0.5)"
+                       zIndex={2}
+                       strokeWidth={2}
+                   />
                         <PriceMarker/>
 
                 </MapView>
 
 
 
-            </View>
+           // </View>
         );
     }
 }
@@ -107,7 +124,7 @@ export default class Mapviews extends Component {
 const styles = StyleSheet.create({
     // Component container
     container: {
-        flex: 1,
+
         position: 'absolute',
         top: 0,
         left: 0,

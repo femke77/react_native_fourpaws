@@ -1,6 +1,7 @@
 package com.awesomeproject;
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import com.vonovak.AddCalendarEventPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
@@ -10,6 +11,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.airbnb.android.react.maps.MapsPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +32,9 @@ public class MainApplication extends Application implements ReactApplication {
               new ReactNativePushNotificationPackage(),
               new RNGoogleSigninPackage(),
               new RNFetchBlobPackage(),
-              new PickerPackage()
+              new AddCalendarEventPackage(),
+              new PickerPackage(),
+              new MapsPackage()
       );
     }
 

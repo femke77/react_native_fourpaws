@@ -128,6 +128,9 @@ export default class Database {
 
     }
 
+
+
+
     static listenChatUsers(userId, callback) {
         let userPath = "/users/" + userId + "/messages/";
         firebase.database().ref(userPath).on('value', (snapshot) => {
@@ -197,7 +200,7 @@ export default class Database {
 
     //remove:
 
-    // WARNING: THIS WILL DELETE THE ACCOUNT AND CLEAR ALL THE USERS DATABASE ENTRIES AT THE PATH LOCATION
+    // WARNING: THIS WILL DELETE THE ACCOUNT AND CLEAR ALL THE USER'S DATABASE ENTRIES AT THE PATH LOCATION
     static remove(userId) {
         let userPath = "/users/" + userId + "/details";
         return firebase.database().ref(userPath).remove().then(function () {

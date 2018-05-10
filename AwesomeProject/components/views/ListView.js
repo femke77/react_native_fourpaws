@@ -84,8 +84,6 @@ export default class List extends Component {
                         ))
                     }
                 </ScrollView>
-
-
             </View>
 
         )
@@ -96,15 +94,11 @@ export default class List extends Component {
 const styles = StyleSheet.create ({
     container: {
         padding: 20,
-
-        marginTop: 5,
-        backgroundColor: '#fffff9',
+        backgroundColor: 'white',
         alignItems: 'center',
-        width: 350,
-        borderWidth:3,
-        opacity: 0.8,
-
-
+        flex: 1,
+        borderWidth: 0.5,
+        borderColor: '#a0a0a0',
     },
     text: {
         color: '#000000',
@@ -115,13 +109,12 @@ const styles = StyleSheet.create ({
         fontSize: 20,
     },
     container36: {
-        paddingBottom: 260,
-        paddingTop: 5,
-        width: 350,
-        height: 0,
+        //left: -1,
+        //paddingBottom: 260,
+        //width: window.width,
+        //height: 200,
     },
     text2: {
-        color: '#ff7500',
         top: -10,
         textAlign: 'center',
         fontSize: 15,

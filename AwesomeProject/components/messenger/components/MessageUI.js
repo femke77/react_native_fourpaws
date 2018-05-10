@@ -67,11 +67,9 @@ class MessageUI extends Component {
     render() {
         return (
             <Screen>
-                <Title styleName="h-center" style={{padding: 10}}>
-                    {this.props.name}
-                </Title>
                 <KeyboardAwareScrollView ref="scroll"
-                                         onLayout={this.onScrollViewLayout}>
+                                         onLayout={this.onScrollViewLayout}
+                                         >
                     <Messages/>
                 </KeyboardAwareScrollView>
                     <Input footer={height=100}

@@ -55,7 +55,7 @@ export default class Signupaddress extends Component {
     navHome(){
         if (this.state.zipcode && this.state.address && this.state.state && this.state.city) {
             Database.setUser2(this.state.uid, this.state.address, this.state.city, this.state.state, this.state.zipcode);
-            this.props.navigator.push({id: 'Home'});
+            this.props.navigator.replace({id: 'Home'});
             dismissKeyboard()
         } else {
             ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
@@ -64,7 +64,7 @@ export default class Signupaddress extends Component {
     }
 
     goBack(){
-        this.props.navigator.push({id:'Signup'});
+        this.props.navigator.replace({id:'Signup'});
         dismissKeyboard();
     }
 
@@ -83,12 +83,14 @@ export default class Signupaddress extends Component {
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
 
                 <StatusBar
-                    backgroundColor="red"
+                    backgroundColor="black"
                     barStyle="light-content"
                 />
 
                 <Image
-                    style={{backgroundColor: '#ccc',
+                    style={{
+                        background: 'transparent',
+                        backgroundColor: '#d1d1d1',
                         flex: 1,
                         resizeMode,
                         position: 'absolute',
@@ -96,101 +98,115 @@ export default class Signupaddress extends Component {
                         height: '100%',
                         justifyContent: 'flex-end',
                     }}
-                    source={{ uri: 'https://static.pexels.com/photos/38867/pexels-photo-38867.jpeg'}}
+                    source={require('../images/cat.jpeg')} // background photo
                 />
 
                 <Image
-                    style={{backgroundColor: 'transparent',
-                        flex: -1,
-                        position: 'absolute',
-                        width: 170,
-                        height: 100,
-                        justifyContent: 'flex-end',
-                        top: 30,
-                        right: 100,
-                        paddingVertical:50
+                    style={{
+                        background: 'transparent',
+                        //backgroundColor: 'transparent',
+                        //flex: -1,
+                        //position: 'absolute',
+                        //justifyContent: 'center',
 
+                        //marginTop: "5%",
+                        //marginBottom: "5%",
+                        //justifyContent: 'center',
+                        //alignItems: 'center',
+                        width: 120,
+                        height: 120,
+                        //paddingVertical: 50
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
+
+                    source={require('../images/FourPaws.png')} // logo
                 />
 
 
+                <Text style={styles.welcome}>
+                    Sign Up
+                </Text>
+
                 <TextInput
                     placeholder=" Address"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="next"
                     keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    underlineColorAndroid={'transparent'}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
                     onChangeText={(address) => this.setState({address})}
 
                 />
 
                 <TextInput
                     placeholder="City"
-                    placeholderTextColor= "#ffffff"
-                    returnKeyType="go"
+                    placeholderTextColor= "black"
+                    returnKeyType="next"
+                    keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    underlineColorAndroid={'transparent'}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
                     onChangeText={(city) => this.setState({city})}
                 />
                 <TextInput
                     placeholder="State"
-                    placeholderTextColor= "#ffffff"
-                    returnKeyType="go"
-                    underlineColorAndroid={'transparent'}
+                    placeholderTextColor= "black"
+                    returnKeyType="next"
+                    keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
                     onChangeText={(state) => this.setState({state})}
                 />
 
 
 
                 <TextInput
-                    placeholder=" Zipcode"
-                    placeholderTextColor= "#ffffff"
-                    returnKeyType="go"
+                    placeholder="Zip Code"
+                    placeholderTextColor= "black"
+                    returnKeyType="next"
                     keyboardType="numeric"
                     maxLength={5}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    underlineColorAndroid={'transparent'}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
                     onChangeText={( zipcode) => this.setState({ zipcode})}
                 />
 
 
-                <View style={ {flexDirection:'row',marginTop:20}}>
-                    <View style={ {margin:10}}>
+                <View style={{
+                    //flex: -1,
+                    height: 25,
+                    flexDirection: 'row',
+                    //justifyContent: 'space-between'
+                }}>
+                    <View>
                         <TouchableOpacity style= {styles.button}>
-                            <Text style= {styles.buttonText}onPress={()=> this.goBack()}> Previous</Text>
+                            <Text
+                                style= {styles.buttonText}
+                                onPress={()=> this.goBack()}>
+                                Previous
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={ {margin:10}}>
-                        <TouchableOpacity style= {styles.button}>
-                            <Text style= {styles.buttonText}onPress={()=> this.checkZipLen(this.state.zipcode)}> Sign Up</Text>
+                    <View>
+                        <TouchableOpacity style= {styles.button2}>
+                            <Text
+                                style= {styles.buttonText}
+                                onPress={()=> this.checkZipLen(this.state.zipcode)}>
+                                Sign Up
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View>
 
-                    <Text style={styles.bottomtext}>
-
-                        Copyright © 2017 Four Paws
-                    </Text>
-                </View>
-
-
-
-
-
-
-
+                <Text style={styles.bottomtext}>
+                    Copyright © 2017 Four Paws
+                </Text>
             </KeyboardAvoidingView>
         );
     }
@@ -206,7 +222,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
-
+    welcome: {
+        fontSize: 30,
+        textAlign: 'center',
+        marginBottom: '5%',
+        color: "white",
+        //textDecorationLine: 'underline'
+    },
     input:{
         height: 40,
         backgroundColor: "black",
@@ -222,16 +244,14 @@ const styles = StyleSheet.create({
     },
     //Copyright
     bottomtext: {
-        fontSize: 16,
+        fontSize: 8,
         textAlign: 'center',
-        margin: 10,
+        //marginBottom: '1%',
         color: "#ffffff",
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: -100,
-        right: -110,
+        bottom: '1%',
         paddingVertical:0
-
     },
     //Forgot username
     Usernametext: {
@@ -261,23 +281,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         color: "#ffffff",
-        position: 'absolute',
+        //position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: -50,
-        right: -20,
-        paddingVertical:0
+        // bottom: -50,
+        // right: -20,
+        // paddingVertical:0
     },
     SignIntextbox: {
-        margin: 10,
-        position: 'absolute',
-        justifyContent: 'flex-end',
-        bottom: -50,
-        right: -140,
-        paddingVertical:0,
+        //margin: 10,
+        // position: 'absolute',
+        justifyContent: 'center',
+        // bottom: -50,
+        // right: -140,
+        // paddingVertical:0,
     },
     SignIntextboxtext:{
-        fontSize: 18,
-        color: "blue",
+        fontSize: 16,
+        color: "#2095d2",
     },
 
     instructions: {
@@ -334,32 +354,46 @@ const styles = StyleSheet.create({
     },
 
     inputBox: {
-        width:300,
-        height: 50,
-        backgroundColor:'#666666',
-        borderRadius: 25,
-        paddingHorizontal:16,
-        fontSize:16,
-        color:'#ffffff',
-        marginVertical: 10
+        //marginHorizontal: '100%',
+        //textAlign: 'left',
+        width: '80%',
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        fontSize: 14,
+        marginBottom: 10,
     },
     button: {
-        width:140,
-        backgroundColor:'#2b98f0',
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 13
+        height: 34,
+        width: 120,
+        backgroundColor:'#2095d2',
+        borderRadius: 10,
+        marginHorizontal: 5,
+        paddingVertical: 6
+    },
+    button2: {
+        height: 34,
+        width: 120,
+        backgroundColor:'#BE3A31',
+        borderRadius: 10,
+        marginHorizontal: 5,
+        paddingVertical: 6
+    },
+    topText: {
+        fontSize:16,
+        fontWeight:'400',
+        color:'black',
+        textAlign:'center',
+        flex: -100,
+
     },
     buttonText: {
         fontSize:16,
         fontWeight:'500',
-        color:'#ffffff',
+        color:'white',
         textAlign:'center',
         flex: -100,
 
     }
-
-
 });
-
-

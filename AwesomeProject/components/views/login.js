@@ -37,8 +37,8 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            buttonColor: 'red',
-            button2color: 'blue',
+            buttonColor: '#BE3A31',
+            button2color: '#2095d2',
             uid: '',
 
         };
@@ -46,13 +46,13 @@ export default class Login extends Component {
         this.login = this.login.bind(this);
         this.resetPassword = this.resetPassword.bind(this);
         this.passwordLength = this.passwordLength.bind(this);
-        this.validateEmail = this.validateEmail.bind(this);
+        Login.validateEmail = Login.validateEmail.bind(this);
         this.googleSignIn = this.googleSignIn.bind(this);
     }
 
     //current scope is set to example (google drive) default is email and profile
     //change to DidMount()
-    componentWillMount(){
+    async componentWillMount(){
         GoogleSignin.hasPlayServices({autoResolve: true});
         GoogleSignin.configure({
             webClientId:'1002267002264-1j8pm8s5q7go07v22ilej3ma7s1v4f3v.apps.googleusercontent.com',
@@ -60,15 +60,15 @@ export default class Login extends Component {
             forceConsentPrompt: true,
 
         });
-
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     }
 
     passwordLength(password) {
         const minLength = 6;
         if (password.length < minLength) {
             Alert.alert(
-                'Password Error',
-                'Password must be at least 6 characters long',
+                "Password Error",
+                "Password must be at least 6 characters long",
                 [
                     {text:'OK', onPress: () =>
                         console.log('ok pressed')},
@@ -77,8 +77,24 @@ export default class Login extends Component {
             )
         }
     }
+    passwordLengthSignUp(password) {
+        const minLength = 6;
+        if (password.length < minLength) {
+            Alert.alert(
+                "Create Account",
+                "Enter a password at least 6 characters in length to create an account.",
+                [
+                    {text:'OK', onPress: () =>
+                        console.log('ok pressed')},
+                ],
+                {cancelable: true}
+            );
+            return false
+        }
+        else return true;
+    }
 
-    validateEmail(email){
+    static validateEmail(email){
 
         let re = /\S+@\S+\.\S+/;
         return re.test(email);
@@ -102,10 +118,10 @@ export default class Login extends Component {
             }
            Database.findUID(user.uid, (bool) => {
                 if (bool){
-                    this.props.navigator.push({id:'Home'});
+                    this.props.navigator.replace({id:'Home'});
                 }
                 else{
-                    this.props.navigator.push({id: 'Signup'});
+                    this.props.navigator.replace({id: 'Signup'});
                     Database.setFromGoogleAccount(user.uid, user);
                 }
            });
@@ -115,24 +131,29 @@ export default class Login extends Component {
 
     async signup(email, password) {
         dismissKeyboard();
-        if (this.validateEmail(email)) {
-            this.passwordLength(password);
+        if (Login.validateEmail(email)) {
+            this.passwordLengthSignUp(password);
             try {
+                // let task = await firebase.auth().createUserWithEmailAndPassword(email, password);
                 await firebase.auth().createUserWithEmailAndPassword(email, password);
+                this.emailVerification();
 
                 setTimeout(() => {
-                    this.props.navigator.push({
+                    this.props.navigator.replace({
                         id: "Signup"
                     })
                 }, 1500);
 
             } catch (error) {
-                let errorMessage = error.message;
-                alert(errorMessage);
+                // let errorMessage = error.message;
+                // alert(errorMessage);
+                this.passwordLengthSignUp(password);
             }
         }
         else{
-            alert("Invalid email")
+            Alert.alert(
+                "Create Account",
+                "Enter a valid email to create an account.")
         }
     }
 
@@ -146,11 +167,12 @@ export default class Login extends Component {
 
             try {
                                                           //auth persistence should be .NONE in production and .LOCAL for dev
-            await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
-            [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
+            // await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
+            // [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
 
+            await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
             setTimeout(() => {
-                this.props.navigator.push({
+                this.props.navigator.replace({
                     id: "Home"
                 })
             }, 1500);
@@ -162,7 +184,7 @@ export default class Login extends Component {
     }}
 
     resetPassword (email){
-        if (this.validateEmail(email)){
+        if (Login.validateEmail(email)){
                 firebase.auth().sendPasswordResetEmail(email).then(function() {
                    alert("Password reset link has been sent to email");
                }).catch(function(error){
@@ -175,6 +197,15 @@ export default class Login extends Component {
         }
     }
 
+    emailVerification(){
+        firebase.auth().currentUser.sendEmailVerification().then(function() {
+
+        }, function(error) {
+            console.log(error)
+        });
+
+
+    }
 
     render(){
         const resizeMode = 'cover';
@@ -182,11 +213,13 @@ export default class Login extends Component {
         return (
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
                 <StatusBar
-                    backgroundColor="red"
+                    //backgroundColor="red"
                     barStyle="light-content"
                 />
                 <Image
-                    style={{backgroundColor: '#ccc',
+                    style={{
+                        background: 'transparent',
+                        backgroundColor: '#d1d1d1',
                         flex: 1,
                         resizeMode,
                         position: 'absolute',
@@ -194,71 +227,105 @@ export default class Login extends Component {
                         height: '100%',
                         justifyContent: 'flex-end',
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/qtq50-2cmvAT-1024x769.jpeg'}}
+                    source={require('../images/cat.jpeg')} // background photo
                 />
                 <Image
-                    style={{backgroundColor: 'transparent',
-                        flex: -1,
-                        position: 'absolute',
-                        width: 170,
-                        height: 100,
-                        justifyContent: 'flex-end',
-                        top: 100,
-                        paddingVertical:50
+                    style={{
+                        background: 'transparent',
+                        //backgroundColor: 'transparent',
+                        //flex: -1,
+                        //position: 'absolute',
+                        //justifyContent: 'center',
+
+                        marginTop: "5%",
+                        marginBottom: "5%",
+                        //justifyContent: 'center',
+                        //alignItems: 'center',
+                        width: 230,
+                        height: 230,
+                        //paddingVertical: 50
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
+
+                    source={require('../images/FourPaws.png')} // logo
                 />
                 <Text style={styles.welcome}>
-
                     Welcome
                 </Text>
                 <TextInput
                     placeholder="Email Address"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="next"
                     keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
                     onChangeText={(email) => this.setState({email})}
                 />
-
                 <TextInput
                     placeholder="Password"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="go"
                     secureTextEntry
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
                     onChangeText={(password) => this.setState({password})}
-
                 />
-                    <Text style= {styles.passwordFtext} onPress={()=>this.resetPassword(this.state.email)}  >Forgot Password</Text>
-               <View style={{justifyContent:'space-around'}}>
-                <Button
+                <View>
+
+                <View style={{
+                    //flex: -1,
+                    height: 25,
+                    flexDirection: 'row',
+                    //justifyContent: 'space-between'
+                }}>
+
+                    <TouchableOpacity
+                        style= {styles.button}
                         color={this.state.buttonColor}
                         onPress={()=>{this.login()}}
                         title={"  login  "}
-                    //    icon={{name: 'lock'}}
-                />
-
-                <Button
-                    color={this.state.button2color}
-                    onPress={()=>{this.signup(this.state.email, this.state.password)}}
-                    title={"create account"}
-                />
+                        //    icon={{name: 'lock'}}
+                        >
+                        <Text
+                            style= {styles.buttonText}>
+                            Login
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button2}
+                        color={this.state.button2Color}
+                        onPress={()=>{this.signup(this.state.email, this.state.password)}}
+                        title={"create account"}
+                        //    icon={{name: 'lock'}}
+                    >
+                        <Text
+                            style= {styles.buttonText}>
+                            Sign Up
+                        </Text>
+                    </TouchableOpacity>
                 </View>
-            <View style={styles.container2}>
-            <TouchableOpacity onPress={()=>this.googleSignIn()}>
-                <Image source = {require('../assets/google_signin.png')} style ={styles.image}/>
 
+                <View style={styles.container2}>
+                    <TouchableOpacity
+                        onPress={()=>this.googleSignIn()}>
+                        <Image
+                            source = {require('../images/google_signin.png')}
+                            style ={styles.image}
+                        />
+                    </TouchableOpacity>
+                </View>
 
-                </TouchableOpacity>
-            </View>
+                <Text
+                    style= {styles.passwordFtext} onPress={()=>this.resetPassword(this.state.email)}  >
+                    Forgot Password
+                </Text>
+                </View>
+
                 <Text style={styles.bottomtext}>
-
-                    Copyright © 2017 Four Paws
+                    Copyright © 2018 FourPaws
                 </Text>
 
             </KeyboardAvoidingView>
@@ -273,7 +340,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
@@ -286,21 +352,21 @@ const styles = StyleSheet.create({
     },
 
     welcome: {
-        fontSize: 50,
+        fontSize: 30,
         textAlign: 'center',
-        margin: 10,
-        color: "#000000",
-        textDecorationLine: 'underline'
+        marginBottom: '5%',
+        color: "white",
+        //textDecorationLine: 'underline'
     },
     //Copyright
     bottomtext: {
-        fontSize: 16,
+        fontSize: 8,
         textAlign: 'center',
-        margin: 0,
+        //marginBottom: '1%',
         color: "#ffffff",
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: 5,
+        bottom: '1%',
         paddingVertical:0
     },
     //Forgot username
@@ -308,24 +374,25 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
         margin: 10,
-        color: "#0000ff",
-        textDecorationLine: 'underline',
-        position: 'absolute',
+        color: "#2095d2",
+        //textDecorationLine: 'underline',
+        //position: 'absolute',
         justifyContent: 'flex-end',
         bottom: 90,
         paddingVertical:0
     },
     //Forgot password
     passwordFtext: {
-        fontSize: 15,
+        fontSize: 12,
         textAlign: 'center',
-        margin: 10,
-        color: "#0000ff",
-        textDecorationLine: 'underline',
-        position: 'absolute',
+        //margin: 10,
+        color: "#2095d2",
+        //textDecorationLine: 'underline',
+        //position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: 30,
-        paddingVertical:0
+        //bottom: 30,
+        paddingTop: 5,
+        paddingBottom: 40
     },
 
     SignUptext: {
@@ -343,7 +410,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
-        color: "blue",
+        color: '#2095d2',
         position: 'absolute',
         justifyContent: 'flex-end',
         bottom: -120,
@@ -392,8 +459,10 @@ const styles = StyleSheet.create({
     },
 
     container2: {
-        marginBottom: -110,
-
+        //marginTop: -15,
+        //marginLeft: 17,
+        paddingTop: '5%',
+        alignItems: 'center'
     },
 
     titleStyle: {
@@ -407,36 +476,44 @@ const styles = StyleSheet.create({
     },
 
     inputBox: {
-        width:300,
-        height: 50,
-        backgroundColor:'black',
-        borderRadius: 25,
-        paddingHorizontal:16,
-        fontSize:16,
-        color:'#ffffff',
-        marginVertical: 10
+        //marginHorizontal: '100%',
+        //textAlign: 'left',
+        width: '80%',
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        fontSize: 14,
+        marginBottom: 10,
     },
     button: {
-        width:150,
-        backgroundColor:'#c84d55',
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 13
+        height: 34,
+        width: 120,
+        backgroundColor:'#2095d2',
+        borderRadius: 10,
+        marginHorizontal: 5,
+        paddingVertical: 6
+    },
+    button2: {
+        height: 34,
+        width: 120,
+        backgroundColor:'#BE3A31',
+        borderRadius: 10,
+        marginHorizontal: 5,
+        paddingVertical: 6
     },
     buttonText: {
-        fontSize:16,
-        fontWeight:'500',
+        fontSize: 14,
+        fontWeight: '500',
         color:'#ffffff',
         textAlign:'center',
         flex: -1,
-
     },
     image:{
 
-        width: 170,
-        height: 90,
-        resizeMode: 'contain'
-
+        width: 160,
+        height: 40,
+        //resizeMode: 'contain'
     }
 
 });

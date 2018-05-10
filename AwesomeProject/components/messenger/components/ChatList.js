@@ -107,18 +107,21 @@ class FlatListItem extends Component {
             <View>
             <Swipeout {...swipeSetting}>
                 <View style={{      // makes the column that will have rows of data
-                    flex: 1,                                // Take up all screen
-                    flexDirection: 'column',
+                    //flex: 1,                                // Take up all screen
+                    flexDirection: 'column'
                 }}>
                     <View style={{  // each row of data
                         flex: 1,                            // Take up all screen
                         flexDirection: 'row',
-                        // backgroundColor: this.props.index % 2 === 0 ? '#F39C12' : '#F9690E',
+                        backgroundColor: 'white',
                     }}>
                         <TouchableHighlight // click on user image to go to profile
-                            underlayColor = 'grey'
+                            style={{
+                                borderRadius: 10
+                            }}
+                            underlayColor = '#273444'
                             onPress={() => {
-                                this.props.navigator.push({
+                                this.props.navigator.replace({
                                     id: 'User',
                                     uniqueId: this.props.item.uid,
                                 });
@@ -126,14 +129,22 @@ class FlatListItem extends Component {
                         >
                             <Image
                                 source={{uri: this.props.item.avatar}}
-                                style={{width: 80, height: 80, margin:5}}>
+                                style={{
+                                    width: 80,
+                                    height: 80,
+                                    borderRadius: 10,
+                                    margin: 5}}>
                             </Image>
                         </TouchableHighlight>
                         <TouchableHighlight
-                            style={{flex: 1}}
-                            underlayColor = 'grey'
+                            style={{
+                                flex: 1,
+                                borderRadius: 10
+                            }}
+                            underlayColor = 'lightgrey'
                             onPress={() => {
-                                this.props.navigator.push({
+                                this.forceUpdate();
+                                this.props.navigator.replace({
                                     id: 'MessageUI',
                                     name: this.props.item.name,
                                     chatId: this.props.item.id,
@@ -143,15 +154,17 @@ class FlatListItem extends Component {
                             <View style={{ // text is placed as a column to the right of the image
                                 flex: 1,                           // Take up all screen
                                 flexDirection: 'column',
+                                margin: 5
                             }}>
                                 <Text style={styles.text13}>{this.props.item.name}</Text>
-                                    <Text style={styles.text13}>Send a message</Text>
+                                    <Text
+                                        style={styles.text14}>Send a message</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
                     <View style={{                              // trimming
                         height: 1,                              // trim width
-                        backgroundColor: 'white',               // trim color
+                        backgroundColor: '#a0a0a0',               // trim color
                     }}>
                     </View>
                 </View>
@@ -225,7 +238,7 @@ const styles = StyleSheet.create({
         flex: 1,                            // Take up all available space
         justifyContent: 'center',           // Center vertically
         alignItems: 'center',               // Center horizontally
-        backgroundColor: '#d91e18',         // Darker background for content area
+        backgroundColor: 'white',         // Darker background for content area
     },
     content14: {
         flexDirection: 'row',                            // Take up all available space
@@ -238,7 +251,7 @@ const styles = StyleSheet.create({
 // Content header
     header13: {
         margin: 10,                         // Add margin
-        color: '#ffec01',                   // White color
+        color: 'white',                   // White color
         fontFamily: 'Avenir',               // Change font family
         fontSize: 26,                       // Bigger font size
     },
@@ -247,6 +260,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,               // Add horizontal margin
         // color: 'rgba(255, 255, 255, 0.75)', // Semi-transparent text
         color: 'black', // Semi-transparent text
+        // textAlign: 'center',                // Center
+        fontFamily: 'Avenir',
+        fontSize: 18,
+    },
+    text14: {
+        marginHorizontal: 5,               // Add horizontal margin
+        // color: 'rgba(255, 255, 255, 0.75)', // Semi-transparent text
+        // color: 'black', // Semi-transparent text
         // textAlign: 'center',                // Center
         fontFamily: 'Avenir',
         fontSize: 18,

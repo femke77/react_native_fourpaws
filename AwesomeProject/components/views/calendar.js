@@ -14,17 +14,27 @@ import {
 
     ToastAndroid
 } from 'react-native';
+import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import moment from 'moment';
 import Prompt from 'react-native-prompt';
 import Calendar from 'react-native-calendar-select';
+//import PropTypes from 'prop-types';
 
+
+const utcDateToString = (momentInUTC: moment): string => {
+    let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+    // console.warn(s);
+    return s;
+};
 
 export default class App extends Component {
+    state = { text: '' };
     constructor (props) {
         super(props);
         this.state = {
             startDate: new Date(),
             endDate: new Date(),
-            message:'No event for now',
+            message: 'No scheduled event',
             openmodal: false
         };
         this.confirmDate = this.confirmDate.bind(this);
@@ -54,6 +64,11 @@ export default class App extends Component {
 
 // in render function
     render() {
+        const eventTitle = 'Fourpaws Event';
+        const nowUTC = moment.utc();
+
+
+
         // It's an optional property, I use this to show the structure of customI18n object.
         let customI18n = {
             'w': ['', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
@@ -69,40 +84,67 @@ export default class App extends Component {
         };
         // optional property, too.
         let color = {
-            subColor: '#f0f0f0'
+            subColor: 'white'
         };
 
 
 
 
         return (
-            <View style={{ flex: 1}}>
-                <View >
-                    <Button title="Open Calendar" onPress={this.openCalendar}/>
+            <View style={{
+                flex: 1,
+                backgroundColor: 'white'
+            }}>
+                <View>
+                    <Button
+                        color="#2095d2"
+                        title="Open Calendar"
+                        onPress={this.openCalendar}/>
                     <Calendar
+                        theme={{calendarBackground: "#2095d2"}}
                         i18n="en"
                         ref={(calendar) => {this.calendar = calendar;}}
                         customI18n={customI18n}
                         color={color}
                         format="YYYYMMDD"
-                        minDate="20171101"
-                        maxDate="20180312"
+                        minDate="20180401"
+                        maxDate="20190312"
                         startDate={this.state.startDate}
                         endDate={this.state.endDate}
                         onConfirm={this.confirmDate}
                     />
                 </View>
 
-                <View style={{  height: 50}}>
-                    <Button color="#841584" title="Add New Event" onPress={() => this.setState({ promptVisible: true })}/>
+                <View>
+                    <Button
+                        color="#BE3A31"
+                        title="Add New Event"
+                        onPress={() => this.setState({ promptVisible: true })}/>
+                </View>
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center'}}>
+                    <View>
+                        <Text style={{ fontSize: 16 }}>
+                            {"Check in: "+ this.state.startDate.toDateString()}{"\n"}
+                            {"Check out: "+this.state.endDate.toDateString()}
+                        </Text>
+                        <Text style={{ fontSize: 16 }}>Event title: {eventTitle}</Text>
+                        <Text style={{ fontSize: 16 }}>Event details: {this.state.message}</Text>
+                    </View>
+                </View>
+
+                    <Button
+                        color="#2095d2"
+                        onPress={() => {
+                            App.addToCalendar(eventTitle, this.state.startDate.toDateString());
+                        }}
+                        title="Add to calendar"
+                    />
 
 
-                </View>
-                <View style={{ flex: 1, justifyContent: 'center',margin: 100 }}>
-                    <Text style={{ fontSize: 20 }}>
-                        {this.state.message}
-                    </Text>
-                </View>
+
                 <Prompt style={styles.container13}
                     title="Add event"
                     placeholder="add a description"
@@ -115,10 +157,64 @@ export default class App extends Component {
 
         );
     }
+    static addToCalendar = (title: string, startDateUTC: string) => {
+        const eventConfig = {
+            title,
+            startDate: utcDateToString(startDateUTC),
+            //endDate: utcDateToString(moment.utc(startDateUTC).add(1, 'hours')),
+        };
+
+        AddCalendarEvent.presentEventDialog(eventConfig)
+            .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
+                // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+                // These are two different identifiers on iOS.
+                // On Android, where they are both equal and represent the event id, also strings.
+                // when false is returned, the dialog was dismissed
+                if (eventInfo) {
+                    console.warn(JSON.stringify(eventInfo));
+                } else {
+                    console.warn('dismissed');
+                }
+            })
+            .catch((error: string) => {
+                // handle error such as when user rejected permissions
+                console.warn(error);
+            });
+    };
+
+    static editCalendarEventWithId = (eventId: string) => {
+        const eventConfig = {
+            eventId,
+        };
+
+        AddCalendarEvent.presentEventDialog(eventConfig)
+            .then(eventId => {
+                // eventId is always returned when editing events
+                console.warn(eventId);
+            })
+            .catch((error: string) => {
+                // handle error such as when user rejected permissions
+                console.warn(error);
+            });
+    };
+
+
+
 }
 
-const styles = StyleSheet.create({
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    instructions: {
+        textAlign: 'center',
+        color: 'black',
+        marginBottom: 5,
+    },
     container13: {
        backgroundColor: 'white'                            // Take up all screen
 
