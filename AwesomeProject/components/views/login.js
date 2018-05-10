@@ -118,10 +118,10 @@ export default class Login extends Component {
             }
            Database.findUID(user.uid, (bool) => {
                 if (bool){
-                    this.props.navigator.push({id:'Home'});
+                    this.props.navigator.replace({id:'Home'});
                 }
                 else{
-                    this.props.navigator.push({id: 'Signup'});
+                    this.props.navigator.replace({id: 'Signup'});
                     Database.setFromGoogleAccount(user.uid, user);
                 }
            });
@@ -138,7 +138,7 @@ export default class Login extends Component {
                 this.emailVerification();
 
                 setTimeout(() => {
-                    this.props.navigator.push({
+                    this.props.navigator.replace({
                         id: "Signup"
                     })
                 }, 1500);
@@ -171,7 +171,7 @@ export default class Login extends Component {
 
             await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             setTimeout(() => {
-                this.props.navigator.push({
+                this.props.navigator.replace({
                     id: "Home"
                 })
             }, 1500);

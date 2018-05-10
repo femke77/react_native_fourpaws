@@ -64,7 +64,7 @@ export default class Signupaddress extends Component {
     }
 
     goBack(){
-        this.props.navigator.push({id:'Signup'});
+        this.props.navigator.replace({id:'Signup'});
         dismissKeyboard();
     }
 

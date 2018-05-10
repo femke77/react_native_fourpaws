@@ -75,7 +75,7 @@ export default class Menu extends Component {
         });
 
     logout() {
-        this.props.navigator.push({id: 'Login'});
+        this.props.navigator.replace({id: 'Login'});
         firebase.auth().signOut().then(function() {
         }).catch(function(error) {
         });

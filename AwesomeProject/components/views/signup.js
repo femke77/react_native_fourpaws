@@ -70,7 +70,7 @@ export default class Signup extends Component {
 
     goLogin(){
         Database.remove(this.state.uid);
-        this.props.navigator.push({id: 'Login'})
+        this.props.navigator.replace({id: 'Login'})
     }
 
     next (){
