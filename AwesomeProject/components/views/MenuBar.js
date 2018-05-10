@@ -110,7 +110,7 @@ export default class Menu extends Component {
                             borderRadius: 25,
                             borderWidth: 3,
                         }}
-                        source={{uri: this.state.image}}
+                        source={{uri: 'https://i.pinimg.com/736x/2c/9d/07/2c9d0704ae49dfde914e2b477bf9279c--stick-figure-profile-pictures.jpg'}}
                     />
                     <Text style={styles.name}>{user_name} {last_name}</Text>
                 </View>

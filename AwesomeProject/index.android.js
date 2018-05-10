@@ -154,9 +154,6 @@ export default class AwesomeProject extends Component {
             }
         };
 
-
-
-
     render() {
         if (this.state.userLoaded) {
             return (

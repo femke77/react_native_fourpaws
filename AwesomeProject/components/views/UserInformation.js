@@ -20,10 +20,12 @@ import {
 
 } from 'react-native';
 
-import { Header, Icon, List, ListItem } from 'react-native-elements';
+import { Header, Icon, List, ListItem, FormLabel } from 'react-native-elements';
 
 import * as firebase from "firebase";
 import Database from '../firebase/database';
+import Modal from "react-native-modal";
+import { Col, Row, Grid } from "react-native-easy-grid";
 import { Nav, Tab } from 'react-native-simple-tab';
 
 
@@ -47,6 +49,11 @@ export default class Information extends Component {
         };
 
     }
+    state = {
+        isModalVisible: false
+    };
+    _toggleModal = () =>
+        this.setState({ isModalVisible: !this.state.isModalVisible });
 
     async componentDidMount(){
 
@@ -82,84 +89,215 @@ export default class Information extends Component {
         let contactNumber=this.state.contactNumber;
 
         return (
-            <ScrollView>
-                <List >
+            <View>
+                <ScrollView>
+                    <List >
 
 
-                    <ListItem rightIcon={{name: 'create'}}
-                              leftIcon={{name: 'person'}}
-                              title={first_name}
-                              rightTitle='First Name'
-                              onPressRightIcon={() => {
-                                  Alert.alert('Home');
-                              } }
+                        <ListItem rightIcon={{name: 'create'}}
+                                  leftIcon={{name: 'person'}}
+                                  title={first_name}
+                                  rightTitle='First Name'
+                                  onPressRightIcon={this._toggleModal }
 
-                    >
-                    </ListItem>
-                    <ListItem rightIcon={{name: 'create'}}
-                              leftIcon={{name: 'person'}}
-                              title={last_name}
-                              rightTitle='Last Name'
-                              onPressRightIcon={() => {
-                                  Alert.alert('Home');
-                              } }
+                        >
+                        </ListItem>
+                        <ListItem
+                            leftIcon={{name: 'person'}}
+                            title={last_name}
+                            rightTitle='Last Name'
 
-                    >
-                    </ListItem>
-                    <ListItem rightIcon={{name: 'create'}}
-                              leftIcon={{name: 'home'}}
-                              title={address}
-                              rightTitle='Address'
-                              onPressRightIcon={() => {
-                                  Alert.alert('Home');
-                              } }
+                            chevronColor="white"
 
-                    >
-                    </ListItem>
-                    <ListItem rightIcon={{name: 'create'}}
-                              leftIcon={{name: 'location-city'}}
-                              title={city}
-                              rightTitle='City'
-                              onPressRightIcon={() => {
-                                  Alert.alert('Home');
-                              } }
-                    >
-                    </ListItem>
-                    <ListItem rightIcon={{name: 'create'}}
-                              leftIcon={{name: 'explore'}}
-                              title={state}
-                              rightTitle='State'
-                              onPressRightIcon={() => {
-                                  Alert.alert('Home');
-                              } }
+                        >
+                        </ListItem>
+                        <ListItem
+                            leftIcon={{name: 'home'}}
+                            title={address}
+                            rightTitle='Address'
 
-                    >
-                    </ListItem>
-                    <ListItem rightIcon={{name: 'create'}}
-                              leftIcon={{name: 'flag'}}
-                              title={zipcode}
-                              rightTitle='Zipcode'
-                              onPressRightIcon={() => {
-                                  Alert.alert('Home');
-                              } }
+                            chevronColor="white"
 
-                    >
-                    </ListItem>
-                    <ListItem rightIcon={{name: 'create'}}
-                              leftIcon={{name: 'phone'}}
-                              title={contactNumber}
-                              rightTitle='Phone Number'
-                              onPressRightIcon={() => {
-                                  Alert.alert('Home');
-                              } }
+                        >
+                        </ListItem>
+                        <ListItem
+                            leftIcon={{name: 'location-city'}}
+                            title={city}
+                            rightTitle='City'
 
-                    >
-                    </ListItem>
+                            chevronColor="white"
+                        >
+                        </ListItem>
+                        <ListItem
+                            leftIcon={{name: 'explore'}}
+                            title={state}
+                            rightTitle='State'
+
+                            chevronColor="white"
+
+                        >
+                        </ListItem>
+                        <ListItem
+                            leftIcon={{name: 'flag'}}
+                            title={zipcode}
+                            rightTitle='Zipcode'
+
+                            chevronColor="white"
+
+                        >
+                        </ListItem>
+                        <ListItem
+                            leftIcon={{name: 'phone'}}
+                            title={contactNumber}
+                            rightTitle='Phone Number'
+
+                            chevronColor="white"
+
+                        >
+                        </ListItem>
 
 
 
-                </List>
-            </ScrollView>
+                    </List>
+                </ScrollView>
+                <Modal isVisible={this.state.isModalVisible}
+                       style={styles.Modelcotainer}
+                       backdropOpacity={0.3}
+                       animationIn="zoomInDown"
+                       animationOut="zoomOutUp"
+                       animationInTiming={1000}
+                       animationOutTiming={1000}
+                       backdropTransitionInTiming={1000}
+                       backdropTransitionOutTiming={1000}
+                       onBackdropPress={() => this.setState({ isVisible: false })}
+
+
+                >
+                    <View style={{ flex: 1 }}>
+                        <ScrollView>
+                            <FormLabel labelStyle={styles.FormContainer}>First Name </FormLabel>
+                            <TextInput
+                                style={styles.inputBox}
+                                placeholder={first_name}
+                                placeholderTextColor= "black"
+                                returnKeyType="next"
+                                underlineColorAndroid={'transparent'}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                selectionColor= 'blue'
+                                onChangeText={(first_name) => this.setState({first_name})}
+
+                            />
+                            <FormLabel labelStyle={styles.FormContainer}>Last Name </FormLabel>
+                            <TextInput
+                                style={styles.inputBox}
+                                placeholder={last_name}
+                                placeholderTextColor= "black"
+                                returnKeyType="next"
+                                underlineColorAndroid={'transparent'}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                selectionColor= 'blue'
+                                onChangeText={(last_name) => this.setState({last_name})}
+
+                            />
+                            <FormLabel labelStyle={styles.FormContainer}>Address </FormLabel>
+                            <TextInput
+                                style={styles.inputBox}
+                                //placeholder={address}
+                                placeholderTextColor= "black"
+                                returnKeyType="next"
+                                underlineColorAndroid={'transparent'}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                selectionColor= 'blue'
+                                onChangeText={(address) => this.setState({address})}
+
+                            />
+                            <FormLabel labelStyle={styles.FormContainer}>City </FormLabel>
+                            <TextInput
+                                style={styles.inputBox}
+                                placeholder={city}
+                                placeholderTextColor= "black"
+                                returnKeyType="next"
+                                underlineColorAndroid={'transparent'}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                selectionColor= 'blue'
+                                onChangeText={(city) => this.setState({city})}
+
+                            />
+                            <FormLabel labelStyle={styles.FormContainer}>State </FormLabel>
+                            <TextInput
+                                style={styles.inputBox}
+                                placeholder={state}
+                                placeholderTextColor= "black"
+                                returnKeyType="next"
+                                underlineColorAndroid={'transparent'}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                selectionColor= 'blue'
+                                onChangeText={(state) => this.setState({state})}
+
+                            />
+                            <FormLabel labelStyle={styles.FormContainer}>Zipcode </FormLabel>
+                            <TextInput
+                                style={styles.inputBox}
+                                placeholder={zipcode}
+                                keyboardType="numeric"
+                                maxLength={5}
+                                placeholderTextColor= "black"
+                                returnKeyType="next"
+                                underlineColorAndroid={'transparent'}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                selectionColor= 'blue'
+                                onChangeText={(zipcode) => this.setState({zipcode})}
+
+                            />
+                            <FormLabel
+                                labelStyle={styles.FormContainer}>Phone Number </FormLabel>
+                            <TextInput
+                                style={styles.inputBox}
+                                placeholder={contactNumber}
+                                keyboardType="numeric"
+
+                                placeholderTextColor= "black"
+                                returnKeyType="next"
+                                underlineColorAndroid={'transparent'}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                selectionColor= 'blue'
+                                onChangeText={(contactNumber) => this.setState({contactNumber})}
+
+                            />
+                            <View>
+                                <Grid>
+                                    <Col>
+                                        <Button onPress={this.Saveinfo}
+                                                title={"Save"}
+                                                buttonStyle={styles.FormButton}
+                                                leftIcon={{name:'check'}}
+                                                backgroundColor={'#d91f10'}
+
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Button onPress={this._toggleModal}
+                                                title={"Cancel"}
+                                                buttonStyle={styles.FormButton}
+                                                leftIcon={{name:'clear'}}
+                                                backgroundColor={'#13A50C'}
+                                        />
+                                    </Col>
+                                </Grid>
+                            </View>
+
+
+                        </ScrollView>
+                    </View>
+                </Modal>
+            </View>
         );
     }
 }
@@ -168,5 +306,47 @@ const styles = StyleSheet.create({
     TextList: {
         fontSize: 15,                            // Take up all screen
         backgroundColor: '#000000',
+    },
 
-    }});
+    Modelcotainer: {
+
+        backgroundColor: "white",
+        padding:22,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius:15,
+        borderColor: "black",
+        width: 335,
+
+
+    },
+
+    inputBox: {
+        width:270,
+        height: 40,
+        //backgroundColor:'blue',
+
+        borderWidth: 0.5,
+        borderColor: "black",
+        paddingHorizontal:16,
+        fontSize:16,
+        color:'black',
+        //marginVertical: 10
+    },
+    FormContainer: {
+        width:170,
+        paddingHorizontal:-56,
+        paddingLeft: -15,
+        height: 20,
+        //backgroundColor: "black",
+
+    },
+    FormButton:{
+        width:100,
+        height: 30,
+        padding: 10,
+        marginVertical:5,
+
+    },
+
+    });
