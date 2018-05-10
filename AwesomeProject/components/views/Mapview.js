@@ -47,7 +47,8 @@ export default class Mapviews extends Component {
 
     }
 
-     watchID: ?number = null
+     // noinspection JSAnnotator
+    watchID: ?number = null
 
      componentDidMount() {
          navigator.geolocation.getCurrentPosition((position) => {

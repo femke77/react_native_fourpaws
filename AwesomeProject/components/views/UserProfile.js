@@ -73,21 +73,28 @@ export default class UserProfile extends Component {
         return (
 
             <View style={styles.container13}>
-                <Header
-
-                    outerContainerStyles={{ backgroundColor: '#a21c16', height: 50, }}
-                    centerComponent={{ text: "Home" , style: { color: '#fff',fontSize: 20  } }}
-                    rightComponent={{ icon: 'search', color: '#fff' }}
+                <StatusBar
+                    //backgroundColor="red"
+                    barStyle="light-content"
                 />
                 <Grid>
-                    <Row  style={{ height: 220, backgroundColor: '#BE3A31' }} >
-
+                    <Row  style={{
+                        //paddingHorizontal: '4%',
+                        //paddingVertical: '1%',
+                        height: 210,
+                        backgroundColor: '#BE3A31',
+                        borderRadius: 10}} >
                         <Avatar style={styles.ImageUser}
                                 xlarge
-                                source={{uri: "http://images2.fanpop.com/image/photos/9400000/Hello-puppies-9415183-1280-800.jpg"}}
+                                source={{uri: this.state.image}}
                                 onPress={() => console.log("Works!")}
                                 activeOpacity={0.7}
-                                containerStyle={{borderWidth:4, left:15, top:10, borderColor:'white' }}
+                                containerStyle={{
+                                    //borderWidth:4,
+                                    left:15,
+                                    top:20,
+                                    borderColor:'white'
+                                }}
 
                         />
 
@@ -96,17 +103,7 @@ export default class UserProfile extends Component {
                                 source={{uri: "http://images2.fanpop.com/image/photos/9400000/Hello-puppies-9415183-1280-800.jpg"}}
                                 onPress={() => console.log("Works!")}
                                 activeOpacity={0.7}
-                                containerStyle={{ left:25, top:10, }}
-                                overlayContainerStyle={{backgroundColor: '#BE3A31'}}
-
-                        />
-
-                        <Avatar style={styles.ImageUser}
-                                large
-                                source={{uri: "http://images4.fanpop.com/image/photos/14700000/So-cute-puppies-14749029-1600-1200.jpg"}}
-                                onPress={() => console.log("Works!")}
-                                activeOpacity={0.7}
-                                containerStyle={{ left:35, top:10, }}
+                                containerStyle={{ left:15, top:20, }}
                                 overlayContainerStyle={{backgroundColor: '#BE3A31'}}
 
                         />
@@ -115,29 +112,35 @@ export default class UserProfile extends Component {
                                 source={{uri: "http://1.bp.blogspot.com/-ekhKVXl7xto/T6-2WZMYpTI/AAAAAAAAGiQ/ioOs_2BfXPA/s1600/Images+for+Dog+:++Wallpaper+:+Cute+:+Funny+:+Beautiful+Puppies8.jpg"}}
                                 onPress={() => console.log("Works!")}
                                 activeOpacity={0.7}
-                                containerStyle={{ left:-125, top:85, }}
+                                containerStyle={{ left:-60, top:95, }}
                                 overlayContainerStyle={{backgroundColor: '#BE3A31'}}
 
 
                         />
-
                         <Avatar style={styles.ImageUser}
                                 large
-                                source={{uri: "http://www.dogbreedslist.info/uploads/allimg/dog-pictures/German-Shepherd-Dog-2.jpg"}}
+                                source={{uri: "http://images4.fanpop.com/image/photos/14700000/So-cute-puppies-14749029-1600-1200.jpg"}}
                                 onPress={() => console.log("Works!")}
                                 activeOpacity={0.7}
-                                containerStyle={{ left:-115, top:85, }}
+                                containerStyle={{ left:-60, top:20, }}
                                 overlayContainerStyle={{backgroundColor: '#BE3A31'}}
 
                         />
 
+                        {/*<Avatar style={styles.ImageUser}*/}
+                        {/*small*/}
+                        {/*source={{uri: "http://www.dogbreedslist.info/uploads/allimg/dog-pictures/German-Shepherd-Dog-2.jpg"}}*/}
+                        {/*onPress={() => console.log("Works!")}*/}
+                        {/*activeOpacity={0.7}*/}
+                        {/*containerStyle={{ left: -60, top:20, }}*/}
+                        {/*overlayContainerStyle={{backgroundColor: '#BE3A31'}}*/}
+                        {/*/>*/}
                         <Avatar
-                            small
-                            rounded
+                            large
                             icon={{name: 'add'}}
                             onPress={() => console.log("Works!")}
                             activeOpacity={0.7}
-                            containerStyle={{ right: 100, top: 65, width: 45}}
+                            containerStyle={{ left: -135, top: 95, }}
 
                         />
                         <Text style={styles.text13}>
@@ -153,9 +156,14 @@ export default class UserProfile extends Component {
                             {/* First tab */}
 
                             <View title="About me" style={styles.content13}>
-                                <Text>Information</Text>
+                                <Text style={{
+                                    textAlign: 'center',
+                                    marginTop: '10%',
+                                    fontSize: 15
+                                }}
+                                > User Information.
+                                </Text>
                             </View>
-
                             {/* Second tab */}
 
                             <View title=" Review" style={styles.content13}>
@@ -165,7 +173,12 @@ export default class UserProfile extends Component {
                             {/* Third tab */}
 
                             <View title=" My Pets" style={styles.content13}>
-                                <Text>None</Text>
+                                <Text style={{
+                                    textAlign: 'center',
+                                    marginTop: '10%',
+                                    fontSize: 15
+                                }}
+                                > No pets added.</Text>
                             </View>
 
                         </Tabs>
@@ -181,18 +194,13 @@ export default class UserProfile extends Component {
 const styles = StyleSheet.create({
     container13: {
         flex: 1,                            // Take up all screen
-        backgroundColor: '#fffff9',
-
-
+        backgroundColor: 'white',
         // Background color
     },
     container14: {
         // Take up all screen
         backgroundColor: '#BE3A31',
         height: 20,
-
-
-
         // Background color
     },
 // Tab content container
@@ -210,9 +218,9 @@ const styles = StyleSheet.create({
         color: '#fff', // Semi-transparent text
         fontFamily: 'Avenir',
         fontSize: 25,
-        left: -465,
+        left: -436,
         top: 170,
-        textDecorationLine: 'underline',
+        //textDecorationLine: 'underline',
         fontWeight: 'bold',
 
     },

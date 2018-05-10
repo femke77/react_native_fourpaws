@@ -18,6 +18,7 @@ import {
 
 } from 'react-native';
 
+import { Header } from 'react-native-elements';
 import {Navigator} from 'react-native-deprecated-custom-components';
 import Login from './components/views/login';
 import Firebase from './components/firebase/firebase';
@@ -49,6 +50,7 @@ export default class AwesomeProject extends Component {
         this.getInitialView();
 
         this.state = {
+            isOpen: false,
             userLoaded: false,
             initialView: null
         };
@@ -56,6 +58,11 @@ export default class AwesomeProject extends Component {
         this.getInitialView = this.getInitialView.bind(this);
     }
 
+    toggle(){
+        this.setState({
+            isOpen: !this.state.isOpen,
+        })
+    }
         getInitialView() {
             firebase.auth().onAuthStateChanged((user) => {
                 let initialView = user ? "Home" : "Login";
@@ -84,25 +91,57 @@ export default class AwesomeProject extends Component {
                     return (<Upload navigator={navigator}{...route.passProps}/>);
                     break;
                 case 'User':
-                    return (<User navigator={navigator}
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            //hiddenMenuOffset={10}
+                            toleranceY={5}
+                            menu={menu}
+                        >
+                            <Header
+                                outerContainerStyles={{ backgroundColor: 'white', height: 55, }}
+                                leftComponent={{ icon: 'menu', onPress: () => this.toggle(), color: 'black', }}
+                                centerComponent={{ text: "User Profile" , style: { color: 'black',fontSize: 20} }}
+                                rightComponent={{ icon: 'search', color: 'black' }}
+                            />
+                            <User navigator={navigator}
                                   uniqueId={route.uniqueId}
-                                  {...route.passProps}/>);
+                                  {...route.passProps}/>
+                        </SideMenu>);
                     break;
                 case 'MessageUI':
-                    return (<MessageUI navigator={navigator}
-                                       name={route.name}
-                                       chatId={route.chatId}
-                                       {...route.passProps}/>);
+                    return (
+                        <SideMenu
+                            isOpen={this.state.isOpen}
+                            //hiddenMenuOffset={10}
+                            //toleranceY={5}
+                            menu={menu}
+                        >
+                            <Header
+                                outerContainerStyles={{ backgroundColor: 'white', height: 55, }}
+                                leftComponent={{ icon: 'menu', onPress: () => this.toggle(), color: 'black', }}
+                                centerComponent={{ text: route.name, style: { color: 'black',fontSize: 20} }}
+                            />
+                            <MessageUI navigator={navigator}
+                                           name={route.name}
+                                           chatId={route.chatId}
+                                           {...route.passProps}/>
+                        </SideMenu>);
                     break;
                 case 'Home':
                     return (
-
                         <SideMenu
                             isOpen={this.state.isOpen}
-                            hiddenMenuOffset={10}
-                            toleranceY={10}
+                            //hiddenMenuOffset={10}
+                            toleranceY={5}
                             menu={menu}
                         >
+                            <Header
+                                outerContainerStyles={{ backgroundColor: 'white', height: 55, }}
+                                leftComponent={{ icon: 'menu', onPress: () => this.toggle(), color: 'black', }}
+                                centerComponent={{ text: "Home" , style: { color: 'black',fontSize: 20} }}
+                                rightComponent={{ icon: 'search', color: 'black' }}
+                            />
                             <Home navigator={navigator}
                                     {...route.passProps}/>
                         </SideMenu>);
@@ -111,10 +150,16 @@ export default class AwesomeProject extends Component {
                     return (
                         <SideMenu
                             isOpen={this.state.isOpen}
-                            hiddenMenuOffset={10}
-                            toleranceY={10}
+                            //hiddenMenuOffset={10}
+                            toleranceY={5}
                             menu={menu}
                         >
+                            <Header
+                                outerContainerStyles={{ backgroundColor: 'white', height: 55, }}
+                                leftComponent={{ icon: 'menu', onPress: () => this.toggle(), color: 'black', }}
+                                centerComponent={{ text: "Messenger" , style: { color: 'black',fontSize: 20} }}
+                                rightComponent={{ icon: 'search', color: 'black' }}
+                            />
                             <Messenger navigator={navigator}{...route.passProps}/>
                         </SideMenu>);
                     break;
@@ -122,10 +167,16 @@ export default class AwesomeProject extends Component {
                     return (
                         <SideMenu
                             isOpen={this.state.isOpen}
-                            hiddenMenuOffset={10}
-                            toleranceY={10}
+                            //hiddenMenuOffset={10}
+                            toleranceY={5}
                             menu={menu}
                         >
+                            <Header
+                                outerContainerStyles={{ backgroundColor: 'white', height: 55, }}
+                                leftComponent={{ icon: 'menu', onPress: () => this.toggle(), color: 'black', }}
+                                centerComponent={{ text: "Calendar" , style: { color: 'black',fontSize: 20} }}
+                                rightComponent={{ icon: 'search', color: 'black' }}
+                            />
                             <Calendar navigator={navigator}{...route.passProps}/>
                         </SideMenu>);
                     break;
@@ -133,10 +184,16 @@ export default class AwesomeProject extends Component {
                     return (
                         <SideMenu
                             isOpen={this.state.isOpen}
-                            hiddenMenuOffset={10}
-                            toleranceY={10}
+                            //hiddenMenuOffset={10}
+                            toleranceY={5}
                             menu={menu}
                         >
+                            <Header
+                                outerContainerStyles={{ backgroundColor: 'white', height: 55, }}
+                                leftComponent={{ icon: 'menu', onPress: () => this.toggle(), color: 'black', }}
+                                centerComponent={{ text: "User Search" , style: { color: 'black',fontSize: 20} }}
+                                rightComponent={{ icon: 'search', color: 'black' }}
+                            />
                             <UserSearch navigator={navigator}{...route.passProps}/>
                         </SideMenu>);
                     break;
@@ -144,8 +201,8 @@ export default class AwesomeProject extends Component {
                     return (
                         <SideMenu
                             isOpen={this.state.isOpen}
-                            hiddenMenuOffset={10}
-                            toleranceY={10}
+                            //hiddenMenuOffset={10}
+                            toleranceY={5}
                             menu={menu}
                         >
                             <FavoritePetKeeper navigator={navigator}{...route.passProps}/>

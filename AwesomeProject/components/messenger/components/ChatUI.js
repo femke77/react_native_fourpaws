@@ -65,12 +65,15 @@ export default class ChatUI extends Component {
     render() {
         return (
             <Screen>
-                <Title styleName="h-center" style={{paddingTop: 10}}>
-                    Messenger
-                </Title>
                 <KeyboardAwareScrollView ref="scroll"
-                                         onLayout={this.onScrollViewLayout}>
-                    <ChatList {...this.props} navigator={this.props.navigator}/>
+                                         onLayout={this.onScrollViewLayout}
+                                         style={{backgroundColor: 'white'}}>
+                    <View style={{
+                        marginTop: -9,
+                        backgroundColor: 'white'}}>
+                        <ChatList {...this.props} navigator={this.props.navigator}/>
+                    </View>
+
                 </KeyboardAwareScrollView>
             </Screen>
         )

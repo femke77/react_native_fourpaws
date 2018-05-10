@@ -23,7 +23,7 @@ const Messages = connect(mapStateToProps)
     }
     else{
         return <MessageList messages={messages}
-                            style={{minHeight: 100}}
+                            style={{minHeight: 80}}
                             onLayout={(event) => dispatch(updateMessagesHeight(event))} />
     }
 });

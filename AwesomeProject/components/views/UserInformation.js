@@ -29,10 +29,6 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { Nav, Tab } from 'react-native-simple-tab';
 
 
-
-
-
-
 export default class Information extends Component {
     constructor(props) {
         super(props);
@@ -44,10 +40,7 @@ export default class Information extends Component {
             state: "",
             zipcode: "",
             contactNumber: ""
-
-
         };
-
     }
     state = {
         isModalVisible: false
@@ -90,16 +83,15 @@ export default class Information extends Component {
 
         return (
             <View>
-                <ScrollView>
-                    <List >
-
-
-                        <ListItem rightIcon={{name: 'create'}}
-                                  leftIcon={{name: 'person'}}
-                                  title={first_name}
-                                  rightTitle='First Name'
-                                  onPressRightIcon={this._toggleModal }
-
+                <ScrollView >
+                    <View style={{marginTop:-20}}>
+                    <List>
+                        <ListItem
+                            rightIcon={{name: 'create'}}
+                            leftIcon={{name: 'person'}}
+                            title={first_name}
+                            rightTitle='First Name'
+                            onPressRightIcon={this._toggleModal }
                         >
                         </ListItem>
                         <ListItem
@@ -155,10 +147,8 @@ export default class Information extends Component {
 
                         >
                         </ListItem>
-
-
-
                     </List>
+                    </View>
                 </ScrollView>
                 <Modal isVisible={this.state.isModalVisible}
                        style={styles.Modelcotainer}
@@ -184,7 +174,7 @@ export default class Information extends Component {
                                 underlineColorAndroid={'transparent'}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                selectionColor= 'blue'
+                                selectionColor= '#2095d2'
                                 onChangeText={(first_name) => this.setState({first_name})}
 
                             />
@@ -197,7 +187,7 @@ export default class Information extends Component {
                                 underlineColorAndroid={'transparent'}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                selectionColor= 'blue'
+                                selectionColor= '#2095d2'
                                 onChangeText={(last_name) => this.setState({last_name})}
 
                             />
@@ -210,7 +200,7 @@ export default class Information extends Component {
                                 underlineColorAndroid={'transparent'}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                selectionColor= 'blue'
+                                selectionColor= '#2095d2'
                                 onChangeText={(address) => this.setState({address})}
 
                             />
@@ -223,7 +213,7 @@ export default class Information extends Component {
                                 underlineColorAndroid={'transparent'}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                selectionColor= 'blue'
+                                selectionColor= '#2095d2'
                                 onChangeText={(city) => this.setState({city})}
 
                             />
@@ -236,7 +226,7 @@ export default class Information extends Component {
                                 underlineColorAndroid={'transparent'}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                selectionColor= 'blue'
+                                selectionColor= '#2095d2'
                                 onChangeText={(state) => this.setState({state})}
 
                             />
@@ -251,7 +241,7 @@ export default class Information extends Component {
                                 underlineColorAndroid={'transparent'}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                selectionColor= 'blue'
+                                selectionColor= '#2095d2'
                                 onChangeText={(zipcode) => this.setState({zipcode})}
 
                             />
@@ -267,7 +257,7 @@ export default class Information extends Component {
                                 underlineColorAndroid={'transparent'}
                                 autoCapitalize="none"
                                 autoCorrect={false}
-                                selectionColor= 'blue'
+                                selectionColor= '#2095d2'
                                 onChangeText={(contactNumber) => this.setState({contactNumber})}
 
                             />
@@ -278,8 +268,7 @@ export default class Information extends Component {
                                                 title={"Save"}
                                                 buttonStyle={styles.FormButton}
                                                 leftIcon={{name:'check'}}
-                                                backgroundColor={'#d91f10'}
-
+                                                color={'#2095d2'}
                                         />
                                     </Col>
                                     <Col>
@@ -287,13 +276,11 @@ export default class Information extends Component {
                                                 title={"Cancel"}
                                                 buttonStyle={styles.FormButton}
                                                 leftIcon={{name:'clear'}}
-                                                backgroundColor={'#13A50C'}
+                                                color={'#BE3A31'}
                                         />
                                     </Col>
                                 </Grid>
                             </View>
-
-
                         </ScrollView>
                     </View>
                 </Modal>
@@ -314,24 +301,22 @@ const styles = StyleSheet.create({
         padding:22,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius:15,
+        borderRadius: 15,
         borderColor: "black",
-        width: 335,
-
-
+        width: 325,
     },
 
     inputBox: {
         width:270,
-        height: 40,
-        //backgroundColor:'blue',
+        height: 50,
+        //backgroundColor:'#2095d2',
 
         borderWidth: 0.5,
         borderColor: "black",
-        paddingHorizontal:16,
+        paddingBottom:16,
         fontSize:16,
         color:'black',
-        //marginVertical: 10
+        marginVertical: 5
     },
     FormContainer: {
         width:170,
@@ -339,14 +324,12 @@ const styles = StyleSheet.create({
         paddingLeft: -15,
         height: 20,
         //backgroundColor: "black",
-
     },
     FormButton:{
         width:100,
         height: 30,
         padding: 10,
         marginVertical:5,
-
     },
 
     });

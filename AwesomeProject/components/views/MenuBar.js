@@ -39,6 +39,7 @@ export default class Menu extends Component {
     }
 
     async componentDidMount(){
+
         GoogleSignin.hasPlayServices({autoResolve: true});
         GoogleSignin.configure({
             webClientId:'1002267002264-1j8pm8s5q7go07v22ilej3ma7s1v4f3v.apps.googleusercontent.com',
@@ -94,136 +95,140 @@ export default class Menu extends Component {
     render() {
         let user_name = this.state.fname;
         let last_name = this.state.lname;
+        let image = this.state.image;
         return (
-            <ScrollView style={styles.menu1}>
-                <View style={styles.avatarContainer}>
+            <View style={styles.menu1}>
+                <View
+                    style={styles.avatarContainer}>
                     <Image
-                        style={{backgroundColor: 'transparent',
-                            flex: -1,
-                            position: 'absolute',
-                            width: 130,
-                            height: 130,
-                            right: 80,
-                            top: 10,
-                            alignItems: "center",
-                            borderColor: 'white',
-                            borderRadius: 25,
+                        style={{
+                            //backgroundColor: 'transparent',
+                            // flex: 1,
+                            // position: 'absolute',
+                            width: (2.07/6) * window.width,
+                            height: (2.07/6) * window.width,
+                            //right: 80,
+                            //top: 20,
+                            //alignContent: "center",
+                            //align: "center",
+                            //borderColor: 'white',
+                            borderRadius: 10,
                             borderWidth: 3,
                         }}
-                        source={{uri: 'https://i.pinimg.com/736x/2c/9d/07/2c9d0704ae49dfde914e2b477bf9279c--stick-figure-profile-pictures.jpg'}}
+                        source={{uri: image}}
                     />
                     <Text style={styles.name}>{user_name} {last_name}</Text>
                 </View>
-                <Text style={{color:'white',paddingBottom:20}}>
 
-                </Text>
+                <ScrollView>
+                    <Button
+                        onPress={() => {
+                            this.state.onMenuItemSelected = 'Home';
+                            this.props.navigator.replace({id: 'Home'});
+                        }}
+                        title='Home'
+                        color='#273444'
+                    />
+                    <Text style={styles.item}>
 
-                <Button
-                    onPress={() => {
-                        this.state.onMenuItemSelected = 'Home';
-                        this.props.navigator.replace({id: 'Home'});
-                    }}
-                    style={styles.item}
-                    title='Home'
-                    color='#273444'
-                />
-                <Text style={{color:'white',paddingBottom:20}}>
+                    </Text>
+                    <Button
+                        onPress={() => {
+                            this.state.onMenuItemSelected = 'Messenger';
+                            this.props.navigator.replace({id: 'Messenger'});
+                        }}
+                        title='Messenger'
+                        color='#273444'
+                    />
+                    <Text style={styles.item}>
 
-                </Text>
-                <Button
-                    onPress={() => {
-                        this.state.onMenuItemSelected = 'Messenger';
-                        this.props.navigator.replace({id: 'Messenger'});
-                    }}
-                    style={styles.item}
-                    title='Messenger'
-                    color='#273444'
-                />
-                <Text style={{color:'white',paddingBottom:20}}>
+                    </Text>
+                    <Button
+                        onPress={() => {
+                            this.state.onMenuItemSelected = ('UserSearch');
+                            this.props.navigator.replace({id: 'UserSearch'})
+                        }}
+                        title='User Search'
+                        color='#273444'
+                    />
+                    <Text style={styles.item}>
 
-                </Text>
-                <Button
-                    onPress={() => {
-                        this.state.onMenuItemSelected = ('UserSearch');
-                        this.props.navigator.replace({id: 'UserSearch'})
-                    }}
-                    style={styles.item}
-                    title='User Search'
-                    color='#273444'
-                />
-                <Text style={{color:'white',paddingBottom:20}}>
+                    </Text>
+                    <Button
+                        onPress={() => {
+                            this.state.onMenuItemSelected = ('Calendar');
+                            this.props.navigator.replace({id: 'Calendar'})
+                        }}
+                        title='Calendar'
+                        color='#273444'
+                    />
+                    {/*<Text style={styles.item}>*/}
 
-                </Text>
-                <Button
-                    onPress={() => {
-                        this.state.onMenuItemSelected = ('Calendar');
-                        this.props.navigator.replace({id: 'Calendar'})
-                    }}
-                    style={styles.item}
-                    title='Calendar'
-                    color='#273444'
-                />
-                <Text style={{color:'white',paddingBottom:20}}>
+                    {/*</Text>*/}
+                    {/*<Button*/}
+                        {/*onPress={() => {*/}
+                            {/*this.state.onMenuItemSelected = ('FavoritePetKeeper');*/}
+                            {/*this.props.navigator.replace({id: 'FavoritePetKeeper'})*/}
+                        {/*}}*/}
+                        {/*title='Favorite Pet Keepers'*/}
+                        {/*color='#273444'*/}
+                    {/*/>*/}
+                    <Text
+                        style={{
+                            color: 'white',
+                            paddingBottom:20,
+                            fontSize: 24,
+                            fontWeight: '300',
+                            textAlign: 'center'
+                        }}
+                    >
+                        _____________
+                    </Text>
+                    <Button
+                        onPress={() => {
+                            Alert.alert("Settings", "Under construction")
+                        }}
+                        title='Settings'
+                        color='#273444'
+                    />
+                    <Text style={styles.item}>
 
-                </Text>
-                <Button
-                    onPress={() => {
-                        this.state.onMenuItemSelected = ('FavoritePetKeeper');
-                        this.props.navigator.replace({id: 'FavoritePetKeeper'})
-                    }}
-                    style={styles.item}
-                    title='Favorite Pet Keepers'
-                    color='#273444'
-                />
-                <Text style={styles.item}>
+                    </Text>
+                    <View
+                        style={{
+                            paddingBottom: 10}}>
+                        <Button
+                            onPress={()=>this.googleSignOut()}
+                            title='Sign Out'
+                            color='#273444'
+                        />
+                    </View>
 
-                </Text>
-                <Text
-                    style={{color:'white',paddingBottom:20,fontSize: 24,
-                        fontWeight: '300',}}
-                >
-                    ________________________
-                </Text>
-                <Button
-                    onPress={() => {
-                        onItemSelected('Setting');
-                    }}
-                    style={styles.item}
-                    title='Setting'
-                    color='#273444'
-                />
-                <Text style={styles.item}>
-
-                </Text>
-                <Button
-                    onPress={()=>this.googleSignOut()}
-
-                    style={styles.item}
-                    title='Sign Out'
-                    color='#273444'
-                />
-
-            </ScrollView>
+                </ScrollView>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     menu1: {
-        flex: 1,
+        //flex: 1,
         width: (2.07/3)* window.width,
-        height: window.height,
+        height: window.height-15,
         backgroundColor: '#273444',
-        padding: 10,
-
+        paddingBottom: 10
     },
     avatarContainer: {
-        width: (2.1/3)* window.width,
-        height: 200,
-
-        left:-15,
-
-        backgroundColor: '#28333a',
+        justifyContent: 'center',
+        alignItems: 'center',
+        //flex: 1,
+        width: (2.07/3)* window.width,
+        paddingTop: '5%',
+        height: (6.21/12)* window.width,
+        marginRight: (2.07/6)* window.width,
+        //left:-15,
+        //backgroundColor: '#2c303f',
+        textAlign: 'center',
     },
     avatar: {
         width: 100,
@@ -235,23 +240,22 @@ const styles = StyleSheet.create({
     name: {
         // position: 'absolute',
         // right: 85,
-        flex: 1,
-        top: 140,
-        textAlign: 'center',
+        //flex: 1,
+        // top: 140,
+        //textAlign: 'center',
         fontSize: 25,
         color: 'white',
     },
     item: {
         fontSize: 24,
         fontWeight: '300',
-        paddingTop: 5,
-
+        paddingTop: '4%'
     },
     menu: {
         flex: 1,
         width: window.width,
         height: window.height,
-        backgroundColor: 'red',
+        backgroundColor: 'black',
         padding: 20,
     },
 });
