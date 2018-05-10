@@ -67,8 +67,8 @@ export default class Login extends Component {
         const minLength = 6;
         if (password.length < minLength) {
             Alert.alert(
-                'Password Error',
-                'Password must be at least 6 characters long',
+                "Password Error",
+                "Password must be at least 6 characters long",
                 [
                     {text:'OK', onPress: () =>
                         console.log('ok pressed')},
@@ -76,6 +76,22 @@ export default class Login extends Component {
                 {cancelable: true}
             )
         }
+    }
+    passwordLengthSignUp(password) {
+        const minLength = 6;
+        if (password.length < minLength) {
+            Alert.alert(
+                "Create Account",
+                "Enter a password at least 6 characters in length to create an account.",
+                [
+                    {text:'OK', onPress: () =>
+                        console.log('ok pressed')},
+                ],
+                {cancelable: true}
+            );
+            return false
+        }
+        else return true;
     }
 
     validateEmail(email){
@@ -115,24 +131,27 @@ export default class Login extends Component {
 
     async signup(email, password) {
         dismissKeyboard();
+        let cancel = true;
         if (this.validateEmail(email)) {
-            this.passwordLength(password);
-            try {
-                await firebase.auth().createUserWithEmailAndPassword(email, password);
+            if(this.passwordLengthSignUp(password)){
+                try {
+                    await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-                setTimeout(() => {
-                    this.props.navigator.push({
-                        id: "Signup"
-                    })
-                }, 1500);
-
-            } catch (error) {
-                let errorMessage = error.message;
-                alert(errorMessage);
+                    setTimeout(() => {
+                        this.props.navigator.push({
+                            id: "Signup"
+                        })
+                    }, 1500);
+                }
+                catch (error) {
+                    this.passwordLengthSignUp(password);
+                }
             }
         }
         else{
-            alert("Invalid email")
+            Alert.alert(
+                "Create Account",
+                "Enter a valid email to create an account.")
         }
     }
 
@@ -186,7 +205,9 @@ export default class Login extends Component {
                     barStyle="light-content"
                 />
                 <Image
-                    style={{backgroundColor: '#ccc',
+                    style={{
+                        background: 'transparent',
+                        backgroundColor: '#d1d1d1',
                         flex: 1,
                         resizeMode,
                         position: 'absolute',
@@ -198,13 +219,14 @@ export default class Login extends Component {
                 />
                 <Image
                     style={{
+                        background: 'transparent',
                         //backgroundColor: 'transparent',
                         //flex: -1,
                         //position: 'absolute',
                         //justifyContent: 'center',
 
-                        marginTop: 20,
-                        marginBottom: 50,
+                        marginTop: "5%",
+                        marginBottom: "5%",
                         //justifyContent: 'center',
                         //alignItems: 'center',
                         width: 230,
@@ -224,9 +246,9 @@ export default class Login extends Component {
                     keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
                     onChangeText={(email) => this.setState({email})}
-                    //backgroundColor="#FFFFFF50"
                 />
                 <TextInput
                     placeholder="Password"
@@ -235,37 +257,57 @@ export default class Login extends Component {
                     secureTextEntry
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
                     onChangeText={(password) => this.setState({password})}
-
                 />
                 <View>
 
                 <View style={{
-                    flex: -1,
+                    //flex: -1,
+                    height: 25,
                     flexDirection: 'row',
-                    justifyContent: 'space-between'
+                    //justifyContent: 'space-between'
                 }}>
-                    <Button
-                            color={this.state.buttonColor}
-                            onPress={()=>{this.login()}}
-                            title={"  login  "}
-                        //    icon={{name: 'lock'}}
-                    />
 
-                    <Button
-                        color={this.state.button2color}
+                    <TouchableOpacity
+                        style= {styles.button}
+                        color={this.state.buttonColor}
+                        onPress={()=>{this.login()}}
+                        title={"  login  "}
+                        //    icon={{name: 'lock'}}
+                        >
+                        <Text
+                            style= {styles.buttonText}>
+                            Login
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button2}
+                        color={this.state.button2Color}
                         onPress={()=>{this.signup(this.state.email, this.state.password)}}
                         title={"create account"}
-                    />
-                </View>
-                <View style={styles.container2}>
-                    <TouchableOpacity onPress={()=>this.googleSignIn()}>
-                        <Image source = {require('../images/google_signin.png')} style ={styles.image}/>
+                        //    icon={{name: 'lock'}}
+                    >
+                        <Text
+                            style= {styles.buttonText}>
+                            Sign Up
+                        </Text>
                     </TouchableOpacity>
                 </View>
 
-                <Text style= {styles.passwordFtext} onPress={()=>this.resetPassword(this.state.email)}  >
+                <View style={styles.container2}>
+                    <TouchableOpacity
+                        onPress={()=>this.googleSignIn()}>
+                        <Image
+                            source = {require('../images/google_signin.png')}
+                            style ={styles.image}
+                        />
+                    </TouchableOpacity>
+                </View>
+
+                <Text
+                    style= {styles.passwordFtext} onPress={()=>this.resetPassword(this.state.email)}  >
                     Forgot Password
                 </Text>
                 </View>
@@ -309,11 +351,11 @@ const styles = StyleSheet.create({
     bottomtext: {
         fontSize: 8,
         textAlign: 'center',
-        margin: 0,
+        //marginBottom: '1%',
         color: "#ffffff",
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: 5,
+        bottom: '1%',
         paddingVertical:0
     },
     //Forgot username
@@ -330,15 +372,16 @@ const styles = StyleSheet.create({
     },
     //Forgot password
     passwordFtext: {
-        fontSize: 15,
+        fontSize: 12,
         textAlign: 'center',
-        margin: 10,
+        //margin: 10,
         color: "#2095d2",
         //textDecorationLine: 'underline',
         //position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: 30,
-        paddingVertical:0
+        //bottom: 30,
+        paddingTop: 5,
+        paddingBottom: 40
     },
 
     SignUptext: {
@@ -405,8 +448,10 @@ const styles = StyleSheet.create({
     },
 
     container2: {
-        marginTop: -15,
-        marginLeft: 17,
+        //marginTop: -15,
+        //marginLeft: 17,
+        paddingTop: '5%',
+        alignItems: 'center'
     },
 
     titleStyle: {
@@ -431,24 +476,33 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     button: {
-        width: 150,
-        backgroundColor:'#c84d55',
+        height: 34,
+        width: 120,
+        backgroundColor:'#2095d2',
         borderRadius: 10,
-        marginVertical: 10,
-        paddingVertical: 13
+        marginHorizontal: 5,
+        paddingVertical: 6
+    },
+    button2: {
+        height: 34,
+        width: 120,
+        backgroundColor:'#BE3A31',
+        borderRadius: 10,
+        marginHorizontal: 5,
+        paddingVertical: 6
     },
     buttonText: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: '500',
         color:'#ffffff',
         textAlign:'center',
         flex: -1,
-
     },
     image:{
-        width: 170,
-        height: 90,
-        resizeMode: 'contain'
+
+        width: 160,
+        height: 40,
+        //resizeMode: 'contain'
     }
 
 });

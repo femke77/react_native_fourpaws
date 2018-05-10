@@ -98,12 +98,14 @@ export default class Signup extends Component {
             <KeyboardAvoidingView /*behavior="padding"*/ style={styles.TextCSS1}>
 
                 <StatusBar
-                    backgroundColor="red"
+                    backgroundColor="black"
                     barStyle="light-content"
                 />
 
                 <Image
-                    style={{backgroundColor: '#ccc',
+                    style={{
+                        background: 'transparent',
+                        backgroundColor: '#d1d1d1',
                         flex: 1,
                         resizeMode,
                         position: 'absolute',
@@ -111,33 +113,40 @@ export default class Signup extends Component {
                         height: '100%',
                         justifyContent: 'flex-end',
                     }}
-                    source={{ uri: 'https://static.pexels.com/photos/38867/pexels-photo-38867.jpeg'}}
+                    source={require('../images/cat.jpeg')} // background photo
                 />
 
                 <Image
-                    style={{backgroundColor: 'transparent',
-                        flex: -1,
-                        position: 'absolute',
-                        width: 170,
-                        height: 100,
-                        justifyContent: 'flex-end',
-                        top: 30,
-                        right: 100,
-                        paddingVertical:50
+                    style={{
+                        background: 'transparent',
+                        //backgroundColor: 'transparent',
+                        //flex: -1,
+                        //position: 'absolute',
+                        //justifyContent: 'center',
 
+                        //marginTop: "5%",
+                        //marginBottom: "5%",
+                        //justifyContent: 'center',
+                        //alignItems: 'center',
+                        width: 120,
+                        height: 120,
+                        //paddingVertical: 50
                     }}
-                    source={{ uri: 'https://fourpawlinks.com/wp-content/uploads/2017/10/Untitled-1-1024x655.png' }}
+
+                    source={require('../images/FourPaws.png')} // logo
                 />
 
-
+                <Text style={styles.welcome}>
+                    Sign Up
+                </Text>
                 <TextInput
                     placeholder=" First Name"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="next"
                     keyboardType= "email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    underlineColorAndroid={'transparent'}
+                    underlineColorAndroid={'#2095d2'}
                     style= { styles.inputBox}
                     onChangeText={(fname) => this.setState({fname})}
 
@@ -145,23 +154,23 @@ export default class Signup extends Component {
 
                 <TextInput
                     placeholder="Last Name"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="go"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    underlineColorAndroid={'transparent'}
-                    style= { styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
+                    style= {styles.inputBox}
                     onChangeText={(lname) => this.setState({lname})}
                 />
 
                 <TextInput
                     placeholder="Username"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="go"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    underlineColorAndroid={'transparent'}
-                    style= { styles.inputBox}
+                    underlineColorAndroid={'#2095d2'}
+                    style= {styles.inputBox}
                     onChangeText={(username) => this.setState({username})}
                 />
 
@@ -170,43 +179,53 @@ export default class Signup extends Component {
                 <TextInput
                     placeholder=" Contact number"
                     keyboardType="numeric"
-                    placeholderTextColor= "#ffffff"
+                    placeholderTextColor= "black"
                     returnKeyType="go"
                     maxLength={10}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    style= { styles.inputBox}
+                    style= {styles.inputBox}
                     onChangeText={( contactNumber) => this.setState({ contactNumber})}
                 />
 
-                <TextInput
-                    value = {image}
-                    selectTextOnFocus = {true}
-                    placeholderTextColor= "#ffffff"
-                    returnKeyType="next"
-                    keyboardType= "email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    underlineColorAndroid={'transparent'}
-                    style= { styles.inputBox}
-                    onChangeText={(image) => this.setState({image})}
+                {/*Upload Image Here*/}
+                {/*<TextInput*/}
+                    {/*value = {image}*/}
+                    {/*selectTextOnFocus = {true}*/}
+                    {/*placeholderTextColor= "#ffffff"*/}
+                    {/*returnKeyType="next"*/}
+                    {/*keyboardType= "email-address"*/}
+                    {/*autoCapitalize="none"*/}
+                    {/*autoCorrect={false}*/}
+                    {/*underlineColorAndroid={'transparent'}*/}
+                    {/*style= { styles.inputBox}*/}
+                    {/*onChangeText={(image) => this.setState({image})}*/}
+                {/*/>*/}
 
-                />
-
-                <TouchableOpacity style= {styles.button} onPress={()=>this.checkPhoneLen(this.state.contactNumber)}>
-                    <Text style= {styles.buttonText} > Next </Text>
+                <TouchableOpacity
+                    style= {styles.button2}
+                    onPress={()=>this.checkPhoneLen(this.state.contactNumber)}>
+                    <Text style= {styles.buttonText}>
+                        Next
+                    </Text>
                 </TouchableOpacity>
 
-                <View>
+                <View style={{
+                    flex: -1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingBottom: 10
+                }}>
                     <Text style= {styles.SignIntext}> Have account?</Text>
-                    <TouchableOpacity style= {styles.SignIntextbox} onPress={()=>this.goLogin()}>
+                    <TouchableOpacity
+                        style= {styles.SignIntextbox} onPress={()=>this.goLogin()}>
                         <Text style= {styles.SignIntextboxtext}>Login Here</Text>
                     </TouchableOpacity>
-                    <Text style={styles.bottomtext}>
 
-                        Copyright © 2017 Four Paws
-                    </Text>
                 </View>
+                <Text style={styles.bottomtext}>
+                    Copyright © 2017 Four Paws
+                </Text>
 
             </KeyboardAvoidingView>
         );
@@ -223,7 +242,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
-
+    welcome: {
+        fontSize: 30,
+        textAlign: 'center',
+        marginBottom: '5%',
+        color: "white",
+        //textDecorationLine: 'underline'
+    },
     input:{
         height: 40,
         backgroundColor: "black",
@@ -239,16 +264,14 @@ const styles = StyleSheet.create({
     },
     //Copyright
     bottomtext: {
-        fontSize: 16,
+        fontSize: 8,
         textAlign: 'center',
-        margin: 10,
+        //marginBottom: '1%',
         color: "#ffffff",
         position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: -100,
-        right: -110,
+        bottom: '1%',
         paddingVertical:0
-
     },
     //Forgot username
     Usernametext: {
@@ -278,23 +301,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         color: "#ffffff",
-        position: 'absolute',
+        //position: 'absolute',
         justifyContent: 'flex-end',
-        bottom: -50,
-        right: -20,
-        paddingVertical:0
+        // bottom: -50,
+        // right: -20,
+        // paddingVertical:0
     },
     SignIntextbox: {
-        margin: 10,
-        position: 'absolute',
-        justifyContent: 'flex-end',
-        bottom: -50,
-        right: -140,
-        paddingVertical:0,
+        //margin: 10,
+        // position: 'absolute',
+        justifyContent: 'center',
+        // bottom: -50,
+        // right: -140,
+        // paddingVertical:0,
     },
     SignIntextboxtext:{
-        fontSize: 18,
-        color: "blue",
+        fontSize: 16,
+        color: "#2095d2",
     },
 
     instructions: {
@@ -351,22 +374,31 @@ const styles = StyleSheet.create({
     },
 
     inputBox: {
-        width:300,
-        height: 50,
-        backgroundColor:'#666666',
-        opacity: 10,
-        borderRadius: 25,
-        paddingHorizontal:16,
-        fontSize:16,
-        color:'#ffffff',
-        marginVertical: 10
+        //marginHorizontal: '100%',
+        //textAlign: 'left',
+        width: '80%',
+        height: 40,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        fontSize: 14,
+        marginBottom: 10,
     },
     button: {
-        width:150,
-        backgroundColor:'#2b98f0',
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 13
+        height: 34,
+        width: 120,
+        backgroundColor:'#2095d2',
+        borderRadius: 10,
+        marginHorizontal: 5,
+        paddingVertical: 6
+    },
+    button2: {
+        height: 34,
+        width: 120,
+        backgroundColor:'#BE3A31',
+        borderRadius: 10,
+        marginHorizontal: 5,
+        paddingVertical: 6
     },
     topText: {
         fontSize:16,
@@ -379,13 +411,11 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize:16,
         fontWeight:'500',
-        color:'#ffffff',
+        color:'white',
         textAlign:'center',
         flex: -100,
 
     }
-
-
 });
 
 

@@ -95,7 +95,7 @@ export default class Menu extends Component {
         let user_name = this.state.fname;
         let last_name = this.state.lname;
         return (
-            <View style={styles.menu1}>
+            <ScrollView style={styles.menu1}>
                 <View style={styles.avatarContainer}>
                     <Image
                         style={{backgroundColor: 'transparent',
@@ -203,7 +203,7 @@ export default class Menu extends Component {
                     color='#273444'
                 />
 
-            </View>
+            </ScrollView>
         );
     }
 }
