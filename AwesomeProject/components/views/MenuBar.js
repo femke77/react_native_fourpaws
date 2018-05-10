@@ -75,7 +75,7 @@ export default class Menu extends Component {
         });
 
     logout() {
-        this.props.navigator.push({id: 'Login'});
+        this.props.navigator.replace({id: 'Login'});
         firebase.auth().signOut().then(function() {
         }).catch(function(error) {
         });
@@ -121,7 +121,7 @@ export default class Menu extends Component {
                 <Button
                     onPress={() => {
                         this.state.onMenuItemSelected = 'Home';
-                        this.props.navigator.push({id: 'Home'});
+                        this.props.navigator.replace({id: 'Home'});
                     }}
                     style={styles.item}
                     title='Home'
@@ -133,7 +133,7 @@ export default class Menu extends Component {
                 <Button
                     onPress={() => {
                         this.state.onMenuItemSelected = 'Messenger';
-                        this.props.navigator.push({id: 'Messenger'});
+                        this.props.navigator.replace({id: 'Messenger'});
                     }}
                     style={styles.item}
                     title='Messenger'
@@ -145,7 +145,7 @@ export default class Menu extends Component {
                 <Button
                     onPress={() => {
                         this.state.onMenuItemSelected = ('UserSearch');
-                        this.props.navigator.push({id: 'UserSearch'})
+                        this.props.navigator.replace({id: 'UserSearch'})
                     }}
                     style={styles.item}
                     title='User Search'
@@ -157,7 +157,7 @@ export default class Menu extends Component {
                 <Button
                     onPress={() => {
                         this.state.onMenuItemSelected = ('Calendar');
-                        this.props.navigator.push({id: 'Calendar'})
+                        this.props.navigator.replace({id: 'Calendar'})
                     }}
                     style={styles.item}
                     title='Calendar'
@@ -169,7 +169,7 @@ export default class Menu extends Component {
                 <Button
                     onPress={() => {
                         this.state.onMenuItemSelected = ('FavoritePetKeeper');
-                        this.props.navigator.push({id: 'FavoritePetKeeper'})
+                        this.props.navigator.replace({id: 'FavoritePetKeeper'})
                     }}
                     style={styles.item}
                     title='Favorite Pet Keepers'
