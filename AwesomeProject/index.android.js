@@ -154,12 +154,17 @@ export default class AwesomeProject extends Component {
             }
         };
 
+
+
+
     render() {
         if (this.state.userLoaded) {
             return (
 
-                <Navigator initialRoute={{id: this.state.initialView}}
-                           renderScene={this.renderScene}/>
+                <Navigator
+                            initialRoute={{id: this.state.initialView}}
+                            renderScene={this.renderScene}
+                            configureScene={this.configureScene}/>
             );
         } else {
             return null;

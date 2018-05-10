@@ -19,7 +19,7 @@ import Signup2 from '../views/signupaddress'
 import Database from '../firebase/database';
 
 
-//TODO do an email verification - send user email
+
 
 
 export default class Signup extends Component {
@@ -45,7 +45,11 @@ export default class Signup extends Component {
     }
 
     async componentDidMount(){
-
+        ToastAndroid.showWithGravity(
+            'Please respond to verification email in your inbox',
+            ToastAndroid.LONG,
+            ToastAndroid.TOP
+        );
         try {
             let user = await firebase.auth().currentUser;
 
@@ -72,14 +76,14 @@ export default class Signup extends Component {
     next (){
         if (this.state.fname && this.state.lname && this.state.username ) {
             Database.setUser(this.state.uid, this.state.contactNumber, this.state.fname, this.state.lname, this.state.username, this.state.email, this.state.image);
-            this.props.navigator.push({id: 'Signup2'});
+            this.props.navigator.replace({id: 'Signup2'});
         } else {
             ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
         }
     }
 
     checkPhoneLen(contactNumber){
-         if (contactNumber == null){
+         if (contactNumber === null){
              alert("Please input 10 digit phone number")
          }
          else if (contactNumber.length  !== 10){
@@ -132,7 +136,6 @@ export default class Signup extends Component {
                         height: 120,
                         //paddingVertical: 50
                     }}
-
                     source={require('../images/FourPaws.png')} // logo
                 />
 
@@ -190,6 +193,7 @@ export default class Signup extends Component {
 
                 {/*Upload Image Here*/}
                 {/*<TextInput*/}
+                    {/*placeholder = "Image URL"*/}
                     {/*value = {image}*/}
                     {/*selectTextOnFocus = {true}*/}
                     {/*placeholderTextColor= "#ffffff"*/}
