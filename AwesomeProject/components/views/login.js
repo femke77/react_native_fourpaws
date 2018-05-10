@@ -46,7 +46,7 @@ export default class Login extends Component {
         this.login = this.login.bind(this);
         this.resetPassword = this.resetPassword.bind(this);
         this.passwordLength = this.passwordLength.bind(this);
-        this.validateEmail = this.validateEmail.bind(this);
+        Login.validateEmail = Login.validateEmail.bind(this);
         this.googleSignIn = this.googleSignIn.bind(this);
     }
 
@@ -94,7 +94,7 @@ export default class Login extends Component {
         else return true;
     }
 
-    validateEmail(email){
+    static validateEmail(email){
 
         let re = /\S+@\S+\.\S+/;
         return re.test(email);
@@ -131,10 +131,11 @@ export default class Login extends Component {
 
     async signup(email, password) {
         dismissKeyboard();
-        if (this.validateEmail(email)) {
+        if (Login.validateEmail(email)) {
             this.passwordLengthSignUp(password);
             try {
-                let task = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                // let task = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                await firebase.auth().createUserWithEmailAndPassword(email, password);
                 this.emailVerification();
 
                 setTimeout(() => {
@@ -166,10 +167,10 @@ export default class Login extends Component {
 
             try {
                                                           //auth persistence should be .NONE in production and .LOCAL for dev
-          //  await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
-           // [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
+            // await Promise.all([firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)],
+            // [firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)]);
 
-            await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
             setTimeout(() => {
                 this.props.navigator.replace({
                     id: "Home"
@@ -183,7 +184,7 @@ export default class Login extends Component {
     }}
 
     resetPassword (email){
-        if (this.validateEmail(email)){
+        if (Login.validateEmail(email)){
                 firebase.auth().sendPasswordResetEmail(email).then(function() {
                    alert("Password reset link has been sent to email");
                }).catch(function(error){
@@ -339,7 +340,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
