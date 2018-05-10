@@ -140,9 +140,9 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-add-calendar-event')
     compile 'com.android.support:multidex:1.0.1'
 
+    compile project(':react-native-add-calendar-event')
     compile project(':react-native-vector-icons')
     compile project(':react-native-push-notification')
     compile(project(":react-native-google-signin")){
