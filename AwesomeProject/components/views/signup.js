@@ -76,14 +76,14 @@ export default class Signup extends Component {
     next (){
         if (this.state.fname && this.state.lname && this.state.username ) {
             Database.setUser(this.state.uid, this.state.contactNumber, this.state.fname, this.state.lname, this.state.username, this.state.email, this.state.image);
-            this.props.navigator.push({id: 'Signup2'});
+            this.props.navigator.replace({id: 'Signup2'});
         } else {
             ToastAndroid.show('Fields cannot be blank',ToastAndroid.SHORT);
         }
     }
 
     checkPhoneLen(contactNumber){
-         if (contactNumber == null){
+         if (contactNumber === null){
              alert("Please input 10 digit phone number")
          }
          else if (contactNumber.length  !== 10){
